@@ -7,12 +7,17 @@ let isReplicaSet = false;
 let dbConnectionMode = 'disconnected';
 
 const connectDB = async () => {
+  // If already connected, reuse existing connection (crucial for serverless environments)
+  if (mongoose.connection.readyState === 1) {
+    return { connection: mongoose.connection, isReplicaSet, mode: dbConnectionMode };
+  }
+
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/consentlog_enterprise';
 
   // 1. Try connecting to external/local MongoDB instance first
   try {
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 2500,
+      serverSelectionTimeoutMS: 5000,
     });
     dbConnectionMode = 'external-mongodb';
     // Check if connected instance supports replica set transactions
@@ -23,10 +28,15 @@ const connectDB = async () => {
     } catch {
       isReplicaSet = false;
     }
-    console.log(`[Database] Connected to MongoDB at ${uri} (ReplicaSet: ${isReplicaSet})`);
+    const maskedUri = uri.replace(/\/\/.*@/, '//***@');
+    console.log(`[Database] Connected to MongoDB at ${maskedUri} (ReplicaSet: ${isReplicaSet})`);
     return { connection: mongoose.connection, isReplicaSet, mode: dbConnectionMode };
   } catch (externalErr) {
-    console.log(`[Database] Local/External MongoDB at ${uri} not reachable (${externalErr.message}).`);
+    const maskedUri = uri.replace(/\/\/.*@/, '//***@');
+    console.log(`[Database] MongoDB at ${maskedUri} not reachable (${externalErr.message}).`);
+    if (process.env.VERCEL) {
+      throw new Error(`[Database] Failed to connect to MongoDB Atlas on Vercel: ${externalErr.message}. Make sure MONGODB_URI is configured in Vercel project Environment Variables.`);
+    }
     console.log('[Database] Launching embedded persistent MongoDB Replica Set (MongoMemoryReplSet) for ACID transactions & persistence...');
   }
 
