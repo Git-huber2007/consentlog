@@ -54,7 +54,7 @@ const ConsentHistoryPage = () => {
       setLogs(logsRes.data.logs || []);
       setTotalLogs(logsRes.data.total || 0);
     } catch (err) {
-      addToast('Failed to load consent audit history.', 'error');
+      addToast('Could not load audit log.', 'error');
     } finally {
       setLoading(false);
     }
@@ -68,7 +68,7 @@ const ConsentHistoryPage = () => {
     setVerifying(true);
     try {
       const res = await api.post('/audit/verify');
-      addToast(res.data.message, 'success', 'SHA-256 Chain Verified');
+      addToast(res.data.message, 'success', 'Audit Log Verified');
       await fetchAuditData();
     } catch (err) {
       addToast('Verification failed.', 'error');
@@ -118,10 +118,10 @@ const ConsentHistoryPage = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ConsentLog-Audit-Ledger-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `consentlog-audit-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    addToast(`Exported ${logs.length} SHA-256 audit records to CSV.`, 'success', 'CSV Ledger Export');
+    addToast(`Exported ${logs.length} records to CSV.`, 'success');
   };
 
   const resetFilters = () => {
@@ -139,12 +139,11 @@ const ConsentHistoryPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Clean Page Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2">
         <div>
           <div className="flex items-center gap-2.5">
             <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
-              Consent Audit Trail
+              Audit Log
             </h1>
             <span className="inline-flex items-center gap-1.5 font-mono text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
               <span className="size-1.5 rounded-full bg-emerald-500" />
@@ -152,7 +151,7 @@ const ConsentHistoryPage = () => {
             </span>
           </div>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-            Append-only SHA-256 hash chain across all subject preference transitions.
+            Chronological log of all preference changes and privacy notice acceptances.
           </p>
         </div>
 
@@ -171,59 +170,53 @@ const ConsentHistoryPage = () => {
             className="h-9 px-3.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 hover:opacity-90 text-xs font-medium flex items-center gap-1.5"
           >
             <RefreshCw className={`size-3.5 ${verifying ? 'animate-spin' : ''}`} />
-            <span>{verifying ? 'Verifying Hashes...' : 'Verify SHA-256 Chain'}</span>
+            <span>{verifying ? 'Checking...' : 'Verify Logs'}</span>
           </button>
         </div>
       </div>
 
-      {/* Unified 4-Column Divided Telemetry Strip (No thick colored left-borders) */}
       <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 sm:divide-x divide-zinc-200/80 dark:divide-zinc-800/80">
         <div className="p-4">
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            Total Audit Blocks
+            Total Entries
           </span>
           <p className="font-mono text-2xl font-semibold text-zinc-900 dark:text-white mt-1.5 tabular-nums">
             {stats.totalAuditEvents ?? 0}
           </p>
-          <p className="text-[11px] text-zinc-400 mt-0.5">Permanent append-only records</p>
         </div>
 
         <div className="p-4">
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            24h Event Velocity
+            Today
           </span>
           <p className="font-mono text-2xl font-semibold text-zinc-900 dark:text-white mt-1.5 tabular-nums">
             {stats.todaysChanges ?? 0}
           </p>
-          <p className="text-[11px] text-zinc-400 mt-0.5">Recorded today (UTC)</p>
         </div>
 
         <div className="p-4">
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            Consent Grants
+            Granted
           </span>
           <p className="font-mono text-2xl font-semibold text-emerald-600 dark:text-emerald-400 mt-1.5 tabular-nums">
             {stats.consentGrants ?? 0}
           </p>
-          <p className="text-[11px] text-zinc-400 mt-0.5">Opt-ins &amp; policy acceptances</p>
         </div>
 
         <div className="p-4">
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            Consent Withdrawals
+            Withdrawn
           </span>
           <p className="font-mono text-2xl font-semibold text-rose-600 dark:text-rose-400 mt-1.5 tabular-nums">
             {stats.consentWithdrawals ?? 0}
           </p>
-          <p className="text-[11px] text-zinc-400 mt-0.5">Revocations &amp; opt-outs</p>
         </div>
       </div>
 
-      {/* Filter Bar */}
       <div className="enterprise-card p-4 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-zinc-600 dark:text-zinc-300 tabular-nums">
-            Showing {logs.length} of {totalLogs} blocks
+            Showing {logs.length} of {totalLogs} entries
           </span>
           <button
             onClick={resetFilters}
@@ -240,7 +233,7 @@ const ConsentHistoryPage = () => {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Filter by Audit ID, SHA-256 hash, category..."
+              placeholder="Search ID, hash, or category..."
               className="w-full h-8 pl-8 pr-3 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-xs outline-none focus:border-zinc-400 dark:focus:border-zinc-600"
             />
           </div>
@@ -252,7 +245,7 @@ const ConsentHistoryPage = () => {
                 onChange={(e) => setSelectedUser(e.target.value)}
                 className="w-full h-8 px-2.5 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-xs outline-none"
               >
-                <option value="all">All Subjects</option>
+                <option value="all">All Users</option>
                 {usersList.map((u) => (
                   <option key={u._id} value={u._id}>
                     {u.name} ({u.email})
@@ -274,7 +267,7 @@ const ConsentHistoryPage = () => {
               <option value="Marketing Cookies">Marketing Cookies</option>
               <option value="Personalization">Personalization</option>
               <option value="Third-Party Data Sharing">Third-Party Data Sharing</option>
-              <option value="Privacy Notice">Privacy Notice Acceptance</option>
+              <option value="Privacy Notice">Privacy Notice</option>
             </select>
           </div>
 
@@ -325,21 +318,20 @@ const ConsentHistoryPage = () => {
         </div>
       </div>
 
-      {/* Tabular Audit Table */}
       <div className="enterprise-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-zinc-50/80 dark:bg-zinc-900/50 border-b border-zinc-200/80 dark:border-zinc-800 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
-                <th className="py-2.5 px-4">Block / ID</th>
-                <th className="py-2.5 px-4">Subject</th>
+                <th className="py-2.5 px-4">ID</th>
+                <th className="py-2.5 px-4">User</th>
                 <th className="py-2.5 px-4">Category</th>
-                <th className="py-2.5 px-4">Transition</th>
+                <th className="py-2.5 px-4">Change</th>
                 <th className="py-2.5 px-4">Action</th>
-                <th className="py-2.5 px-4">Notice</th>
-                <th className="py-2.5 px-4">SHA-256 Digest</th>
-                <th className="py-2.5 px-4">Timestamp (UTC)</th>
-                <th className="py-2.5 px-4 text-right">Certificate</th>
+                <th className="py-2.5 px-4">Version</th>
+                <th className="py-2.5 px-4">Hash</th>
+                <th className="py-2.5 px-4">Date</th>
+                <th className="py-2.5 px-4 text-right">Details</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-200/70 dark:divide-zinc-800/80 text-xs">
@@ -383,10 +375,7 @@ const ConsentHistoryPage = () => {
                 <tr>
                   <td colSpan={9} className="py-12 px-4 text-center">
                     <p className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
-                      No audit blocks match your active filter criteria.
-                    </p>
-                    <p className="text-[11px] text-zinc-400 mt-1">
-                      Clear your search query or date window to view the full SHA-256 chain.
+                      No matching log entries found.
                     </p>
                     <button
                       type="button"
@@ -413,7 +402,7 @@ const ConsentHistoryPage = () => {
                     </td>
                     <td className="py-3 px-4">
                       <div className="font-medium text-zinc-900 dark:text-white">
-                        {log.userId?.name || 'Subject'}
+                        {log.userId?.name?.replace(/\s*\(.*?\)\s*/g, '') || 'User'}
                       </div>
                       <div className="text-[11px] font-mono text-zinc-400">
                         {log.userId?.email}
@@ -454,25 +443,19 @@ const ConsentHistoryPage = () => {
                       >
                         {log.action}
                       </span>
-                      <div className="text-[10px] text-zinc-400 mt-0.5">
-                        {log.source}
-                      </div>
                     </td>
                     <td className="py-3 px-4 font-mono font-medium text-zinc-700 dark:text-zinc-300">
                       v{log.noticeVersion}
                     </td>
                     <td className="py-3 px-4 font-mono text-[10px] text-zinc-500 dark:text-zinc-400">
                       <div className="flex items-center gap-1">
-                        <span className="text-zinc-900 dark:text-zinc-200 font-medium">
-                          curr:
-                        </span>
                         <span>{log.eventHash?.slice(0, 14)}...</span>
                         <button
                           type="button"
                           onClick={() => handleCopyHash(log.eventHash, log.auditId)}
-                          aria-label={`Copy SHA-256 hash for ${log.auditId}`}
-                          className="relative p-1 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 after:content-[''] after:absolute after:-inset-1.5"
-                          title="Copy full SHA-256 hash"
+                          aria-label={`Copy hash for ${log.auditId}`}
+                          className="relative p-1 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+                          title="Copy full hash"
                         >
                           {copiedId === log.auditId ? (
                             <Check className="size-3 text-emerald-500" />
@@ -480,10 +463,6 @@ const ConsentHistoryPage = () => {
                             <Copy className="size-3" />
                           )}
                         </button>
-                      </div>
-                      <div>
-                        <span className="text-zinc-400">prev:</span>{' '}
-                        {log.previousHash?.slice(0, 14)}...
                       </div>
                     </td>
                     <td className="py-3 px-4 font-mono text-[11px] text-zinc-500 tabular-nums">
@@ -495,7 +474,7 @@ const ConsentHistoryPage = () => {
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 font-medium text-[11px]"
                       >
                         <Eye className="size-3" />
-                        <span>Inspect</span>
+                        <span>View</span>
                       </Link>
                     </td>
                   </tr>

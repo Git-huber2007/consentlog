@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  ArrowLeft,
-  ArrowRight,
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import api from '../services/api';
 import { useToast } from '../context/ToastContext';
 
@@ -52,15 +49,13 @@ const VersionComparisonPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Policy Version Comparison
+            Compare Versions
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Compare any two Privacy Notice versions side-by-side to inspect added clauses, removed
-            provisions, and modified processing terms.
+            Compare two privacy notice versions side-by-side to see added, updated, or removed clauses.
           </p>
         </div>
 
@@ -69,15 +64,14 @@ const VersionComparisonPage = () => {
           className="px-3.5 py-2 rounded-md bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900 flex items-center gap-1.5 self-start lg:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Notice Repository</span>
+          <span>Back to Notices</span>
         </Link>
       </div>
 
-      {/* Version Selector Bar */}
       <div className="enterprise-card p-5 grid md:grid-cols-11 gap-4 items-center">
         <div className="md:col-span-5">
           <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5">
-            Baseline Version (Left Column)
+            From Version
           </label>
           <select
             value={baseVersion}
@@ -100,7 +94,7 @@ const VersionComparisonPage = () => {
 
         <div className="md:col-span-5">
           <label className="block text-xs font-medium text-zinc-900 dark:text-zinc-100 mb-1.5">
-            Target Version (Right Column)
+            To Version
           </label>
           <select
             value={targetVersion}
@@ -116,46 +110,44 @@ const VersionComparisonPage = () => {
         </div>
       </div>
 
-      {/* Unified 4-Column Diff Summary Strip */}
       <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800/80">
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Added Clauses</span>
+          <span className="text-xs text-zinc-500 block">Added</span>
           <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">
             +{summary.addedClauses ?? 0}
           </p>
         </div>
 
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Modified Clauses</span>
+          <span className="text-xs text-zinc-500 block">Modified</span>
           <p className="font-mono text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1 tabular-nums">
             ~{summary.modifiedClauses ?? 0}
           </p>
         </div>
 
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Removed Clauses</span>
+          <span className="text-xs text-zinc-500 block">Removed</span>
           <p className="font-mono text-2xl font-bold text-rose-600 dark:text-rose-400 mt-1 tabular-nums">
             -{summary.removedClauses ?? 0}
           </p>
         </div>
 
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Unchanged Clauses</span>
+          <span className="text-xs text-zinc-500 block">Unchanged</span>
           <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">
             {summary.unchangedClauses ?? 0}
           </p>
         </div>
       </div>
 
-      {/* Side-by-Side Clause Diff Matrix */}
       <div className="space-y-4">
         <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-          Clause-by-Clause Diff (v{baseVersion} vs v{targetVersion})
+          Changes (v{baseVersion} vs v{targetVersion})
         </h2>
 
         {loading ? (
           <div className="p-12 text-center text-xs text-zinc-500 enterprise-card">
-            Computing clause-level diff...
+            Comparing versions...
           </div>
         ) : (
           clauses.map((item) => {
@@ -187,7 +179,6 @@ const VersionComparisonPage = () => {
                 </div>
 
                 <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-zinc-200 dark:divide-zinc-800/80">
-                  {/* Left: Base Version */}
                   <div
                     className={`p-5 text-xs space-y-2 ${
                       item.changeType === 'REMOVED'
@@ -211,12 +202,11 @@ const VersionComparisonPage = () => {
                       </>
                     ) : (
                       <p className="italic text-zinc-400">
-                        Not present in v{baseVersion} (Added in v{targetVersion})
+                        Not in v{baseVersion}
                       </p>
                     )}
                   </div>
 
-                  {/* Right: Target Version */}
                   <div
                     className={`p-5 text-xs space-y-2 ${
                       item.changeType === 'ADDED'
@@ -240,7 +230,7 @@ const VersionComparisonPage = () => {
                       </>
                     ) : (
                       <p className="italic text-rose-500">
-                        Clause removed in v{targetVersion}
+                        Removed in v{targetVersion}
                       </p>
                     )}
                   </div>

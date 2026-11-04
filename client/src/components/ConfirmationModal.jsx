@@ -7,8 +7,8 @@ const ConfirmationModal = ({
   onConfirm,
   title,
   description,
-  confirmText = 'Confirm Action',
-  cancelText = 'Cancel',
+  confirmText = 'Confirm',
+  cancelText = 'Close',
   variant = 'primary',
   details = [],
   loading = false,
@@ -41,9 +41,6 @@ const ConfirmationModal = ({
               </div>
               <div>
                 <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">{title}</h3>
-                <p className="text-xs text-zinc-500 font-mono">
-                  SHA-256 Audit Ledger Transaction
-                </p>
               </div>
             </div>
             <button
@@ -61,7 +58,7 @@ const ConfirmationModal = ({
           {details && details.length > 0 && (
             <div className="mt-4 p-3.5 rounded-md bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800/80 space-y-2">
               <p className="text-[11px] font-medium text-zinc-500">
-                Pending Audit Block Summary
+                Summary
               </p>
               {details.map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between text-xs">
@@ -92,7 +89,7 @@ const ConfirmationModal = ({
               buttonColors[variant] || buttonColors.primary
             } disabled:opacity-50`}
           >
-            {loading ? 'Signing Block...' : confirmText}
+            {loading ? 'Saving...' : confirmText}
           </button>
         </div>
       </div>

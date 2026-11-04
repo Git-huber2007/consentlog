@@ -54,7 +54,7 @@ const PreferenceCentrePage = () => {
       });
       setSummary(res.data.summary);
     } catch (err) {
-      addToast('Failed to load your preference categories.', 'error');
+      addToast('Could not load your preferences.', 'error');
     } finally {
       setLoading(false);
     }
@@ -101,11 +101,7 @@ const PreferenceCentrePage = () => {
 
   const handleToggleCategory = (key) => {
     if (key === 'essential') {
-      addToast(
-        'Essential Cookies are strictly required for platform security and authentication and cannot be disabled.',
-        'warning',
-        'Protected Category'
-      );
+      addToast('Essential cookies are required for sign-in and security.', 'warning');
       return;
     }
     setDraftPrefs((prev) => ({
@@ -116,7 +112,7 @@ const PreferenceCentrePage = () => {
 
   const triggerSaveCustomPreferences = () => {
     if (!hasUnsavedChanges) {
-      addToast('No preference modifications to save.', 'info');
+      addToast('No changes to save.', 'info');
       return;
     }
 
@@ -125,41 +121,39 @@ const PreferenceCentrePage = () => {
       .map((k) => ({
         label: summary?.categories?.find((c) => c.key === k)?.name || k,
         value: `${serverPrefs[k] ? 'Enabled' : 'Disabled'} -> ${
-          draftPrefs[k] ? 'Enabled (Grant)' : 'Disabled (Withdraw)'
+          draftPrefs[k] ? 'Enabled' : 'Disabled'
         }`,
       }));
 
-    const hasWithdrawal = modifiedList.some((m) => m.value.includes('Withdraw'));
+    const hasWithdrawal = modifiedList.some((m) => m.value.endsWith('Disabled'));
 
     setModalConfig({
       isOpen: true,
-      title: 'Confirm Consent Preference Changes',
+      title: 'Save preference changes?',
       description:
-        'Each modified preference category will be committed inside an ACID MongoDB transaction and permanently appended to the SHA-256 hash-chained audit ledger.',
+        'Your updated choices will take effect immediately and will be added to your consent history.',
       variant: hasWithdrawal ? 'warning' : 'primary',
-      confirmText: 'Save & Sign Audit Record',
+      confirmText: 'Save Changes',
       details: [
         ...modifiedList,
-        { label: 'Privacy Notice Version', value: `v${activeNoticeInfo?.version || '2.0'}` },
+        { label: 'Notice Version', value: `v${activeNoticeInfo?.version || '2.0'}` },
       ],
       actionHandler: async () => {
         setSaving(true);
         try {
           const res = await api.put('/preferences', {
             ...draftPrefs,
-            reason:
-              changeReason.trim() ||
-              'User customized individual preferences in Interactive Preference Centre',
+            reason: changeReason.trim() || 'Updated preferences',
             source: 'User',
           });
           setServerPrefs(res.data.preferences);
           setSummary(res.data.summary);
           setChangeReason('');
           await refreshSession();
-          addToast(res.data.message, 'success', 'Preferences Saved');
+          addToast('Preferences saved.', 'success');
           setModalConfig((m) => ({ ...m, isOpen: false }));
         } catch (err) {
-          addToast(err.response?.data?.message || 'Failed to save preferences.', 'error');
+          addToast(err.response?.data?.message || 'Could not save preferences.', 'error');
         } finally {
           setSaving(false);
         }
@@ -170,22 +164,20 @@ const PreferenceCentrePage = () => {
   const triggerAcceptAll = () => {
     setModalConfig({
       isOpen: true,
-      title: 'Accept All Optional Consent Categories',
+      title: 'Accept all categories?',
       description:
-        'You are about to enable Analytics, Marketing, Personalization, and Third-Party Data Sharing under the active Privacy Notice. You may withdraw consent at any time.',
+        'This enables Analytics, Marketing, Personalization, and Third-Party Sharing. You can turn any of them off later.',
       variant: 'primary',
-      confirmText: 'Accept All Preferences',
+      confirmText: 'Accept All',
       details: [
         { label: 'Essential Cookies', value: 'Always Active' },
-        { label: 'Analytics & Marketing', value: 'Enabled (Granted)' },
-        { label: 'Personalization & 3rd-Party', value: 'Enabled (Granted)' },
-        { label: 'Audit Source', value: 'User (Preference Centre)' },
+        { label: 'Optional Categories (4)', value: 'Enabled' },
       ],
       actionHandler: async () => {
         setSaving(true);
         try {
           const res = await api.post('/consent/accept-all', {
-            reason: changeReason.trim() || 'User accepted all optional preference categories',
+            reason: changeReason.trim() || 'Accepted all categories',
             source: 'User',
           });
           const pref = res.data.preferences;
@@ -200,10 +192,10 @@ const PreferenceCentrePage = () => {
           setSummary(res.data.summary);
           setChangeReason('');
           await refreshSession();
-          addToast(res.data.message, 'success', 'All Preferences Accepted');
+          addToast('All categories enabled.', 'success');
           setModalConfig((m) => ({ ...m, isOpen: false }));
         } catch (err) {
-          addToast(err.response?.data?.message || 'Failed to accept preferences.', 'error');
+          addToast(err.response?.data?.message || 'Could not update preferences.', 'error');
         } finally {
           setSaving(false);
         }
@@ -214,21 +206,20 @@ const PreferenceCentrePage = () => {
   const triggerRejectOptional = () => {
     setModalConfig({
       isOpen: true,
-      title: 'Reject All Optional Preferences',
+      title: 'Reject optional categories?',
       description:
-        'All optional tracking and data-sharing categories will be immediately disabled. Only strictly necessary Essential Cookies will remain active.',
+        'All optional categories will be turned off. Only Essential Cookies will remain active.',
       variant: 'warning',
-      confirmText: 'Reject All Optional',
+      confirmText: 'Reject Optional',
       details: [
-        { label: 'Essential Cookies', value: 'Always Active (Protected)' },
-        { label: 'All 4 Optional Categories', value: 'Disabled' },
-        { label: 'Privacy Notice Version', value: `v${activeNoticeInfo?.version || '2.0'}` },
+        { label: 'Essential Cookies', value: 'Always Active' },
+        { label: 'Optional Categories (4)', value: 'Disabled' },
       ],
       actionHandler: async () => {
         setSaving(true);
         try {
           const res = await api.post('/consent/reject-optional', {
-            reason: changeReason.trim() || 'User rejected all optional preferences',
+            reason: changeReason.trim() || 'Rejected optional categories',
             source: 'User',
           });
           const pref = res.data.preferences;
@@ -243,10 +234,10 @@ const PreferenceCentrePage = () => {
           setSummary(res.data.summary);
           setChangeReason('');
           await refreshSession();
-          addToast(res.data.message, 'info', 'Optional Preferences Rejected');
+          addToast('Optional categories disabled.', 'info');
           setModalConfig((m) => ({ ...m, isOpen: false }));
         } catch (err) {
-          addToast(err.response?.data?.message || 'Failed to reject optional preferences.', 'error');
+          addToast(err.response?.data?.message || 'Could not update preferences.', 'error');
         } finally {
           setSaving(false);
         }
@@ -257,23 +248,20 @@ const PreferenceCentrePage = () => {
   const triggerWithdrawAllConsent = () => {
     setModalConfig({
       isOpen: true,
-      title: 'Exercise Formal Right to Withdraw Consent',
+      title: 'Withdraw all optional consent?',
       description:
-        'Under GDPR Art. 7(3), CCPA, and India DPDP Act, withdrawing consent revokes all previously granted optional permissions and records an immutable "Consent Withdrawn" event in the audit ledger while preserving historical compliance records.',
+        'This revokes all previously granted optional permissions and records the withdrawal in your consent history.',
       variant: 'danger',
-      confirmText: 'Withdraw All Optional Consent',
+      confirmText: 'Withdraw Consent',
       details: [
-        { label: 'Action Type', value: 'Consent Withdrawn' },
-        { label: 'Target Categories', value: 'Analytics, Marketing, Personalization, 3rd-Party' },
-        { label: 'Historical Audit Trail', value: 'Preserved (Append-Only)' },
+        { label: 'Action', value: 'Consent Withdrawn' },
+        { label: 'Categories', value: 'Analytics, Marketing, Personalization, 3rd-Party' },
       ],
       actionHandler: async () => {
         setSaving(true);
         try {
           const res = await api.post('/consent/withdraw', {
-            reason:
-              changeReason.trim() ||
-              'User formally exercised statutory Right-to-Withdraw across all optional categories',
+            reason: changeReason.trim() || 'Withdrew all optional consent',
           });
           const pref = res.data.preferences;
           setServerPrefs(pref);
@@ -287,10 +275,10 @@ const PreferenceCentrePage = () => {
           setSummary(res.data.summary);
           setChangeReason('');
           await refreshSession();
-          addToast(res.data.message, 'warning', 'Consent Withdrawn & Logged');
+          addToast('Consent withdrawn.', 'warning');
           setModalConfig((m) => ({ ...m, isOpen: false }));
         } catch (err) {
-          addToast(err.response?.data?.message || 'Failed to withdraw consent.', 'error');
+          addToast(err.response?.data?.message || 'Could not withdraw consent.', 'error');
         } finally {
           setSaving(false);
         }
@@ -314,15 +302,13 @@ const PreferenceCentrePage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header & Quick Bulk Actions */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Preference Matrix
+            Privacy Preferences
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl">
-            Manage how your data is processed across 5 granular privacy categories. Every change is
-            wrapped in a MongoDB transaction and appended to the SHA-256 audit trail.
+            Choose which categories of cookies and data processing you allow. You can update or withdraw your consent at any time.
           </p>
         </div>
 
@@ -333,7 +319,7 @@ const PreferenceCentrePage = () => {
             className="px-3.5 py-2 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5"
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>Accept All Optional</span>
+            <span>Accept All</span>
           </button>
           <button
             type="button"
@@ -349,47 +335,46 @@ const PreferenceCentrePage = () => {
             className="px-3.5 py-2 rounded-md bg-rose-500/10 hover:bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20 text-xs font-semibold transition-colors flex items-center gap-1.5"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Withdraw Consent</span>
+            <span>Withdraw All</span>
           </button>
         </div>
       </div>
 
-      {/* Unified 4-Column Telemetry Strip */}
       <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800/80">
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Total Categories</span>
+          <span className="text-xs text-zinc-500 block">Categories</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">
               {liveCounts.total}
             </span>
-            <span className="text-[11px] text-zinc-500">1 Mandatory · 4 Optional</span>
+            <span className="text-[11px] text-zinc-500">1 Required · 4 Optional</span>
           </div>
         </div>
 
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Active Consents</span>
+          <span className="text-xs text-zinc-500 block">Enabled</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
               {liveCounts.enabled}
             </span>
             <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-              Opted-In
+              Active
             </span>
           </div>
         </div>
 
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Disabled Categories</span>
+          <span className="text-xs text-zinc-500 block">Disabled</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">
               {liveCounts.disabled}
             </span>
-            <span className="text-[11px] text-zinc-500">Opted-Out</span>
+            <span className="text-[11px] text-zinc-500">Off</span>
           </div>
         </div>
 
         <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Withdrawn Consents</span>
+          <span className="text-xs text-zinc-500 block">Withdrawn</span>
           <div className="mt-1 flex items-baseline justify-between">
             <span className="font-mono text-2xl font-bold text-rose-600 dark:text-rose-400 tabular-nums">
               {liveCounts.withdrawn}
@@ -399,7 +384,6 @@ const PreferenceCentrePage = () => {
         </div>
       </div>
 
-      {/* 5 Preference Category Rows */}
       <div className="enterprise-card divide-y divide-zinc-200 dark:divide-zinc-800/80">
         {(summary?.categories || []).map((cat) => {
           const isEssential = cat.key === 'essential';
@@ -418,11 +402,11 @@ const PreferenceCentrePage = () => {
           } else if (isModified) {
             badgeStyle =
               'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30';
-            badgeText = isEnabled ? 'Unsaved Grant' : 'Unsaved Withdrawal';
+            badgeText = 'Unsaved';
           } else if (isEnabled) {
             badgeStyle =
               'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20';
-            badgeText = 'Granted';
+            badgeText = 'Enabled';
           } else if (cat.statusBadge === 'Withdrawn') {
             badgeStyle =
               'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/20';
@@ -449,7 +433,7 @@ const PreferenceCentrePage = () => {
                     </span>
                     {isEssential && (
                       <span className="inline-flex items-center gap-1 text-[11px] text-zinc-500">
-                        <Lock className="w-3 h-3" /> Strictly Necessary
+                        <Lock className="w-3 h-3" /> Always on
                       </span>
                     )}
                   </div>
@@ -461,28 +445,14 @@ const PreferenceCentrePage = () => {
                   <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] text-zinc-500">
                     <span className="flex items-center gap-1 font-mono">
                       <Clock className="w-3 h-3" />
-                      Modified: {new Date(cat.lastModified).toLocaleString()}
-                    </span>
-                    <span>·</span>
-                    <span>
-                      State:{' '}
-                      <strong
-                        className={
-                          isEnabled
-                            ? 'text-emerald-600 dark:text-emerald-400'
-                            : 'text-zinc-600 dark:text-zinc-400'
-                        }
-                      >
-                        {isEnabled ? 'Enabled' : 'Disabled'}
-                      </strong>
+                      Updated {new Date(cat.lastModified).toLocaleString()}
                     </span>
                   </div>
                 </div>
 
-                {/* Interactive Toggle Switch */}
                 <div className="flex items-center gap-3 self-end sm:self-center shrink-0">
                   <span className="text-xs font-mono text-zinc-500">
-                    {isEnabled ? 'ON' : 'OFF'}
+                    {isEnabled ? 'On' : 'Off'}
                   </span>
                   <button
                     type="button"
@@ -514,17 +484,16 @@ const PreferenceCentrePage = () => {
         })}
       </div>
 
-      {/* Audit Reason + Save Changes Bar */}
       <div className="enterprise-card p-5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 sticky bottom-4 z-20 shadow-lg">
         <div className="flex-1">
           <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-            Audit Note (Optional, recorded in SHA-256 ledger)
+            Note (optional)
           </label>
           <input
             type="text"
             value={changeReason}
             onChange={(e) => setChangeReason(e.target.value)}
-            placeholder="e.g., Disabling marketing cookies after Q4 campaign review..."
+            placeholder="Reason for updating your preferences..."
             className="w-full px-3.5 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs text-zinc-900 dark:text-zinc-100 focus:border-zinc-900 dark:focus:border-zinc-100 outline-none"
           />
         </div>
@@ -559,7 +528,7 @@ const PreferenceCentrePage = () => {
             }`}
           >
             <Save className="w-3.5 h-3.5" />
-            <span>{saving ? 'Committing Block...' : 'Commit Preference Changes'}</span>
+            <span>{saving ? 'Saving...' : 'Save Changes'}</span>
           </button>
         </div>
       </div>

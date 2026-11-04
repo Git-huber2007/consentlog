@@ -44,7 +44,7 @@ const UserDashboardPage = () => {
       setData(overviewRes.data);
       setUserConsent(consentRes.data);
     } catch (err) {
-      addToast('Failed to load workspace telemetry.', 'error');
+      addToast('Could not load dashboard data.', 'error');
     } finally {
       setLoading(false);
     }
@@ -58,10 +58,10 @@ const UserDashboardPage = () => {
     setVerifying(true);
     try {
       const res = await api.post('/audit/verify');
-      addToast(res.data.message, 'success', 'SHA-256 Chain Verified');
+      addToast(res.data.message, 'success', 'Audit Log Verified');
       await fetchDashboardData();
     } catch (err) {
-      addToast('Integrity verification failed.', 'error');
+      addToast('Verification check failed.', 'error');
     } finally {
       setVerifying(false);
     }
@@ -75,16 +75,12 @@ const UserDashboardPage = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `ConsentLog-DSAR-Passport-${user?.email || 'subject'}.json`;
+      a.download = `consentlog-export-${user?.email || 'user'}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      addToast(
-        `Signed DSAR Privacy Passport downloaded (SHA-256: ${res.data.passportSignature.slice(0, 14)}...)`,
-        'success',
-        'GDPR Art. 15 & 20 Export'
-      );
+      addToast('Your consent history export has been downloaded.', 'success');
     } catch (err) {
-      addToast('Failed to export DSAR passport.', 'error');
+      addToast('Could not export data.', 'error');
     } finally {
       setExporting(false);
     }
@@ -108,47 +104,46 @@ const UserDashboardPage = () => {
 
   const kpiMetrics = [
     {
-      label: 'Registered Subjects',
+      label: 'Users',
       value: metrics.totalRegisteredUsers ?? 0,
-      sub: 'Directory accounts',
+      sub: 'Registered accounts',
     },
     {
-      label: 'Signed Snapshots',
+      label: 'Accepted Notices',
       value: metrics.totalConsentRecords ?? 0,
-      sub: 'Versioned receipts',
+      sub: 'Signed versions',
     },
     {
-      label: 'Active Grants',
+      label: 'Active Consents',
       value: metrics.activeConsentPreferences ?? 0,
-      sub: 'Opt-in categories',
+      sub: 'Enabled categories',
     },
     {
-      label: 'Withdrawals',
+      label: 'Withdrawn',
       value: metrics.withdrawnConsents ?? 0,
-      sub: 'Statutory revocations',
+      sub: 'Opted out',
     },
     {
-      label: 'Chained Blocks',
+      label: 'Log Entries',
       value: metrics.totalAuditEvents ?? 0,
-      sub: 'SHA-256 ledger rows',
+      sub: 'Audit records',
     },
     {
-      label: 'Active Notice',
+      label: 'Current Notice',
       value: `v${metrics.currentNoticeVersion || '2.0'}`,
-      sub: 'Enforced release',
+      sub: 'Active version',
     },
   ];
 
   return (
     <div className="space-y-6">
-      {/* Clean Page Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
-            Privacy &amp; Consent Overview
+            Dashboard
           </h1>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-            Subject {user?.email} ({user?.jurisdiction || 'GDPR'})
+            {user?.email} · {user?.jurisdiction || 'GDPR'}
           </p>
         </div>
 
@@ -157,10 +152,9 @@ const UserDashboardPage = () => {
             onClick={handleDownloadDsarPassport}
             disabled={exporting}
             className="h-9 px-3 rounded-md bg-white dark:bg-[#111113] hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 flex items-center gap-1.5"
-            title="Download GDPR Art. 15/20 Signed JSON Passport"
           >
             <Download className="size-3.5 text-zinc-500" />
-            <span>{exporting ? 'Signing JSON...' : 'Export DSAR Passport'}</span>
+            <span>{exporting ? 'Exporting...' : 'Export Data'}</span>
           </button>
 
           <button
@@ -169,7 +163,7 @@ const UserDashboardPage = () => {
             className="h-9 px-3 rounded-md bg-white dark:bg-[#111113] hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 flex items-center gap-1.5"
           >
             <RefreshCw className={`size-3.5 ${verifying ? 'animate-spin text-emerald-500' : 'text-zinc-500'}`} />
-            <span>{verifying ? 'Verifying...' : 'Verify SHA-256 Chain'}</span>
+            <span>{verifying ? 'Checking...' : 'Verify Logs'}</span>
           </button>
 
           <Link
@@ -182,7 +176,6 @@ const UserDashboardPage = () => {
         </div>
       </div>
 
-      {/* Unified Divided Telemetry Strip (No thick colored left-borders) */}
       <div className="enterprise-card grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-zinc-200/80 dark:divide-zinc-800/80">
         {kpiMetrics.map((item) => (
           <div key={item.label} className="p-4 flex flex-col justify-between">
@@ -199,32 +192,31 @@ const UserDashboardPage = () => {
         ))}
       </div>
 
-      {/* Ledger Integrity + Subject Preference Matrix */}
       <div className="grid lg:grid-cols-12 gap-5">
         <div className="lg:col-span-5 p-5 rounded-lg bg-zinc-900 dark:bg-[#111113] text-white border border-zinc-800 flex flex-col justify-between space-y-4">
           <div className="flex items-start justify-between gap-4">
             <div>
               <h2 className="text-base font-semibold text-white flex items-center gap-2">
-                <span>Ledger Integrity: {metrics.auditIntegrityStatus || 'Verified'}</span>
+                <span>Audit Log: {metrics.auditIntegrityStatus || 'Verified'}</span>
                 <CheckCircle2 className="size-4 text-emerald-400" />
               </h2>
               <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
-                All {metrics.totalAuditEvents || 0} consent transitions are linked via canonical SHA-256 serialization with zero sequence gaps.
+                All {metrics.totalAuditEvents || 0} log entries match their recorded SHA-256 hashes with no missing records.
               </p>
             </div>
             <Link
               to={user?.role === 'admin' ? '/admin/integrity' : '/audit-history'}
               className="text-xs font-medium text-zinc-300 hover:text-white flex items-center gap-1 shrink-0"
             >
-              <span>Inspect</span>
+              <span>Details</span>
               <ArrowUpRight className="size-3.5" />
             </Link>
           </div>
 
           <div className="p-3 rounded-md bg-zinc-950 border border-zinc-800/90 font-mono text-[11px] space-y-1 tabular-nums">
             <div className="flex justify-between text-zinc-500">
-              <span>HEAD DIGEST</span>
-              <span className="text-emerald-400">SHA-256 VALID</span>
+              <span>Latest Hash</span>
+              <span className="text-emerald-400">Valid</span>
             </div>
             <p className="text-zinc-300 truncate">
               {data?.latestVerification?.headHash ||
@@ -233,17 +225,16 @@ const UserDashboardPage = () => {
           </div>
         </div>
 
-        {/* Personal Preference Matrix */}
         <div className="lg:col-span-7 enterprise-card p-5 flex flex-col justify-between space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">
-              Subject Category Posture ({user?.name})
+              Your Preferences
             </h2>
             <Link
               to="/preferences"
               className="text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white flex items-center gap-1"
             >
-              <span>Modify Toggles</span>
+              <span>Edit</span>
               <ArrowUpRight className="size-3.5" />
             </Link>
           </div>
@@ -276,25 +267,24 @@ const UserDashboardPage = () => {
 
           <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800/80 text-xs text-zinc-500 font-mono tabular-nums">
             <span>
-              Enabled: <strong className="text-zinc-900 dark:text-zinc-100">{userConsent?.summary?.enabledPreferences || 1}/5</strong> /
-              Disabled: <strong className="text-zinc-900 dark:text-zinc-100">{userConsent?.summary?.disabledPreferences || 4}</strong> /
+              Enabled: <strong className="text-zinc-900 dark:text-zinc-100">{userConsent?.summary?.enabledPreferences || 1}/5</strong> ·{' '}
+              Disabled: <strong className="text-zinc-900 dark:text-zinc-100">{userConsent?.summary?.disabledPreferences || 4}</strong> ·{' '}
               Withdrawn: <strong className="text-rose-600 dark:text-rose-400">{userConsent?.summary?.withdrawnPreferences || 0}</strong>
             </span>
             <Link
               to="/audit-history"
               className="font-sans font-medium text-zinc-700 dark:text-zinc-300 hover:underline"
             >
-              View Receipts
+              View History
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Charts */}
       <div className="grid lg:grid-cols-12 gap-5">
         <div className="lg:col-span-5 enterprise-card p-5">
           <h2 className="text-sm font-semibold text-zinc-900 dark:text-white mb-3">
-            Category Opt-In Distribution
+            Consent by Category
           </h2>
 
           <div className="h-60">
@@ -340,9 +330,9 @@ const UserDashboardPage = () => {
         <div className="lg:col-span-7 enterprise-card p-5">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">
-              7-Day Consent &amp; Audit Activity
+              7-Day Activity
             </h2>
-            <span className="font-mono text-[11px] text-zinc-400">UTC Window</span>
+            <span className="font-mono text-[11px] text-zinc-400">Last 7 days</span>
           </div>
 
           <div className="h-60">
@@ -373,7 +363,7 @@ const UserDashboardPage = () => {
                 <Line
                   type="monotone"
                   dataKey="grants"
-                  name="Grants"
+                  name="Granted"
                   stroke="#10b981"
                   strokeWidth={2}
                   dot={{ r: 3 }}
@@ -381,7 +371,7 @@ const UserDashboardPage = () => {
                 <Line
                   type="monotone"
                   dataKey="withdrawals"
-                  name="Withdrawals"
+                  name="Withdrawn"
                   stroke="#f43f5e"
                   strokeWidth={2}
                   dot={{ r: 3 }}
@@ -389,7 +379,7 @@ const UserDashboardPage = () => {
                 <Line
                   type="monotone"
                   dataKey="noticeAcceptances"
-                  name="Notice Acceptances"
+                  name="Notices Accepted"
                   stroke="#71717a"
                   strokeWidth={2}
                   dot={{ r: 3 }}
@@ -400,18 +390,17 @@ const UserDashboardPage = () => {
         </div>
       </div>
 
-      {/* Recent Audit Activity & Notice Lineage */}
       <div className="grid lg:grid-cols-12 gap-5">
         <div className="lg:col-span-7 enterprise-card p-5 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">
-              Recent Audit Blocks
+              Recent Activity
             </h2>
             <Link
               to="/audit-history"
               className="text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white flex items-center gap-1"
             >
-              <span>Full Trail</span>
+              <span>View All</span>
               <ArrowUpRight className="size-3.5" />
             </Link>
           </div>
@@ -450,7 +439,7 @@ const UserDashboardPage = () => {
                 <div className="text-right font-mono text-[10px] text-zinc-400 tabular-nums">
                   <div>{new Date(ev.timestamp).toISOString().replace('T', ' ').slice(0, 19)}Z</div>
                   <div className="truncate max-w-[170px]" title={ev.eventHash}>
-                    sha256:{ev.eventHash?.slice(0, 14)}...
+                    {ev.eventHash?.slice(0, 14)}...
                   </div>
                 </div>
               </div>
@@ -461,7 +450,7 @@ const UserDashboardPage = () => {
         <div className="lg:col-span-5 enterprise-card p-5 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">
-              Privacy Notice Releases
+              Privacy Notices
             </h2>
             <Link
               to="/notices/compare"

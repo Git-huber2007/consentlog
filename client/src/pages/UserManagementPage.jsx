@@ -16,7 +16,7 @@ const UserManagementPage = () => {
         const res = await api.get('/admin/users');
         setUsers(res.data.users || []);
       } catch (err) {
-        addToast('Failed to load registered users.', 'error');
+        addToast('Failed to load users.', 'error');
       } finally {
         setLoading(false);
       }
@@ -46,15 +46,13 @@ const UserManagementPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            User Consent Directory
+            Users
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl">
-            Inspect real-time consent status by user, active notice acceptance, and audit event
-            counts. Read-only inspection prevents unauthorized preference tampering.
+            View user consent preferences, accepted privacy notice versions, and activity counts.
           </p>
         </div>
 
@@ -64,23 +62,22 @@ const UserManagementPage = () => {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Filter by name, email, or organization..."
+            placeholder="Search by name, email, or organization..."
             className="w-full pl-8 pr-3.5 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-[#111113] text-xs text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 dark:focus:border-zinc-100"
           />
         </div>
       </div>
 
-      {/* Users Table */}
       <div className="enterprise-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-zinc-50/70 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800/80 text-[11px] font-medium text-zinc-500">
-                <th className="py-3 px-4">Subject & Organization</th>
-                <th className="py-3 px-4">Role & Jurisdiction</th>
-                <th className="py-3 px-4">Granular Preference Matrix</th>
-                <th className="py-3 px-4">Notice Acceptance</th>
-                <th className="py-3 px-4">Audit Blocks</th>
+                <th className="py-3 px-4">User</th>
+                <th className="py-3 px-4">Role & Region</th>
+                <th className="py-3 px-4">Preferences</th>
+                <th className="py-3 px-4">Notice</th>
+                <th className="py-3 px-4">Log Entries</th>
                 <th className="py-3 px-4">Last Activity</th>
               </tr>
             </thead>
@@ -88,14 +85,16 @@ const UserManagementPage = () => {
               {loading ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-zinc-500">
-                    Loading user consent directory...
+                    Loading users...
                   </td>
                 </tr>
               ) : (
                 filtered.map((u) => (
                   <tr key={u._id} className="hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40">
                     <td className="py-3.5 px-4">
-                      <div className="font-semibold text-zinc-900 dark:text-zinc-100">{u.name}</div>
+                      <div className="font-semibold text-zinc-900 dark:text-zinc-100">
+                        {u.name?.replace(/\s*\(Chief Privacy Officer\)/i, '')}
+                      </div>
                       <div className="text-zinc-500 font-mono text-[11px]">{u.email}</div>
                       <div className="text-[11px] text-zinc-400">{u.organization}</div>
                     </td>
@@ -125,7 +124,7 @@ const UserManagementPage = () => {
                         {renderBadge(u.preferences?.thirdPartySharing, '3rd-Party')}
                       </div>
                       <div className="text-[11px] text-zinc-500 mt-1">
-                        {u.preferences?.enabledCount || 1} of 5 categories active
+                        {u.preferences?.enabledCount || 1} of 5 enabled
                       </div>
                     </td>
 
@@ -143,7 +142,7 @@ const UserManagementPage = () => {
                     </td>
 
                     <td className="py-3.5 px-4 font-mono font-semibold text-zinc-900 dark:text-zinc-100 tabular-nums">
-                      {u.auditEventCount} blocks
+                      {u.auditEventCount}
                     </td>
 
                     <td className="py-3.5 px-4 font-mono text-[11px] text-zinc-500 tabular-nums">

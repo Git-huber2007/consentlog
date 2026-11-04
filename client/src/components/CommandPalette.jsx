@@ -14,7 +14,6 @@ import {
   Moon,
   Download,
   CornerDownLeft,
-  Terminal,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -37,23 +36,19 @@ const CommandPalette = ({ isOpen, onClose }) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `ConsentLog-DSAR-Passport-${user?.email || 'user'}.json`;
+      a.download = `consentlog-export-${user?.email || 'user'}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      addToast(
-        `Downloaded SHA-256 signed DSAR Privacy Passport (${res.data.passportSignature.slice(0, 12)}...)`,
-        'success',
-        'GDPR Art. 15 & 20 Export'
-      );
+      addToast('Your consent history export has been downloaded.', 'success');
     } catch (err) {
-      addToast('Failed to generate DSAR Privacy Passport.', 'error');
+      addToast('Could not export data.', 'error');
     }
   };
 
   const runQuickChainCheck = async () => {
     try {
       const res = await api.post('/audit/verify');
-      addToast(res.data.message, 'success', 'SHA-256 Ledger Verified');
+      addToast(res.data.message, 'success', 'Audit Log Verified');
     } catch {
       addToast('Verification failed.', 'error');
     }
@@ -62,7 +57,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
   const actions = [
     {
       id: 'nav-dashboard',
-      title: 'Go to Consent Overview',
+      title: 'Go to Dashboard',
       category: 'Navigation',
       shortcut: 'G D',
       icon: LayoutDashboard,
@@ -70,7 +65,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-prefs',
-      title: 'Open Preference Matrix',
+      title: 'Manage Preferences',
       category: 'Navigation',
       shortcut: 'G P',
       icon: Sliders,
@@ -78,7 +73,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-audit',
-      title: 'Inspect SHA-256 Audit Ledger',
+      title: 'View Audit Log',
       category: 'Navigation',
       shortcut: 'G A',
       icon: History,
@@ -86,7 +81,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-notices',
-      title: 'Browse Privacy Notice Repository',
+      title: 'Privacy Notices',
       category: 'Navigation',
       shortcut: 'G N',
       icon: FileText,
@@ -94,7 +89,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-diff',
-      title: 'Compare Privacy Notice Versions (v1.0 ↔ v2.0)',
+      title: 'Compare Notice Versions',
       category: 'Navigation',
       shortcut: 'G C',
       icon: GitCompare,
@@ -102,24 +97,24 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'act-verify',
-      title: 'Execute Live SHA-256 Chain Verification',
-      category: 'Cryptography',
+      title: 'Verify Audit Log',
+      category: 'Actions',
       shortcut: '⌘ V',
       icon: Lock,
       perform: runQuickChainCheck,
     },
     {
       id: 'act-dsar',
-      title: 'Download Signed DSAR Privacy Passport (JSON)',
-      category: 'Export',
+      title: 'Export My Data (JSON)',
+      category: 'Actions',
       shortcut: '⌘ E',
       icon: Download,
       perform: exportDsarBundle,
     },
     {
       id: 'act-theme',
-      title: `Switch Theme to ${darkMode ? 'Light' : 'Dark'} Mode`,
-      category: 'Workspace',
+      title: `Switch to ${darkMode ? 'Light' : 'Dark'} Mode`,
+      category: 'Theme',
       shortcut: '⌘ J',
       icon: darkMode ? Sun : Moon,
       perform: toggleTheme,
@@ -130,7 +125,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     actions.push(
       {
         id: 'admin-cmd',
-        title: 'Admin: Open Governance Command Centre',
+        title: 'Admin Overview',
         category: 'Admin',
         shortcut: 'A D',
         icon: ShieldCheck,
@@ -138,7 +133,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
       },
       {
         id: 'admin-users',
-        title: 'Admin: Inspect User Consent Directory',
+        title: 'View Users',
         category: 'Admin',
         shortcut: 'A U',
         icon: Users,
@@ -146,10 +141,10 @@ const CommandPalette = ({ isOpen, onClose }) => {
       },
       {
         id: 'admin-tamper',
-        title: 'Admin: Launch SHA-256 Tamper Lab',
+        title: 'Log Verification',
         category: 'Admin',
         shortcut: 'A T',
-        icon: Terminal,
+        icon: Lock,
         perform: () => navigate('/admin/integrity'),
       }
     );
@@ -217,7 +212,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
-            placeholder="Type a command or jump to any module..."
+            placeholder="Search pages and actions..."
             className="w-full bg-transparent text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none"
           />
           <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-semibold text-zinc-400 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded">
@@ -228,7 +223,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
         <div className="max-h-80 overflow-y-auto p-1.5 divide-y divide-zinc-100 dark:divide-zinc-900">
           {filtered.length === 0 ? (
             <div className="py-8 text-center text-xs text-zinc-500">
-              No matching commands found.
+              No matching results.
             </div>
           ) : (
             filtered.map((item, idx) => {
@@ -287,7 +282,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
         </div>
 
         <div className="px-4 py-2 bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
-          <span>↑↓ Navigate · Enter Execute</span>
+          <span>↑↓ Navigate · Enter Select</span>
           <span>ConsentLog</span>
         </div>
       </div>

@@ -10,8 +10,8 @@ const ProfileSettingsPage = () => {
 
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    organization: user?.organization || 'Enterprise Global Corp',
-    department: user?.department || 'General Operations',
+    organization: user?.organization || 'Acme Corp',
+    department: user?.department || 'Operations',
     jurisdiction: user?.jurisdiction || 'GDPR (EU)',
   });
   const [saving, setSaving] = useState(false);
@@ -35,10 +35,10 @@ const ProfileSettingsPage = () => {
     <div className="max-w-3xl space-y-6">
       <div className="pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-          Profile & Jurisdiction Settings
+          Account Settings
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-          Configure your organizational identity and applicable data protection framework.
+          Update your profile details and applicable privacy region.
         </p>
       </div>
 
@@ -59,7 +59,7 @@ const ProfileSettingsPage = () => {
 
           <div>
             <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
-              Registered Email (Immutable)
+              Email
             </label>
             <input
               type="email"
@@ -99,7 +99,7 @@ const ProfileSettingsPage = () => {
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
-              Primary Regulatory Jurisdiction
+              Region
             </label>
             <select
               value={formData.jurisdiction}
@@ -116,7 +116,7 @@ const ProfileSettingsPage = () => {
 
           <div>
             <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
-              RBAC Security Role
+              Role
             </label>
             <input
               type="text"
@@ -134,7 +134,7 @@ const ProfileSettingsPage = () => {
             className="px-5 py-2.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 flex items-center gap-2 transition-opacity"
           >
             <Save className="w-3.5 h-3.5" />
-            <span>{saving ? 'Saving...' : 'Save Profile Settings'}</span>
+            <span>{saving ? 'Saving...' : 'Save Changes'}</span>
           </button>
         </div>
       </form>

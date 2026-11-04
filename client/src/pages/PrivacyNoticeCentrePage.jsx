@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  CheckCircle2,
-  GitCompare,
-} from 'lucide-react';
+import { CheckCircle2, GitCompare } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -42,7 +39,7 @@ const PrivacyNoticeCentrePage = () => {
     try {
       const res = await api.post('/notices/acknowledge', {
         version,
-        method: 'Privacy Notice Centre Review',
+        method: 'Privacy Notice Review',
       });
       addToast(res.data.message, 'success', 'Notice Accepted');
       await fetchNotices();
@@ -68,15 +65,13 @@ const PrivacyNoticeCentrePage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Privacy Notice Repository
+            Privacy Notices
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Review active and historical privacy notices (v1.0, v1.1, v2.0), inspect clause-level
-            change summaries, and verify your explicit acceptance status.
+            Read current and past privacy notices, see what changed, and accept the active version.
           </p>
         </div>
 
@@ -85,15 +80,14 @@ const PrivacyNoticeCentrePage = () => {
           className="px-3.5 py-2 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 flex items-center gap-2 self-start lg:self-auto"
         >
           <GitCompare className="w-3.5 h-3.5" />
-          <span>Compare Versions Side-by-Side</span>
+          <span>Compare Versions</span>
         </Link>
       </div>
 
       <div className="grid lg:grid-cols-12 gap-6">
-        {/* Left Column: Version History List */}
         <div className="lg:col-span-4 space-y-3">
           <h2 className="text-xs font-semibold text-zinc-500 px-1">
-            Published Lineage ({notices.length} versions)
+            Versions ({notices.length})
           </h2>
 
           {notices.map((notice) => {
@@ -133,9 +127,9 @@ const PrivacyNoticeCentrePage = () => {
                     }`}
                   >
                     {accepted
-                      ? `Accepted (${notice.userAcceptance.status})`
+                      ? 'Accepted'
                       : notice.isActive
-                      ? 'Renewal Required'
+                      ? 'Needs Review'
                       : 'Archived'}
                   </span>
                 </div>
@@ -152,7 +146,7 @@ const PrivacyNoticeCentrePage = () => {
                   <span>Effective {new Date(notice.effectiveDate).toLocaleDateString()}</span>
                   {accepted && notice.userAcceptance?.acceptedAt && (
                     <span className="text-emerald-600 dark:text-emerald-400">
-                      Signed {new Date(notice.userAcceptance.acceptedAt).toLocaleDateString()}
+                      Accepted {new Date(notice.userAcceptance.acceptedAt).toLocaleDateString()}
                     </span>
                   )}
                 </div>
@@ -161,11 +155,9 @@ const PrivacyNoticeCentrePage = () => {
           })}
         </div>
 
-        {/* Right Column: Selected Notice Full Reader */}
         <div className="lg:col-span-8">
           {selectedNotice && (
             <div className="enterprise-card overflow-hidden">
-              {/* Top Reader Header */}
               <div className="p-6 bg-zinc-900 dark:bg-zinc-950 text-white border-b border-zinc-800 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
@@ -194,8 +186,8 @@ const PrivacyNoticeCentrePage = () => {
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>
                         {acknowledging
-                          ? 'Recording Acceptance...'
-                          : `Accept & Sign Notice v${selectedNotice.version}`}
+                          ? 'Saving...'
+                          : `Accept v${selectedNotice.version}`}
                       </span>
                     </button>
                   )}
@@ -216,11 +208,10 @@ const PrivacyNoticeCentrePage = () => {
                 </div>
               </div>
 
-              {/* Change Summary & Highlights */}
               <div className="p-6 space-y-6">
                 <div className="p-4 rounded-md bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 space-y-2">
                   <h3 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-                    Summary of Changes (v{selectedNotice.version})
+                    What Changed in v{selectedNotice.version}
                   </h3>
                   <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
                     {selectedNotice.summaryOfChanges}
@@ -234,11 +225,10 @@ const PrivacyNoticeCentrePage = () => {
                   )}
                 </div>
 
-                {/* Structured Clauses */}
                 {selectedNotice.clauses && selectedNotice.clauses.length > 0 && (
                   <div className="space-y-3">
                     <h3 className="text-xs font-semibold text-zinc-500">
-                      Structured Regulatory Clauses ({selectedNotice.clauses.length})
+                      Clauses ({selectedNotice.clauses.length})
                     </h3>
                     {selectedNotice.clauses.map((clause) => (
                       <div
@@ -261,10 +251,9 @@ const PrivacyNoticeCentrePage = () => {
                   </div>
                 )}
 
-                {/* Full Verbatim Legal Text */}
                 <div className="space-y-2">
                   <h3 className="text-xs font-semibold text-zinc-500">
-                    Verbatim Notice Document
+                    Full Text
                   </h3>
                   <pre className="p-4 rounded-md bg-zinc-950 text-zinc-200 font-mono text-xs whitespace-pre-wrap leading-relaxed border border-zinc-800">
                     {selectedNotice.content}

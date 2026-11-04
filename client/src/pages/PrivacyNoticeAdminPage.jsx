@@ -18,23 +18,23 @@ const PrivacyNoticeAdminPage = () => {
   const [activatingId, setActivatingId] = useState(null);
 
   const [formData, setFormData] = useState({
-    title: 'Global AI Telemetry & Sub-Processor Governance Notice',
+    title: 'Privacy & Cookie Notice Update',
     version: '2.1',
     summaryOfChanges:
-      'Introduces explicit safeguards for zero-retention AI compliance assistants and updates cross-border transfer clauses.',
-    content: `SECTION 1: SCOPE & GOVERNANCE
-ConsentLog Enterprise Edition v2.1 updates our global privacy framework with explicit transparency around zero-retention AI analytics and sub-processor auditability.
+      'Updated data retention periods and clarified third-party service provider terms.',
+    content: `SECTION 1: OVERVIEW
+This notice explains how ConsentLog collects and uses session and preference data.
 
 SECTION 2: PREFERENCE CATEGORIES
-Essential Cookies remain mandatory. Analytics, Marketing, Personalization, and Third-Party Data Sharing remain strictly opt-in.
+Essential Cookies are required for authentication and security. Analytics, Marketing, Personalization, and Third-Party Sharing are optional and off by default.
 
-SECTION 3: RENEWED CONSENT REQUIREMENT
-Existing users are notified via the Notice Update Banner and may compare clause differences before recording their acceptance.`,
+SECTION 3: POLICY UPDATES
+When a new version of this notice is published, existing users are asked to review the changes before accepting.`,
     requiresRenewedConsent: true,
     isActive: true,
-    clauseHeading: '8. Zero-Retention AI Governance Safeguards (New in v2.1)',
+    clauseHeading: '8. Sub-Processor Retention Limits (New in v2.1)',
     clauseBody:
-      'Enterprise telemetry processed through automated compliance diagnostics is strictly isolated with zero model training retention.',
+      'Third-party service providers may retain logs for no longer than 30 days for security diagnostics.',
   });
 
   const fetchNotices = async () => {
@@ -43,7 +43,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
       const res = await api.get('/notices');
       setNotices(res.data.notices || []);
     } catch (err) {
-      addToast('Failed to load notices.', 'error');
+      addToast('Could not load privacy notices.', 'error');
     } finally {
       setLoading(false);
     }
@@ -80,7 +80,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
         clauses: newClauses,
       });
 
-      addToast(res.data.message, 'success', 'Notice Version Published');
+      addToast(res.data.message, 'success', 'Notice Published');
       await fetchNotices();
       await refreshSession();
       setFormData((prev) => ({
@@ -88,7 +88,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
         version: `${(parseFloat(prev.version) + 0.1).toFixed(1)}`,
       }));
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to publish notice.', 'error');
+      addToast(err.response?.data?.message || 'Could not publish notice.', 'error');
     } finally {
       setSubmitting(false);
     }
@@ -98,11 +98,11 @@ Existing users are notified via the Notice Update Banner and may compare clause 
     setActivatingId(id);
     try {
       const res = await api.patch(`/admin/notices/${id}/activate`);
-      addToast(res.data.message, 'success', `Notice v${version} Activated`);
+      addToast(res.data.message, 'success', `v${version} Activated`);
       await fetchNotices();
       await refreshSession();
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to activate notice.', 'error');
+      addToast(err.response?.data?.message || 'Could not activate notice.', 'error');
     } finally {
       setActivatingId(null);
     }
@@ -110,15 +110,13 @@ Existing users are notified via the Notice Update Banner and may compare clause 
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Policy Administration
+            Manage Notices
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl">
-            Publish versioned privacy notices and control policy activation. Activating a new
-            version never assumes automatic user acceptance.
+            Publish new privacy notice versions and choose which version is active.
           </p>
         </div>
 
@@ -132,18 +130,17 @@ Existing users are notified via the Notice Update Banner and may compare clause 
       </div>
 
       <div className="grid lg:grid-cols-12 gap-6">
-        {/* Publish New Notice Form */}
         <div className="lg:col-span-6">
           <form onSubmit={handlePublishNotice} className="enterprise-card p-6 space-y-4">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
               <Plus className="w-4 h-4" />
-              <span>Publish New Privacy Notice Version</span>
+              <span>Publish New Version</span>
             </h2>
 
             <div className="grid sm:grid-cols-3 gap-3">
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                  Notice Title
+                  Title
                 </label>
                 <input
                   type="text"
@@ -155,14 +152,14 @@ Existing users are notified via the Notice Update Banner and may compare clause 
               </div>
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                  Version Number
+                  Version
                 </label>
                 <input
                   type="text"
                   required
                   value={formData.version}
                   onChange={(e) => setFormData({ ...formData, version: e.target.value })}
-                  placeholder="e.g., 2.1"
+                  placeholder="2.1"
                   className="w-full px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100 outline-none"
                 />
               </div>
@@ -184,7 +181,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                  New Clause Heading (Diff Engine)
+                  Added Clause Heading
                 </label>
                 <input
                   type="text"
@@ -195,7 +192,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
               </div>
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                  New Clause Provision Text
+                  Added Clause Text
                 </label>
                 <input
                   type="text"
@@ -208,7 +205,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
 
             <div>
               <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                Full Verbatim Notice Content
+                Notice Text
               </label>
               <textarea
                 rows={5}
@@ -229,7 +226,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                   }
                   className="rounded border-zinc-300"
                 />
-                <span>Require Renewed User Consent</span>
+                <span>Ask users to review and accept</span>
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer font-medium text-zinc-700 dark:text-zinc-300">
@@ -239,7 +236,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                   className="rounded border-zinc-300"
                 />
-                <span>Set as Active Policy Immediately</span>
+                <span>Set as active version</span>
               </label>
             </div>
 
@@ -248,17 +245,14 @@ Existing users are notified via the Notice Update Banner and may compare clause 
               disabled={submitting}
               className="w-full py-2.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 transition-opacity"
             >
-              {submitting
-                ? 'Publishing & Logging Audit Event...'
-                : `Publish Privacy Notice v${formData.version}`}
+              {submitting ? 'Publishing...' : `Publish v${formData.version}`}
             </button>
           </form>
         </div>
 
-        {/* Existing Notice Versions & Activation Control */}
         <div className="lg:col-span-6 space-y-3">
           <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            Published Versions & Activation Status
+            Published Versions
           </h2>
 
           {notices.map((n) => (
@@ -280,7 +274,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                         : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
                     }`}
                   >
-                    {n.isActive ? 'Active Policy' : n.status}
+                    {n.isActive ? 'Active' : n.status}
                   </span>
                 </div>
 
@@ -292,7 +286,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                   >
                     <Power className="w-3 h-3" />
                     <span>
-                      {activatingId === n._id ? 'Activating...' : `Activate v${n.version}`}
+                      {activatingId === n._id ? 'Setting Active...' : `Make Active`}
                     </span>
                   </button>
                 )}
@@ -302,11 +296,8 @@ Existing users are notified via the Notice Update Banner and may compare clause 
               <p className="text-xs text-zinc-500 dark:text-zinc-400">{n.summaryOfChanges}</p>
 
               <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
-                <span>Effective: {new Date(n.effectiveDate).toLocaleDateString()}</span>
-                <span>Clauses: {n.clauses?.length || 0}</span>
-                <span>
-                  Renewed Consent: <strong>{n.requiresRenewedConsent ? 'Yes' : 'No'}</strong>
-                </span>
+                <span>Effective {new Date(n.effectiveDate).toLocaleDateString()}</span>
+                <span>{n.clauses?.length || 0} clauses</span>
               </div>
             </div>
           ))}

@@ -9,8 +9,8 @@ const RegisterPage = () => {
     name: '',
     email: '',
     password: '',
-    organization: 'FinTech Horizon Ltd',
-    department: 'Product & Compliance',
+    organization: 'Acme Corp',
+    department: 'Product',
     jurisdiction: 'GDPR (EU)',
   });
   const [submitting, setSubmitting] = useState(false);
@@ -24,9 +24,9 @@ const RegisterPage = () => {
     try {
       const data = await register(formData);
       addToast(
-        `Account created for ${data.user.name}. Privacy-by-default settings logged in SHA-256 ledger.`,
+        `Account created for ${data.user.name}.`,
         'success',
-        'Onboarding Complete'
+        'Account Created'
       );
       navigate('/preferences');
     } catch (err) {
@@ -52,15 +52,15 @@ const RegisterPage = () => {
           </span>
         </Link>
         <h1 className="mt-6 text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-          Create your enterprise account
+          Create an account
         </h1>
         <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400">
-          Already registered?{' '}
+          Already have an account?{' '}
           <Link
             to="/login"
             className="font-medium text-zinc-900 dark:text-zinc-100 underline underline-offset-4 hover:opacity-80"
           >
-            Sign in here
+            Sign in
           </Link>
         </p>
       </div>
@@ -87,7 +87,7 @@ const RegisterPage = () => {
 
             <div>
               <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
-                Work Email
+                Email
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
@@ -120,7 +120,7 @@ const RegisterPage = () => {
 
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
-                  Regulatory Jurisdiction
+                  Region
                 </label>
                 <div className="relative">
                   <Globe className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
@@ -160,9 +160,7 @@ const RegisterPage = () => {
             <div className="p-3.5 rounded-md bg-emerald-500/5 border border-emerald-500/20 flex items-start gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                <strong className="text-zinc-900 dark:text-zinc-100">Privacy-by-Default:</strong>{' '}
-                Your account initializes with only Essential Cookies enabled. Optional categories
-                remain disabled until you explicitly grant consent.
+                New accounts start with only Essential Cookies enabled. Optional categories stay off until you turn them on.
               </p>
             </div>
 
@@ -171,7 +169,7 @@ const RegisterPage = () => {
               disabled={submitting}
               className="w-full py-2.5 px-4 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-semibold text-sm hover:opacity-90 flex items-center justify-center gap-2 transition-opacity disabled:opacity-50"
             >
-              <span>{submitting ? 'Creating Account...' : 'Register & Configure Preferences'}</span>
+              <span>{submitting ? 'Creating Account...' : 'Create Account'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>

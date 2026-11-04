@@ -32,7 +32,7 @@ const AdminDashboardPage = () => {
       const res = await api.get('/admin/dashboard');
       setData(res.data);
     } catch (err) {
-      addToast('Failed to load Admin Command Centre telemetry.', 'error');
+      addToast('Could not load admin overview.', 'error');
     } finally {
       setLoading(false);
     }
@@ -46,7 +46,7 @@ const AdminDashboardPage = () => {
     setVerifying(true);
     try {
       const res = await api.post('/audit/verify');
-      addToast(res.data.message, 'success', 'Admin Chain Verification Complete');
+      addToast(res.data.message, 'success', 'Audit Log Verified');
       await fetchAdminData();
     } catch (err) {
       addToast('Verification failed.', 'error');
@@ -73,23 +73,13 @@ const AdminDashboardPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Admin Command Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950">
-              CPO Governance
-            </span>
-            <span className="text-xs font-mono text-zinc-500">
-              DB: {data?.dbStatus?.mode} (ReplicaSet: {String(data?.dbStatus?.isReplicaSet)})
-            </span>
-          </div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Governance Command Centre
+            Admin Overview
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Organization-wide consent telemetry, policy version lineage, and cryptographic SHA-256
-            audit chain verification.
+            Manage users, privacy notice versions, and audit log verification.
           </p>
         </div>
 
@@ -100,30 +90,29 @@ const AdminDashboardPage = () => {
             className="px-3.5 py-2 rounded-md bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-xs font-medium flex items-center gap-1.5 transition-colors"
           >
             <RefreshCw className={`w-3.5 h-3.5 text-emerald-500 ${verifying ? 'animate-spin' : ''}`} />
-            <span>{verifying ? 'Scanning Ledger...' : 'Verify SHA-256 Chain'}</span>
+            <span>{verifying ? 'Checking...' : 'Verify Logs'}</span>
           </button>
           <Link
             to="/admin/notices"
             className="px-3.5 py-2 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 flex items-center gap-1.5 transition-opacity"
           >
-            <span>Publish Privacy Notice</span>
+            <span>Manage Notices</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
 
-      {/* Unified 4-Column Admin Telemetry Strip */}
       <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800/80">
         <Link
           to="/admin/users"
           className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <span className="text-xs text-zinc-500 block">Registered Subjects</span>
+          <span className="text-xs text-zinc-500 block">Users</span>
           <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">
             {metrics.totalRegisteredUsers}
           </p>
           <span className="text-[11px] text-zinc-500 mt-1 inline-block">
-            Inspect User Directory →
+            View users →
           </span>
         </Link>
 
@@ -131,12 +120,12 @@ const AdminDashboardPage = () => {
           to="/admin/integrity"
           className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <span className="text-xs text-zinc-500 block">Audit Chain Status</span>
+          <span className="text-xs text-zinc-500 block">Audit Log</span>
           <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
             {metrics.auditIntegrityStatus}
           </p>
           <span className="text-[11px] text-zinc-500 mt-1 inline-block font-mono">
-            {metrics.totalAuditEvents} blocks →
+            {metrics.totalAuditEvents} entries →
           </span>
         </Link>
 
@@ -144,12 +133,12 @@ const AdminDashboardPage = () => {
           to="/admin/notices"
           className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <span className="text-xs text-zinc-500 block">Active Policy Version</span>
+          <span className="text-xs text-zinc-500 block">Active Notice</span>
           <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1">
             v{metrics.currentNoticeVersion}
           </p>
           <span className="text-[11px] text-zinc-500 mt-1 inline-block">
-            Manage Activation →
+            Manage versions →
           </span>
         </Link>
 
@@ -157,24 +146,23 @@ const AdminDashboardPage = () => {
           to="/notices/compare"
           className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <span className="text-xs text-zinc-500 block">Policy Diff Engine</span>
+          <span className="text-xs text-zinc-500 block">Version Comparison</span>
           <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1">
             v1.0 ↔ v2.0
           </p>
           <span className="text-[11px] text-zinc-500 mt-1 inline-block">
-            Side-by-Side Diff →
+            Compare changes →
           </span>
         </Link>
       </div>
 
-      {/* Charts Row */}
       <div className="grid lg:grid-cols-12 gap-6">
         <div className="lg:col-span-6 enterprise-card p-5">
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-0.5">
-            Preference Category Opt-In Volume
+            Opt-Ins by Category
           </h3>
           <p className="text-xs text-zinc-500 mb-4">
-            Active user consents per category across the organization
+            Number of users with each category enabled
           </p>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -213,10 +201,10 @@ const AdminDashboardPage = () => {
 
         <div className="lg:col-span-6 enterprise-card p-5">
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-0.5">
-            Global Consent Posture
+            Consent Status Breakdown
           </h3>
           <p className="text-xs text-zinc-500 mb-4">
-            Distribution of granted, withdrawn, and default opt-out states
+            Active, withdrawn, and default disabled preferences
           </p>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -259,22 +247,21 @@ const AdminDashboardPage = () => {
         </div>
       </div>
 
-      {/* System Audit Stream */}
       <div className="enterprise-card overflow-hidden">
         <div className="p-5 border-b border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between">
           <div>
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              Organization-Wide Activity Stream
+              Recent Activity
             </h3>
             <p className="text-xs text-zinc-500 mt-0.5">
-              User-initiated preference updates and administrative policy sync events
+              Latest preference changes and notice updates across all users
             </p>
           </div>
           <Link
             to="/audit-history"
             className="text-xs font-medium text-zinc-900 dark:text-zinc-100 hover:opacity-80"
           >
-            Full Audit Explorer →
+            View All →
           </Link>
         </div>
 
@@ -282,13 +269,13 @@ const AdminDashboardPage = () => {
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-zinc-50/70 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800/80 text-[11px] font-medium text-zinc-500">
-                <th className="py-2.5 px-4">Audit ID</th>
+                <th className="py-2.5 px-4">ID</th>
                 <th className="py-2.5 px-4">User</th>
                 <th className="py-2.5 px-4">Category</th>
-                <th className="py-2.5 px-4">Transition</th>
+                <th className="py-2.5 px-4">Change</th>
                 <th className="py-2.5 px-4">Action</th>
                 <th className="py-2.5 px-4">Source</th>
-                <th className="py-2.5 px-4">SHA-256 Digest</th>
+                <th className="py-2.5 px-4">Hash</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-200/60 dark:divide-zinc-800/60">
@@ -300,7 +287,7 @@ const AdminDashboardPage = () => {
                     </Link>
                   </td>
                   <td className="py-2.5 px-4 font-medium text-zinc-800 dark:text-zinc-200">
-                    {ev.userId?.name || 'System'}
+                    {ev.userId?.name?.replace(/\s*\(.*?\)\s*/g, '') || 'System'}
                   </td>
                   <td className="py-2.5 px-4 text-zinc-600 dark:text-zinc-400">
                     {ev.preferenceName}

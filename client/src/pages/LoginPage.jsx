@@ -17,17 +17,12 @@ const LoginPage = () => {
     setSubmitting(true);
     try {
       const data = await login(email, password);
-      addToast(
-        `Signed in as ${data.user.name} (${data.user.role.toUpperCase()}).`,
-        'success',
-        'Session Authenticated'
-      );
+      addToast(`Signed in as ${data.user.name}.`, 'success');
       navigate('/dashboard');
     } catch (err) {
       addToast(
-        err.response?.data?.message || 'Invalid credentials. Check your email and password.',
-        'error',
-        'Authentication Failed'
+        err.response?.data?.message || 'Invalid email or password.',
+        'error'
       );
     } finally {
       setSubmitting(false);
@@ -37,7 +32,7 @@ const LoginPage = () => {
   const quickFill = (demoEmail, roleLabel) => {
     setEmail(demoEmail);
     setPassword('Password123!');
-    addToast(`Loaded ${roleLabel} credentials (${demoEmail}).`, 'info');
+    addToast(`Selected ${roleLabel} (${demoEmail}).`, 'info');
   };
 
   return (
@@ -53,33 +48,32 @@ const LoginPage = () => {
         </Link>
 
         <h1 className="mt-6 text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-          Sign in to your workspace
+          Sign in
         </h1>
         <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400">
-          Need an account?{' '}
+          Don't have an account?{' '}
           <Link
             to="/register"
             className="font-medium text-zinc-900 dark:text-zinc-100 underline underline-offset-4 hover:opacity-80"
           >
-            Create a privacy-by-default profile
+            Create one
           </Link>
         </p>
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="enterprise-card p-6 sm:p-8 space-y-6">
-          {/* Quick Demo Account Selector */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs text-zinc-500">
               <span className="font-medium text-zinc-700 dark:text-zinc-300">
-                Sandbox Evaluation Profiles
+                Demo Accounts
               </span>
-              <span className="font-mono text-[11px]">Click to autofill</span>
+              <span className="text-[11px]">Click to fill</span>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               <button
                 type="button"
-                onClick={() => quickFill('alex@enterprise.io', 'Standard User')}
+                onClick={() => quickFill('alex@enterprise.io', 'Alex Rivera')}
                 className={`p-3 rounded-md text-left border transition-colors ${
                   email === 'alex@enterprise.io'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
@@ -94,13 +88,13 @@ const LoginPage = () => {
                       : 'text-zinc-500'
                   }`}
                 >
-                  Data Subject (GDPR)
+                  Standard User
                 </p>
               </button>
 
               <button
                 type="button"
-                onClick={() => quickFill('admin@consentlog.io', 'Chief Privacy Officer')}
+                onClick={() => quickFill('admin@consentlog.io', 'Elena Vance')}
                 className={`p-3 rounded-md text-left border transition-colors ${
                   email === 'admin@consentlog.io'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
@@ -115,7 +109,7 @@ const LoginPage = () => {
                       : 'text-zinc-500'
                   }`}
                 >
-                  Chief Privacy Officer
+                  Admin
                 </p>
               </button>
             </div>
@@ -124,7 +118,7 @@ const LoginPage = () => {
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
-                Work Email
+                Email address
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
@@ -134,7 +128,7 @@ const LoginPage = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-9 pr-3.5 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-sm text-zinc-900 dark:text-zinc-100 focus:border-zinc-900 dark:focus:border-zinc-100 outline-none transition-colors"
-                  placeholder="you@enterprise.io"
+                  placeholder="name@company.com"
                 />
               </div>
             </div>
@@ -161,13 +155,12 @@ const LoginPage = () => {
               disabled={submitting}
               className="w-full py-2.5 px-4 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-semibold text-sm hover:opacity-90 flex items-center justify-center gap-2 transition-opacity disabled:opacity-50"
             >
-              <span>{submitting ? 'Authenticating...' : 'Sign In'}</span>
+              <span>{submitting ? 'Signing in...' : 'Sign In'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
-          <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500">
-            <span className="font-mono text-[11px]">JWT + bcrypt (12 rounds)</span>
+          <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-end text-xs text-zinc-500">
             <Link to="/" className="hover:text-zinc-900 dark:hover:text-zinc-100 font-medium">
               Back to Home
             </Link>
