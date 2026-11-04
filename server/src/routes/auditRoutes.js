@@ -5,6 +5,8 @@ const {
   getAuditLogById,
   getAuditStats,
   runAuditVerification,
+  simulateTamperDetection,
+  exportDsarPassport,
 } = require('../controllers/auditController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -32,6 +34,8 @@ router.delete('/logs/:id', blockMutation);
 
 router.get('/stats', getAuditStats);
 router.post('/verify', runAuditVerification);
+router.post('/simulate-tamper', simulateTamperDetection);
+router.get('/dsar-passport', exportDsarPassport);
 
 module.exports = router;
 

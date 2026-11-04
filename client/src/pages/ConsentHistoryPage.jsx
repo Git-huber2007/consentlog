@@ -4,15 +4,14 @@ import {
   History,
   Search,
   Filter,
-  CheckCircle2,
-  XCircle,
   Lock,
   ArrowUpDown,
   Eye,
   RefreshCw,
-  ShieldCheck,
-  Clock,
   Activity,
+  Download,
+  Copy,
+  Check,
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -27,6 +26,7 @@ const ConsentHistoryPage = () => {
   const [totalLogs, setTotalLogs] = useState(0);
   const [loading, setLoading] = useState(true);
   const [verifying, setVerifying] = useState(false);
+  const [copiedId, setCopiedId] = useState(null);
 
   // Filters
   const [search, setSearch] = useState('');
@@ -82,6 +82,53 @@ const ConsentHistoryPage = () => {
     }
   };
 
+  const handleCopyHash = (hash, id) => {
+    navigator.clipboard.writeText(hash);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 1500);
+  };
+
+  const handleExportCsv = () => {
+    if (!logs.length) return;
+    const headers = [
+      'SequenceNumber',
+      'AuditID',
+      'UserEmail',
+      'PreferenceCategory',
+      'PreviousValue',
+      'NewValue',
+      'Action',
+      'NoticeVersion',
+      'Source',
+      'TimestampUTC',
+      'PreviousHash',
+      'EventHash',
+    ];
+    const rows = logs.map((l) => [
+      l.sequenceNumber,
+      l.auditId,
+      l.userId?.email || '',
+      `"${(l.preferenceName || '').replace(/"/g, '""')}"`,
+      l.previousValue,
+      l.newValue,
+      l.action,
+      l.noticeVersion,
+      l.source,
+      new Date(l.timestamp).toISOString(),
+      l.previousHash,
+      l.eventHash,
+    ]);
+    const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ConsentLog-Audit-Ledger-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addToast(`Exported ${logs.length} SHA-256 audit records to CSV.`, 'success', 'CSV Ledger Export');
+  };
+
   const resetFilters = () => {
     setSearch('');
     setSelectedUser('all');
@@ -97,105 +144,109 @@ const ConsentHistoryPage = () => {
   const usersList = statsData?.usersList || [];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="enterprise-card p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
-              <History className="w-5 h-5" />
-            </div>
-            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Immutable Consent Audit Ledger
-            </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
               <Lock className="w-3 h-3" />
               {stats.integrityStatus || 'Verified'}
             </span>
+            <span className="font-mono text-xs text-slate-400">
+              APPEND-ONLY SHA-256 HASH CHAIN
+            </span>
           </div>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Append-only historical record of every consent change, chained via canonical SHA-256
-            cryptographic hashing. No PUT, PATCH, or DELETE operations exist.
-          </p>
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white mt-1">
+            Immutable Consent Audit Ledger
+          </h1>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={handleExportCsv}
+            className="px-3 py-2 rounded-md bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors"
+          >
+            <Download className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Export CSV</span>
+          </button>
+
           <button
             onClick={handleRunVerification}
             disabled={verifying}
-            className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-500/20 flex items-center gap-2 transition-all"
+            className="px-3.5 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${verifying ? 'animate-spin' : ''}`} />
-            <span>{verifying ? 'Verifying Hashes...' : 'Run SHA-256 Chain Verification'}</span>
+            <span>{verifying ? 'Verifying Hashes...' : 'Verify SHA-256 Chain'}</span>
           </button>
         </div>
       </div>
 
       {/* 4 Audit KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            Total Audit Events
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="enterprise-card p-4 border-l-2 border-l-slate-600">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+            TOTAL AUDIT BLOCKS
           </span>
-          <p className="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">
+          <p className="font-mono text-2xl font-bold text-slate-900 dark:text-white mt-1 tabular-nums">
             {stats.totalAuditEvents ?? 0}
           </p>
-          <p className="text-xs text-slate-500 mt-1">Permanent append-only records</p>
+          <p className="text-[11px] text-slate-500 mt-0.5">Permanent append-only records</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-indigo-200/80 dark:border-indigo-900/60 shadow-sm">
-          <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-            Today&apos;s Changes
+        <div className="enterprise-card p-4 border-l-2 border-l-indigo-500">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+            24H EVENT VELOCITY
           </span>
-          <p className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-2">
+          <p className="font-mono text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1 tabular-nums">
             {stats.todaysChanges ?? 0}
           </p>
-          <p className="text-xs text-slate-500 mt-1">Recorded in last 24 hours</p>
+          <p className="text-[11px] text-slate-500 mt-0.5">Recorded today (UTC)</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/60 shadow-sm">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-            Consent Grants
+        <div className="enterprise-card p-4 border-l-2 border-l-emerald-500">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+            CONSENT GRANTS
           </span>
-          <p className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-2">
+          <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">
             {stats.consentGrants ?? 0}
           </p>
-          <p className="text-xs text-slate-500 mt-1">Opt-ins & notice acceptances</p>
+          <p className="text-[11px] text-slate-500 mt-0.5">Opt-ins & policy acknowledgments</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-rose-200/80 dark:border-rose-900/60 shadow-sm">
-          <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-            Consent Withdrawals
+        <div className="enterprise-card p-4 border-l-2 border-l-rose-500">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+            CONSENT WITHDRAWALS
           </span>
-          <p className="text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-2">
+          <p className="font-mono text-2xl font-bold text-rose-600 dark:text-rose-400 mt-1 tabular-nums">
             {stats.consentWithdrawals ?? 0}
           </p>
-          <p className="text-xs text-slate-500 mt-1">Revocations & opt-outs</p>
+          <p className="text-[11px] text-slate-500 mt-0.5">Revocations & opt-outs</p>
         </div>
       </div>
 
-      {/* Recent Activity Timeline */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
-        <div className="flex items-center justify-between mb-4">
+      {/* Recent Cryptographic Block Stream */}
+      <div className="enterprise-card p-5">
+        <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-indigo-500" />
-            <h2 className="text-base font-bold text-slate-900 dark:text-white">
-              Recent Cryptographic Event Stream
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+              Latest Chained Blocks
             </h2>
           </div>
-          <span className="text-xs font-mono text-slate-400">
-            Showing latest {timeline.length} chained blocks
+          <span className="text-[11px] font-mono text-slate-400">
+            HEAD STREAM ({timeline.length} BLOCKS)
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
           {timeline.slice(0, 4).map((item) => (
             <Link
               key={item.auditId}
               to={`/audit-history/${item.auditId}`}
-              className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-500 transition-all space-y-1.5"
+              className="p-3 rounded-md bg-slate-50 dark:bg-slate-900/80 border border-slate-200/90 dark:border-slate-800 hover:border-indigo-500 transition-colors space-y-1.5"
             >
-              <div className="flex items-center justify-between text-[11px] font-mono">
+              <div className="flex items-center justify-between text-[10px] font-mono">
                 <span className="font-bold text-indigo-600 dark:text-indigo-400">
                   #{String(item.sequenceNumber).padStart(4, '0')} • {item.auditId}
                 </span>
@@ -204,65 +255,63 @@ const ConsentHistoryPage = () => {
               <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
                 {item.preferenceName}
               </p>
-              <div className="flex items-center justify-between text-[11px]">
+              <div className="flex items-center justify-between text-[10px] font-mono">
                 <span
-                  className={`px-1.5 py-0.5 rounded font-semibold ${
+                  className={`px-1.5 py-0.2 rounded font-semibold ${
                     item.action.includes('Withdrawn') || item.action.includes('Rejected')
-                      ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300'
-                      : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'
+                      ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                      : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                   }`}
                 >
                   {item.action}
                 </span>
-                <span className="text-slate-400 font-mono">
+                <span className="text-slate-400">
                   {item.previousValue} → {item.newValue}
                 </span>
               </div>
               <p className="text-[10px] font-mono text-slate-400 truncate pt-1 border-t border-slate-200/60 dark:border-slate-800">
-                Hash: {item.eventHash}
+                sha256:{item.eventHash}
               </p>
             </Link>
           ))}
         </div>
       </div>
 
-      {/* Search & Multi-Facet Filter Bar */}
-      <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
+      {/* Multi-Facet Filter Bar */}
+      <div className="enterprise-card p-4 space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+          <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-wider text-slate-500">
             <Filter className="w-3.5 h-3.5 text-indigo-500" />
-            <span>Search & Filter Append-Only Audit Table ({totalLogs} matching records)</span>
+            <span>QUERY LEDGER ({totalLogs} MATCHING BLOCKS)</span>
           </div>
           <button
             onClick={resetFilters}
             className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
           >
-            Reset All Filters
+            Reset Filters
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
-          {/* Search Input */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2.5">
           <div className="lg:col-span-2 relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search Audit ID, SHA-256 hash, preference, reason..."
-              className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs focus:ring-2 focus:ring-indigo-500 outline-none"
+              placeholder="Filter by Audit ID, SHA-256 hash, category..."
+              className="w-full pl-8 pr-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
             />
           </div>
 
-          {/* Filter by User (if Admin) */}
           {user?.role === 'admin' && (
             <div>
               <select
                 value={selectedUser}
                 onChange={(e) => setSelectedUser(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-2.5 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs outline-none"
               >
-                <option value="all">All Users</option>
+                <option value="all">All Subjects</option>
                 {usersList.map((u) => (
                   <option key={u._id} value={u._id}>
                     {u.name} ({u.email})
@@ -272,14 +321,13 @@ const ConsentHistoryPage = () => {
             </div>
           )}
 
-          {/* Filter by Preference */}
           <div>
             <select
               value={selectedPreference}
               onChange={(e) => setSelectedPreference(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full px-2.5 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs outline-none"
             >
-              <option value="all">All Preference Categories</option>
+              <option value="all">All Categories</option>
               <option value="Essential Cookies">Essential Cookies</option>
               <option value="Analytics Cookies">Analytics Cookies</option>
               <option value="Marketing Cookies">Marketing Cookies</option>
@@ -289,14 +337,13 @@ const ConsentHistoryPage = () => {
             </select>
           </div>
 
-          {/* Filter by Action */}
           <div>
             <select
               value={selectedAction}
               onChange={(e) => setSelectedAction(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full px-2.5 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs outline-none"
             >
-              <option value="all">All Action Types</option>
+              <option value="all">All Actions</option>
               <option value="Consent Granted">Consent Granted</option>
               <option value="Consent Withdrawn">Consent Withdrawn</option>
               <option value="Notice Accepted">Notice Accepted</option>
@@ -307,12 +354,11 @@ const ConsentHistoryPage = () => {
             </select>
           </div>
 
-          {/* Sort Order */}
           <div>
             <button
               type="button"
               onClick={() => setSortOrder((prev) => (prev === 'desc' ? 'asc' : 'desc'))}
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="w-full px-2.5 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               <ArrowUpDown className="w-3.5 h-3.5 text-indigo-500" />
               <span>{sortOrder === 'desc' ? 'Newest First' : 'Oldest First'}</span>
@@ -320,76 +366,79 @@ const ConsentHistoryPage = () => {
           </div>
         </div>
 
-        {/* Date Range Filter Row */}
-        <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-          <span className="font-semibold text-slate-500">Date Range Filter:</span>
+        <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs">
+          <span className="font-mono text-[10px] font-semibold uppercase text-slate-400">
+            DATE WINDOW:
+          </span>
           <input
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs"
+            className="px-2.5 py-1 rounded border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-mono"
           />
-          <span className="text-slate-400">to</span>
+          <span className="text-slate-400">→</span>
           <input
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs"
+            className="px-2.5 py-1 rounded border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-mono"
           />
         </div>
       </div>
 
-      {/* Detailed Audit Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+      {/* High-Density Tabular Audit Table */}
+      <div className="enterprise-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                <th className="py-3.5 px-4">Seq / Audit ID</th>
-                <th className="py-3.5 px-4">User</th>
-                <th className="py-3.5 px-4">Preference Category</th>
-                <th className="py-3.5 px-4">State Transition</th>
-                <th className="py-3.5 px-4">Action & Source</th>
-                <th className="py-3.5 px-4">Notice</th>
-                <th className="py-3.5 px-4">Cryptographic Hash (SHA-256)</th>
-                <th className="py-3.5 px-4">UTC Timestamp</th>
-                <th className="py-3.5 px-4 text-right">Inspect</th>
+              <tr className="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 font-mono text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <th className="py-3 px-4">Block / Audit ID</th>
+                <th className="py-3 px-4">Subject</th>
+                <th className="py-3 px-4">Category & Reason</th>
+                <th className="py-3 px-4">Transition</th>
+                <th className="py-3 px-4">Action</th>
+                <th className="py-3 px-4">Policy</th>
+                <th className="py-3 px-4">SHA-256 Digest</th>
+                <th className="py-3 px-4">UTC Timestamp</th>
+                <th className="py-3 px-4 text-right">Receipt</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200/70 dark:divide-slate-800 text-xs">
+            <tbody className="divide-y divide-slate-200/70 dark:divide-slate-800/80 text-xs">
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-400">
-                    Loading cryptographic audit trail...
+                  <td colSpan={9} className="py-10 text-center text-slate-400 font-mono">
+                    QUERYING CRYPTOGRAPHIC LEDGER...
                   </td>
                 </tr>
               ) : logs.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-400">
-                    No audit events match your current filter criteria.
+                  <td colSpan={9} className="py-10 text-center text-slate-400">
+                    No audit blocks match your filter criteria.
                   </td>
                 </tr>
               ) : (
                 logs.map((log) => (
                   <tr
                     key={log.auditId}
-                    className="hover:bg-slate-50/90 dark:hover:bg-slate-800/40 transition-colors"
+                    className="hover:bg-slate-50/90 dark:hover:bg-slate-900/50 transition-colors"
                   >
-                    <td className="py-3.5 px-4 font-mono">
+                    <td className="py-3 px-4 font-mono">
                       <div className="font-bold text-indigo-600 dark:text-indigo-400">
                         {log.auditId}
                       </div>
-                      <div className="text-[10px] text-slate-400">
-                        Block #{String(log.sequenceNumber).padStart(5, '0')}
+                      <div className="text-[10px] text-slate-400 tabular-nums">
+                        BLK #{String(log.sequenceNumber).padStart(5, '0')}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3 px-4">
                       <div className="font-semibold text-slate-900 dark:text-white">
-                        {log.userId?.name || 'Enterprise User'}
+                        {log.userId?.name || 'Enterprise Subject'}
                       </div>
-                      <div className="text-[11px] text-slate-400">{log.userId?.email}</div>
+                      <div className="text-[11px] font-mono text-slate-400">
+                        {log.userId?.email}
+                      </div>
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3 px-4">
                       <div className="font-semibold text-slate-800 dark:text-slate-200">
                         {log.preferenceName}
                       </div>
@@ -397,62 +446,74 @@ const ConsentHistoryPage = () => {
                         {log.reason}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[11px]">
+                    <td className="py-3 px-4 font-mono text-[11px]">
                       <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                         {log.previousValue}
                       </span>
-                      <span className="mx-1.5 text-slate-400">→</span>
+                      <span className="mx-1 text-slate-400">→</span>
                       <span
                         className={`px-1.5 py-0.5 rounded font-semibold ${
                           log.newValue.includes('Disabled')
-                            ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300'
-                            : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'
+                            ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                            : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                         }`}
                       >
                         {log.newValue}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3 px-4">
                       <span
-                        className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                        className={`font-mono inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${
                           log.action.includes('Withdrawn') || log.action.includes('Rejected')
-                            ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300'
+                            ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
                             : log.action.includes('System')
-                            ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                            : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'
+                            ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                            : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                         }`}
                       >
                         {log.action}
                       </span>
-                      <div className="text-[10px] text-slate-400 mt-0.5">
-                        Source: <strong>{log.source}</strong>
+                      <div className="text-[10px] font-mono text-slate-400 mt-0.5">
+                        SRC: {log.source}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 font-mono font-bold text-slate-700 dark:text-slate-300">
+                    <td className="py-3 px-4 font-mono font-bold text-slate-700 dark:text-slate-300">
                       v{log.noticeVersion}
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[10px] text-slate-500 dark:text-slate-400">
-                      <div title={`Event Hash: ${log.eventHash}`}>
+                    <td className="py-3 px-4 font-mono text-[10px] text-slate-500 dark:text-slate-400">
+                      <div className="flex items-center gap-1">
                         <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
                           curr:
-                        </span>{' '}
-                        {log.eventHash?.slice(0, 16)}...
+                        </span>
+                        <span>{log.eventHash?.slice(0, 14)}...</span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyHash(log.eventHash, log.auditId)}
+                          className="p-0.5 rounded hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400"
+                          title="Copy full SHA-256 hash"
+                        >
+                          {copiedId === log.auditId ? (
+                            <Check className="w-3 h-3 text-emerald-500" />
+                          ) : (
+                            <Copy className="w-3 h-3" />
+                          )}
+                        </button>
                       </div>
-                      <div title={`Previous Hash: ${log.previousHash}`}>
+                      <div>
                         <span className="text-slate-400">prev:</span>{' '}
-                        {log.previousHash?.slice(0, 16)}...
+                        {log.previousHash?.slice(0, 14)}...
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-slate-500">
-                      {new Date(log.timestamp).toISOString().replace('T', ' ').slice(0, 19)} UTC
+                    <td className="py-3 px-4 font-mono text-[11px] text-slate-500 tabular-nums">
+                      {new Date(log.timestamp).toISOString().replace('T', ' ').slice(0, 19)}Z
                     </td>
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-3 px-4 text-right">
                       <Link
                         to={`/audit-history/${log.auditId}`}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/70 dark:hover:bg-indigo-900 text-indigo-600 dark:text-indigo-300 font-semibold text-[11px] transition-colors"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-mono font-semibold text-[11px] transition-colors"
                       >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Details</span>
+                        <Eye className="w-3 h-3" />
+                        <span>Inspect</span>
                       </Link>
                     </td>
                   </tr>
@@ -467,4 +528,3 @@ const ConsentHistoryPage = () => {
 };
 
 export default ConsentHistoryPage;
-

@@ -5,7 +5,38 @@
 @layer base {
   body {
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
   }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Precision Architectural Grid Background */
+.bg-architectural-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+}
+
+.dark .bg-architectural-grid {
+  background-image: 
+    linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+}
+
+/* Tabular numeric precision for all metrics and timestamps */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Enterprise Hairline Card Surface */
+.enterprise-card {
+  @apply bg-white dark:bg-[#0D1322] border border-slate-200/90 dark:border-slate-800/90 rounded-lg shadow-[0_1px_2px_rgba(15,23,42,0.03)];
 }
 
 /* Custom sleek scrollbar */
@@ -19,11 +50,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.35);
-  border-radius: 9999px;
+  background: rgba(100, 116, 139, 0.3);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(79, 70, 229, 0.6);
 }
-
