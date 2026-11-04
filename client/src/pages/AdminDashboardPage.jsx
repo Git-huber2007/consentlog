@@ -183,15 +183,29 @@ const AdminDashboardPage = () => {
                 <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#71717a" />
                 <YAxis allowDecimals={false} tick={{ fontSize: 11 }} stroke="#71717a" />
                 <Tooltip
+                  cursor={{ fill: 'rgba(161, 161, 170, 0.12)' }}
                   contentStyle={{
-                    backgroundColor: '#09090b',
-                    borderColor: '#27272a',
-                    borderRadius: '0.375rem',
+                    backgroundColor: '#18181b',
+                    borderColor: '#3f3f46',
+                    borderRadius: '6px',
                     color: '#fafafa',
                     fontSize: '12px',
+                    padding: '8px 12px',
+                  }}
+                  itemStyle={{
+                    color: '#fafafa',
+                    fontWeight: 600,
+                  }}
+                  labelStyle={{
+                    color: '#a1a1aa',
+                    fontWeight: 500,
                   }}
                 />
-                <Bar dataKey="value" name="Enabled Users" radius={[4, 4, 0, 0]} fill="#10b981" />
+                <Bar dataKey="value" name="Enabled Users" radius={[4, 4, 0, 0]}>
+                  {(charts.consentDistribution || []).map((entry, idx) => (
+                    <Cell key={idx} fill={entry.color || '#10b981'} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -222,11 +236,20 @@ const AdminDashboardPage = () => {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#09090b',
-                    borderColor: '#27272a',
-                    borderRadius: '0.375rem',
+                    backgroundColor: '#18181b',
+                    borderColor: '#3f3f46',
+                    borderRadius: '6px',
                     color: '#fafafa',
                     fontSize: '12px',
+                    padding: '8px 12px',
+                  }}
+                  itemStyle={{
+                    color: '#fafafa',
+                    fontWeight: 600,
+                  }}
+                  labelStyle={{
+                    color: '#a1a1aa',
+                    fontWeight: 500,
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px' }} />

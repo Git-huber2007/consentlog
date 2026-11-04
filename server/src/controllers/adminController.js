@@ -74,11 +74,11 @@ const getDashboardAnalytics = async (req, res, next) => {
 
     // Consent Distribution Pie Chart Data
     const consentDistribution = [
-      { name: 'Essential Cookies', value: categoryTotals.essential, color: '#18181b' },
+      { name: 'Essential Cookies', value: categoryTotals.essential, color: '#0f766e' },
       { name: 'Analytics Cookies', value: categoryTotals.analytics, color: '#10b981' },
-      { name: 'Marketing Cookies', value: categoryTotals.marketing, color: '#52525b' },
-      { name: 'Personalization', value: categoryTotals.personalization, color: '#059669' },
-      { name: 'Third-Party Sharing', value: categoryTotals.thirdPartySharing, color: '#a1a1aa' },
+      { name: 'Marketing Cookies', value: categoryTotals.marketing, color: '#0284c7' },
+      { name: 'Personalization', value: categoryTotals.personalization, color: '#f59e0b' },
+      { name: 'Third-Party Sharing', value: categoryTotals.thirdPartySharing, color: '#e11d48' },
     ];
 
     const statusDistribution = [

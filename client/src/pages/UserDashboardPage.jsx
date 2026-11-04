@@ -315,11 +315,20 @@ const UserDashboardPage = () => {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#111113',
-                    borderColor: '#27272A',
+                    backgroundColor: '#18181B',
+                    borderColor: '#3F3F46',
                     borderRadius: '6px',
-                    color: '#F4F4F5',
-                    fontSize: '11px',
+                    color: '#FAFAFA',
+                    fontSize: '12px',
+                    padding: '8px 12px',
+                  }}
+                  itemStyle={{
+                    color: '#FAFAFA',
+                    fontWeight: 600,
+                  }}
+                  labelStyle={{
+                    color: '#A1A1AA',
+                    fontWeight: 500,
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px' }} />
@@ -344,11 +353,20 @@ const UserDashboardPage = () => {
                 <YAxis allowDecimals={false} tick={{ fontSize: 11 }} stroke="#71717A" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#111113',
-                    borderColor: '#27272A',
+                    backgroundColor: '#18181B',
+                    borderColor: '#3F3F46',
                     borderRadius: '6px',
-                    color: '#F4F4F5',
-                    fontSize: '11px',
+                    color: '#FAFAFA',
+                    fontSize: '12px',
+                    padding: '8px 12px',
+                  }}
+                  itemStyle={{
+                    color: '#FAFAFA',
+                    fontWeight: 600,
+                  }}
+                  labelStyle={{
+                    color: '#A1A1AA',
+                    fontWeight: 500,
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px' }} />
