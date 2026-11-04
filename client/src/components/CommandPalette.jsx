@@ -62,7 +62,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
   const actions = [
     {
       id: 'nav-dashboard',
-      title: 'Go to Enterprise Telemetry Overview',
+      title: 'Go to Consent Overview',
       category: 'Navigation',
       shortcut: 'G D',
       icon: LayoutDashboard,
@@ -70,7 +70,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-prefs',
-      title: 'Open Interactive Preference Centre',
+      title: 'Open Preference Matrix',
       category: 'Navigation',
       shortcut: 'G P',
       icon: Sliders,
@@ -78,7 +78,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-audit',
-      title: 'Inspect Append-Only SHA-256 Audit Ledger',
+      title: 'Inspect SHA-256 Audit Ledger',
       category: 'Navigation',
       shortcut: 'G A',
       icon: History,
@@ -86,7 +86,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-notices',
-      title: 'Browse Versioned Privacy Notice Repository',
+      title: 'Browse Privacy Notice Repository',
       category: 'Navigation',
       shortcut: 'G N',
       icon: FileText,
@@ -94,7 +94,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'nav-diff',
-      title: 'Compare Privacy Notice Versions (v1.0 ↔ v2.0 Diff)',
+      title: 'Compare Privacy Notice Versions (v1.0 ↔ v2.0)',
       category: 'Navigation',
       shortcut: 'G C',
       icon: GitCompare,
@@ -102,23 +102,23 @@ const CommandPalette = ({ isOpen, onClose }) => {
     },
     {
       id: 'act-verify',
-      title: 'Execute Live SHA-256 Cryptographic Chain Verification',
-      category: 'Cryptographic Operations',
+      title: 'Execute Live SHA-256 Chain Verification',
+      category: 'Cryptography',
       shortcut: '⌘ V',
       icon: Lock,
       perform: runQuickChainCheck,
     },
     {
       id: 'act-dsar',
-      title: 'Download Signed DSAR Privacy Passport (JSON Bundle)',
-      category: 'Compliance Export',
+      title: 'Download Signed DSAR Privacy Passport (JSON)',
+      category: 'Export',
       shortcut: '⌘ E',
       icon: Download,
       perform: exportDsarBundle,
     },
     {
       id: 'act-theme',
-      title: `Switch Interface Theme to ${darkMode ? 'Light' : 'Dark'} Mode`,
+      title: `Switch Theme to ${darkMode ? 'Light' : 'Dark'} Mode`,
       category: 'Workspace',
       shortcut: '⌘ J',
       icon: darkMode ? Sun : Moon,
@@ -130,8 +130,8 @@ const CommandPalette = ({ isOpen, onClose }) => {
     actions.push(
       {
         id: 'admin-cmd',
-        title: 'Admin: Open CPO Governance Command Centre',
-        category: 'Administration',
+        title: 'Admin: Open Governance Command Centre',
+        category: 'Admin',
         shortcut: 'A D',
         icon: ShieldCheck,
         perform: () => navigate('/admin'),
@@ -139,15 +139,15 @@ const CommandPalette = ({ isOpen, onClose }) => {
       {
         id: 'admin-users',
         title: 'Admin: Inspect User Consent Directory',
-        category: 'Administration',
+        category: 'Admin',
         shortcut: 'A U',
         icon: Users,
         perform: () => navigate('/admin/users'),
       },
       {
         id: 'admin-tamper',
-        title: 'Admin: Launch SHA-256 Tamper Attack Simulator',
-        category: 'Administration',
+        title: 'Admin: Launch SHA-256 Tamper Lab',
+        category: 'Admin',
         shortcut: 'A T',
         icon: Terminal,
         perform: () => navigate('/admin/integrity'),
@@ -200,15 +200,15 @@ const CommandPalette = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-950/70 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-zinc-950/70 backdrop-blur-xs"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-xl bg-white dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-800 rounded-lg shadow-2xl overflow-hidden"
+        className="w-full max-w-xl bg-white dark:bg-[#111113] border border-zinc-300 dark:border-zinc-800 rounded-lg shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800">
-          <Search className="w-4 h-4 text-slate-400 mr-3 shrink-0" />
+        <div className="flex items-center px-4 py-3 border-b border-zinc-200 dark:border-zinc-800">
+          <Search className="w-4 h-4 text-zinc-400 mr-3 shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -217,18 +217,18 @@ const CommandPalette = ({ isOpen, onClose }) => {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
-            placeholder="Type a command or jump to any governance module..."
-            className="w-full bg-transparent text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none"
+            placeholder="Type a command or jump to any module..."
+            className="w-full bg-transparent text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none"
           />
-          <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-semibold text-slate-400 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded">
+          <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-semibold text-zinc-400 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded">
             ESC
           </kbd>
         </div>
 
-        <div className="max-h-80 overflow-y-auto p-1.5 divide-y divide-slate-100 dark:divide-slate-900">
+        <div className="max-h-80 overflow-y-auto p-1.5 divide-y divide-zinc-100 dark:divide-zinc-900">
           {filtered.length === 0 ? (
-            <div className="py-8 text-center text-xs text-slate-400">
-              No matching governance commands found.
+            <div className="py-8 text-center text-xs text-zinc-500">
+              No matching commands found.
             </div>
           ) : (
             filtered.map((item, idx) => {
@@ -245,23 +245,23 @@ const CommandPalette = ({ isOpen, onClose }) => {
                   }}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-left text-xs transition-colors ${
                     active
-                      ? 'bg-indigo-600 text-white'
-                      : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900'
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950'
+                      : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <Icon
                       className={`w-4 h-4 shrink-0 ${
-                        active ? 'text-white' : 'text-slate-400 dark:text-slate-500'
+                        active ? 'text-current' : 'text-zinc-400 dark:text-zinc-500'
                       }`}
                     />
                     <div className="truncate">
                       <span className="font-medium">{item.title}</span>
                       <span
-                        className={`ml-2 text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded ${
+                        className={`ml-2 text-[10px] px-1.5 py-0.5 rounded ${
                           active
-                            ? 'bg-indigo-700 text-indigo-100'
-                            : 'bg-slate-100 dark:bg-slate-800/90 text-slate-500 dark:text-slate-400'
+                            ? 'bg-white/15 text-current dark:bg-zinc-950/15'
+                            : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400'
                         }`}
                       >
                         {item.category}
@@ -272,8 +272,8 @@ const CommandPalette = ({ isOpen, onClose }) => {
                     <kbd
                       className={`px-1.5 py-0.5 font-mono text-[10px] rounded ${
                         active
-                          ? 'bg-indigo-700 text-indigo-100'
-                          : 'bg-slate-100 dark:bg-slate-900 text-slate-400 border border-slate-200 dark:border-slate-800'
+                          ? 'bg-white/15 text-current dark:bg-zinc-950/15'
+                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800'
                       }`}
                     >
                       {item.shortcut}
@@ -286,9 +286,9 @@ const CommandPalette = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        <div className="px-4 py-2 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-          <span>↑↓ Navigate • Enter Execute</span>
-          <span>CONSENTLOG COMMAND ENGINE v2.0</span>
+        <div className="px-4 py-2 bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+          <span>↑↓ Navigate · Enter Execute</span>
+          <span>ConsentLog</span>
         </div>
       </div>
     </div>

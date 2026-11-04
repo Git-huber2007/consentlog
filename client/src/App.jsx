@@ -25,8 +25,8 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-500 text-sm font-medium">
-        Initializing ConsentLog Enterprise Security Session...
+      <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] dark:bg-[#09090B] text-zinc-500 text-xs font-mono">
+        Initializing session...
       </div>
     );
   }
@@ -116,4 +116,3 @@ const App = () => {
 };
 
 export default App;
-

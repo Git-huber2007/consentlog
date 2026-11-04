@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Sparkles,
-  FileText,
-  CheckCircle2,
   Plus,
   GitCompare,
   Power,
-  Calendar,
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -17,7 +13,7 @@ const PrivacyNoticeAdminPage = () => {
   const { refreshSession } = useAuth();
   const { addToast } = useToast();
   const [notices, setNotices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [activatingId, setActivatingId] = useState(null);
 
@@ -87,7 +83,6 @@ Existing users are notified via the Notice Update Banner and may compare clause 
       addToast(res.data.message, 'success', 'Notice Version Published');
       await fetchNotices();
       await refreshSession();
-      // Increment suggested version for convenience
       setFormData((prev) => ({
         ...prev,
         version: `${(parseFloat(prev.version) + 0.1).toFixed(1)}`,
@@ -114,49 +109,40 @@ Existing users are notified via the Notice Update Banner and may compare clause 
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">
-              Privacy Notice Administration & Lifecycle Control
-            </h1>
-          </div>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Publish new versioned privacy notices and control policy activation. Activating a new
-            version never assumes automatic user acceptance—users are prompted via the Notice
-            Renewal Banner.
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            Policy Administration
+          </h1>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl">
+            Publish versioned privacy notices and control policy activation. Activating a new
+            version never assumes automatic user acceptance.
           </p>
         </div>
 
         <Link
           to="/notices/compare"
-          className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-xs font-bold flex items-center gap-1.5 self-start sm:self-center"
+          className="px-3.5 py-2 rounded-md bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900 flex items-center gap-1.5 self-start sm:self-auto"
         >
-          <GitCompare className="w-4 h-4 text-indigo-500" />
+          <GitCompare className="w-3.5 h-3.5" />
           <span>Compare Versions</span>
         </Link>
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-8">
+      <div className="grid lg:grid-cols-12 gap-6">
         {/* Publish New Notice Form */}
         <div className="lg:col-span-6">
-          <form
-            onSubmit={handlePublishNotice}
-            className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4"
-          >
-            <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Plus className="w-4 h-4 text-indigo-500" />
+          <form onSubmit={handlePublishNotice} className="enterprise-card p-6 space-y-4">
+            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+              <Plus className="w-4 h-4" />
               <span>Publish New Privacy Notice Version</span>
             </h2>
 
             <div className="grid sm:grid-cols-3 gap-3">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
+                <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                   Notice Title
                 </label>
                 <input
@@ -164,11 +150,11 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs"
+                  className="w-full px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs text-zinc-900 dark:text-zinc-100 outline-none"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
+                <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                   Version Number
                 </label>
                 <input
@@ -177,13 +163,13 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                   value={formData.version}
                   onChange={(e) => setFormData({ ...formData, version: e.target.value })}
                   placeholder="e.g., 2.1"
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs font-mono font-bold"
+                  className="w-full px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs font-mono font-bold text-zinc-900 dark:text-zinc-100 outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
+              <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                 Summary of Changes
               </label>
               <input
@@ -191,37 +177,37 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                 required
                 value={formData.summaryOfChanges}
                 onChange={(e) => setFormData({ ...formData, summaryOfChanges: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs"
+                className="w-full px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs text-zinc-900 dark:text-zinc-100 outline-none"
               />
             </div>
 
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
-                  New Clause Heading (For Diff Comparison)
+                <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                  New Clause Heading (Diff Engine)
                 </label>
                 <input
                   type="text"
                   value={formData.clauseHeading}
                   onChange={(e) => setFormData({ ...formData, clauseHeading: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs"
+                  className="w-full px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs text-zinc-900 dark:text-zinc-100 outline-none"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
+                <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                   New Clause Provision Text
                 </label>
                 <input
                   type="text"
                   value={formData.clauseBody}
                   onChange={(e) => setFormData({ ...formData, clauseBody: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs"
+                  className="w-full px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs text-zinc-900 dark:text-zinc-100 outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-500 mb-1">
+              <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                 Full Verbatim Notice Content
               </label>
               <textarea
@@ -229,29 +215,29 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                 required
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs font-mono"
+                className="w-full px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-xs font-mono text-zinc-900 dark:text-zinc-100 outline-none"
               />
             </div>
 
             <div className="flex flex-wrap items-center gap-6 pt-1 text-xs">
-              <label className="flex items-center gap-2 cursor-pointer font-semibold">
+              <label className="flex items-center gap-2 cursor-pointer font-medium text-zinc-700 dark:text-zinc-300">
                 <input
                   type="checkbox"
                   checked={formData.requiresRenewedConsent}
                   onChange={(e) =>
                     setFormData({ ...formData, requiresRenewedConsent: e.target.checked })
                   }
-                  className="rounded text-indigo-600"
+                  className="rounded border-zinc-300"
                 />
                 <span>Require Renewed User Consent</span>
               </label>
 
-              <label className="flex items-center gap-2 cursor-pointer font-semibold">
+              <label className="flex items-center gap-2 cursor-pointer font-medium text-zinc-700 dark:text-zinc-300">
                 <input
                   type="checkbox"
                   checked={formData.isActive}
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                  className="rounded text-indigo-600"
+                  className="rounded border-zinc-300"
                 />
                 <span>Set as Active Policy Immediately</span>
               </label>
@@ -260,7 +246,7 @@ Existing users are notified via the Notice Update Banner and may compare clause 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-lg shadow-indigo-600/20 transition-all"
+              className="w-full py-2.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 transition-opacity"
             >
               {submitting
                 ? 'Publishing & Logging Audit Event...'
@@ -270,30 +256,28 @@ Existing users are notified via the Notice Update Banner and may compare clause 
         </div>
 
         {/* Existing Notice Versions & Activation Control */}
-        <div className="lg:col-span-6 space-y-4">
-          <h2 className="text-base font-bold text-slate-900 dark:text-white">
-            Existing Notice Versions & Activation Status
+        <div className="lg:col-span-6 space-y-3">
+          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+            Published Versions & Activation Status
           </h2>
 
           {notices.map((n) => (
             <div
               key={n._id}
-              className={`p-5 rounded-2xl bg-white dark:bg-slate-900 border shadow-sm space-y-3 ${
-                n.isActive
-                  ? 'border-emerald-500 ring-2 ring-emerald-500/15'
-                  : 'border-slate-200/80 dark:border-slate-800'
+              className={`enterprise-card p-5 space-y-3 ${
+                n.isActive ? 'border-zinc-900 dark:border-zinc-100' : ''
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="font-mono font-extrabold text-base text-indigo-600 dark:text-indigo-400">
-                    Version {n.version}
+                  <span className="font-mono font-bold text-sm text-zinc-900 dark:text-zinc-100">
+                    v{n.version}
                   </span>
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                    className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
                       n.isActive
-                        ? 'bg-emerald-500 text-white'
-                        : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                        ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20'
+                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
                     }`}
                   >
                     {n.isActive ? 'Active Policy' : n.status}
@@ -304,9 +288,9 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                   <button
                     onClick={() => handleActivateNotice(n._id, n.version)}
                     disabled={activatingId === n._id}
-                    className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm"
+                    className="px-3 py-1.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold flex items-center gap-1.5 hover:opacity-90"
                   >
-                    <Power className="w-3.5 h-3.5" />
+                    <Power className="w-3 h-3" />
                     <span>
                       {activatingId === n._id ? 'Activating...' : `Activate v${n.version}`}
                     </span>
@@ -314,14 +298,14 @@ Existing users are notified via the Notice Update Banner and may compare clause 
                 )}
               </div>
 
-              <p className="text-sm font-bold text-slate-900 dark:text-white">{n.title}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{n.summaryOfChanges}</p>
+              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{n.title}</p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">{n.summaryOfChanges}</p>
 
-              <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+              <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
                 <span>Effective: {new Date(n.effectiveDate).toLocaleDateString()}</span>
                 <span>Clauses: {n.clauses?.length || 0}</span>
                 <span>
-                  Renewed Consent Required: <strong>{n.requiresRenewedConsent ? 'Yes' : 'No'}</strong>
+                  Renewed Consent: <strong>{n.requiresRenewedConsent ? 'Yes' : 'No'}</strong>
                 </span>
               </div>
             </div>
@@ -333,4 +317,3 @@ Existing users are notified via the Notice Update Banner and may compare clause 
 };
 
 export default PrivacyNoticeAdminPage;
-

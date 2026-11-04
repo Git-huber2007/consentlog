@@ -74,17 +74,17 @@ const getDashboardAnalytics = async (req, res, next) => {
 
     // Consent Distribution Pie Chart Data
     const consentDistribution = [
-      { name: 'Essential Cookies', value: categoryTotals.essential, color: '#4f46e5' },
-      { name: 'Analytics Cookies', value: categoryTotals.analytics, color: '#0ea5e9' },
-      { name: 'Marketing Cookies', value: categoryTotals.marketing, color: '#8b5cf6' },
-      { name: 'Personalization', value: categoryTotals.personalization, color: '#10b981' },
-      { name: 'Third-Party Sharing', value: categoryTotals.thirdPartySharing, color: '#f59e0b' },
+      { name: 'Essential Cookies', value: categoryTotals.essential, color: '#18181b' },
+      { name: 'Analytics Cookies', value: categoryTotals.analytics, color: '#10b981' },
+      { name: 'Marketing Cookies', value: categoryTotals.marketing, color: '#52525b' },
+      { name: 'Personalization', value: categoryTotals.personalization, color: '#059669' },
+      { name: 'Third-Party Sharing', value: categoryTotals.thirdPartySharing, color: '#a1a1aa' },
     ];
 
     const statusDistribution = [
       { name: 'Active / Granted', value: activeConsentsCount, color: '#10b981' },
-      { name: 'Withdrawn', value: Math.max(withdrawnConsentsCount, auditWithdrawalsCount), color: '#ef4444' },
-      { name: 'Opted-Out (Default)', value: Math.max(0, disabledConsentsCount - withdrawnConsentsCount), color: '#64748b' },
+      { name: 'Withdrawn', value: Math.max(withdrawnConsentsCount, auditWithdrawalsCount), color: '#f43f5e' },
+      { name: 'Opted-Out (Default)', value: Math.max(0, disabledConsentsCount - withdrawnConsentsCount), color: '#71717a' },
     ];
 
     // Build 7-day Consent Activity Line Chart Data from actual ConsentLog records

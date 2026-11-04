@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ShieldCheck,
-  Users,
-  FileText,
-  Lock,
-  History,
-  CheckCircle2,
-  XCircle,
   RefreshCw,
   ArrowUpRight,
-  Database,
-  Sparkles,
-  GitCompare,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -68,11 +58,11 @@ const AdminDashboardPage = () => {
   if (loading && !data) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-28 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
-        <div className="grid grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-28 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
-          ))}
+        <div className="h-20 bg-zinc-200 dark:bg-zinc-900 rounded-lg" />
+        <div className="h-24 bg-zinc-200 dark:bg-zinc-900 rounded-lg" />
+        <div className="grid grid-cols-2 gap-6">
+          <div className="h-64 bg-zinc-200 dark:bg-zinc-900 rounded-lg" />
+          <div className="h-64 bg-zinc-200 dark:bg-zinc-900 rounded-lg" />
         </div>
       </div>
     );
@@ -82,24 +72,24 @@ const AdminDashboardPage = () => {
   const charts = data?.charts || {};
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Admin Command Header */}
-      <div className="bg-navy-900 text-white p-6 rounded-2xl border border-slate-800 shadow-lg flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400 text-slate-950">
-              RBAC Protected: Admin Only
+          <div className="flex items-center gap-2 mb-1">
+            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950">
+              CPO Governance
             </span>
-            <span className="text-xs font-mono text-indigo-300">
-              DB Mode: {data?.dbStatus?.mode} (ACID ReplicaSet: {String(data?.dbStatus?.isReplicaSet)})
+            <span className="text-xs font-mono text-zinc-500">
+              DB: {data?.dbStatus?.mode} (ReplicaSet: {String(data?.dbStatus?.isReplicaSet)})
             </span>
           </div>
-          <h1 className="text-2xl font-extrabold mt-2">
-            Chief Privacy Officer — Enterprise Governance Command Centre
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            Governance Command Centre
           </h1>
-          <p className="text-xs text-slate-300 mt-1">
-            Full visibility across registered users, consent snapshots, privacy notice versions, and
-            cryptographic SHA-256 audit chain integrity.
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+            Organization-wide consent telemetry, policy version lineage, and cryptographic SHA-256
+            audit chain verification.
           </p>
         </div>
 
@@ -107,128 +97,112 @@ const AdminDashboardPage = () => {
           <button
             onClick={handleRunVerification}
             disabled={verifying}
-            className="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold shadow-md flex items-center gap-1.5 transition-all"
+            className="px-3.5 py-2 rounded-md bg-white dark:bg-[#111113] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-xs font-medium flex items-center gap-1.5 transition-colors"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${verifying ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 text-emerald-500 ${verifying ? 'animate-spin' : ''}`} />
             <span>{verifying ? 'Scanning Ledger...' : 'Verify SHA-256 Chain'}</span>
           </button>
           <Link
             to="/admin/notices"
-            className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md flex items-center gap-1.5"
+            className="px-3.5 py-2 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 flex items-center gap-1.5 transition-opacity"
           >
-            <Sparkles className="w-3.5 h-3.5" />
             <span>Publish Privacy Notice</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
 
-      {/* Quick Admin Navigation Cards */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Unified 4-Column Admin Telemetry Strip */}
+      <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800/80">
         <Link
           to="/admin/users"
-          className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 shadow-sm transition-all flex items-center justify-between"
+          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <div>
-            <p className="text-xs font-bold uppercase text-slate-400">User Consent Directory</p>
-            <p className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
-              {metrics.totalRegisteredUsers} Users
-            </p>
-            <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold mt-1">
-              Inspect User Preferences →
-            </p>
-          </div>
-          <Users className="w-8 h-8 text-indigo-500" />
+          <span className="text-xs text-zinc-500 block">Registered Subjects</span>
+          <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">
+            {metrics.totalRegisteredUsers}
+          </p>
+          <span className="text-[11px] text-zinc-500 mt-1 inline-block">
+            Inspect User Directory →
+          </span>
         </Link>
 
         <Link
           to="/admin/integrity"
-          className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 shadow-sm transition-all flex items-center justify-between"
+          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <div>
-            <p className="text-xs font-bold uppercase text-slate-400">Audit Chain Status</p>
-            <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">
-              {metrics.auditIntegrityStatus}
-            </p>
-            <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
-              {metrics.totalAuditEvents} Chained Blocks →
-            </p>
-          </div>
-          <Lock className="w-8 h-8 text-emerald-500" />
+          <span className="text-xs text-zinc-500 block">Audit Chain Status</span>
+          <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
+            {metrics.auditIntegrityStatus}
+          </p>
+          <span className="text-[11px] text-zinc-500 mt-1 inline-block font-mono">
+            {metrics.totalAuditEvents} blocks →
+          </span>
         </Link>
 
         <Link
           to="/admin/notices"
-          className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 shadow-sm transition-all flex items-center justify-between"
+          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <div>
-            <p className="text-xs font-bold uppercase text-slate-400">Active Policy Version</p>
-            <p className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
-              Version {metrics.currentNoticeVersion}
-            </p>
-            <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">
-              Manage Activation →
-            </p>
-          </div>
-          <FileText className="w-8 h-8 text-blue-500" />
+          <span className="text-xs text-zinc-500 block">Active Policy Version</span>
+          <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1">
+            v{metrics.currentNoticeVersion}
+          </p>
+          <span className="text-[11px] text-zinc-500 mt-1 inline-block">
+            Manage Activation →
+          </span>
         </Link>
 
         <Link
           to="/notices/compare"
-          className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-violet-500 shadow-sm transition-all flex items-center justify-between"
+          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
         >
-          <div>
-            <p className="text-xs font-bold uppercase text-slate-400">Policy Diff Engine</p>
-            <p className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
-              v1.0 ↔ v2.0
-            </p>
-            <p className="text-xs text-violet-600 dark:text-violet-400 font-semibold mt-1">
-              Side-by-Side Comparison →
-            </p>
-          </div>
-          <GitCompare className="w-8 h-8 text-violet-500" />
+          <span className="text-xs text-zinc-500 block">Policy Diff Engine</span>
+          <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1">
+            v1.0 ↔ v2.0
+          </p>
+          <span className="text-[11px] text-zinc-500 mt-1 inline-block">
+            Side-by-Side Diff →
+          </span>
         </Link>
       </div>
 
       {/* Charts Row */}
       <div className="grid lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-6 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
+        <div className="lg:col-span-6 enterprise-card p-5">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-0.5">
             Preference Category Opt-In Volume
           </h3>
-          <p className="text-xs text-slate-500 mb-4">
+          <p className="text-xs text-zinc-500 mb-4">
             Active user consents per category across the organization
           </p>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={charts.consentDistribution || []}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
-                <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#64748b" />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} stroke="#64748b" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" opacity={0.2} />
+                <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="#71717a" />
+                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} stroke="#71717a" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#0f172a',
-                    borderColor: '#1e293b',
-                    borderRadius: '0.75rem',
-                    color: '#f8fafc',
+                    backgroundColor: '#09090b',
+                    borderColor: '#27272a',
+                    borderRadius: '0.375rem',
+                    color: '#fafafa',
                     fontSize: '12px',
                   }}
                 />
-                <Bar dataKey="value" name="Enabled Users" radius={[6, 6, 0, 0]}>
-                  {(charts.consentDistribution || []).map((entry, idx) => (
-                    <Cell key={idx} fill={entry.color} />
-                  ))}
-                </Bar>
+                <Bar dataKey="value" name="Enabled Users" radius={[4, 4, 0, 0]} fill="#10b981" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="lg:col-span-6 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
-            Global Consent Posture (Active vs Withdrawn vs Default Opt-Out)
+        <div className="lg:col-span-6 enterprise-card p-5">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-0.5">
+            Global Consent Posture
           </h3>
-          <p className="text-xs text-slate-500 mb-4">
-            Real-time distribution of preference states
+          <p className="text-xs text-zinc-500 mb-4">
+            Distribution of granted, withdrawn, and default opt-out states
           </p>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -248,10 +222,10 @@ const AdminDashboardPage = () => {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#0f172a',
-                    borderColor: '#1e293b',
-                    borderRadius: '0.75rem',
-                    color: '#f8fafc',
+                    backgroundColor: '#09090b',
+                    borderColor: '#27272a',
+                    borderRadius: '0.375rem',
+                    color: '#fafafa',
                     fontSize: '12px',
                   }}
                 />
@@ -263,57 +237,63 @@ const AdminDashboardPage = () => {
       </div>
 
       {/* System Audit Stream */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
-        <div className="flex items-center justify-between">
+      <div className="enterprise-card overflow-hidden">
+        <div className="p-5 border-b border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Organization-Wide System & User Activity Stream
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              Organization-Wide Activity Stream
             </h3>
-            <p className="text-xs text-slate-500">
-              Includes both user-initiated preference updates and admin policy sync events
+            <p className="text-xs text-zinc-500 mt-0.5">
+              User-initiated preference updates and administrative policy sync events
             </p>
           </div>
           <Link
             to="/audit-history"
-            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
+            className="text-xs font-medium text-zinc-900 dark:text-zinc-100 hover:opacity-80"
           >
-            Open Full Audit Explorer →
+            Full Audit Explorer →
           </Link>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold uppercase text-slate-400">
-                <th className="py-2.5 px-3">Audit ID</th>
-                <th className="py-2.5 px-3">User</th>
-                <th className="py-2.5 px-3">Category</th>
-                <th className="py-2.5 px-3">Transition</th>
-                <th className="py-2.5 px-3">Action</th>
-                <th className="py-2.5 px-3">Source</th>
-                <th className="py-2.5 px-3">SHA-256 Event Hash</th>
+              <tr className="bg-zinc-50/70 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800/80 text-[11px] font-medium text-zinc-500">
+                <th className="py-2.5 px-4">Audit ID</th>
+                <th className="py-2.5 px-4">User</th>
+                <th className="py-2.5 px-4">Category</th>
+                <th className="py-2.5 px-4">Transition</th>
+                <th className="py-2.5 px-4">Action</th>
+                <th className="py-2.5 px-4">Source</th>
+                <th className="py-2.5 px-4">SHA-256 Digest</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800">
+            <tbody className="divide-y divide-zinc-200/60 dark:divide-zinc-800/60">
               {(data?.recentAuditActivity || []).map((ev) => (
-                <tr key={ev.auditId}>
-                  <td className="py-2.5 px-3 font-mono font-bold text-indigo-600 dark:text-indigo-400">
+                <tr key={ev.auditId} className="hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40">
+                  <td className="py-2.5 px-4 font-mono font-semibold text-zinc-900 dark:text-zinc-100">
                     <Link to={`/audit-history/${ev.auditId}`} className="hover:underline">
                       {ev.auditId}
                     </Link>
                   </td>
-                  <td className="py-2.5 px-3 font-semibold">{ev.userId?.name || 'System'}</td>
-                  <td className="py-2.5 px-3">{ev.preferenceName}</td>
-                  <td className="py-2.5 px-3 font-mono">
+                  <td className="py-2.5 px-4 font-medium text-zinc-800 dark:text-zinc-200">
+                    {ev.userId?.name || 'System'}
+                  </td>
+                  <td className="py-2.5 px-4 text-zinc-600 dark:text-zinc-400">
+                    {ev.preferenceName}
+                  </td>
+                  <td className="py-2.5 px-4 font-mono text-zinc-600 dark:text-zinc-400">
                     {ev.previousValue} → {ev.newValue}
                   </td>
-                  <td className="py-2.5 px-3 font-semibold">{ev.action}</td>
-                  <td className="py-2.5 px-3">
-                    <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono text-[10px]">
+                  <td className="py-2.5 px-4 font-medium text-zinc-900 dark:text-zinc-100">
+                    {ev.action}
+                  </td>
+                  <td className="py-2.5 px-4">
+                    <span className="px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[10px] text-zinc-600 dark:text-zinc-400">
                       {ev.source}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 font-mono text-[11px] text-slate-400">
+                  <td className="py-2.5 px-4 font-mono text-[11px] text-zinc-500">
                     {ev.eventHash?.slice(0, 20)}...
                   </td>
                 </tr>
@@ -327,4 +307,3 @@ const AdminDashboardPage = () => {
 };
 
 export default AdminDashboardPage;
-

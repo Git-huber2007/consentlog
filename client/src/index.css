@@ -7,26 +7,47 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.011em;
+    letter-spacing: -0.012em;
+    background-color: #FAFAFA;
+    color: #09090B;
+  }
+
+  .dark body {
+    background-color: #09090B;
+    color: #F4F4F5;
   }
 
   h1, h2, h3, h4 {
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
   }
-}
 
-/* Precision Architectural Grid Background */
-.bg-architectural-grid {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
-}
+  p, li, dd {
+    text-wrap: pretty;
+  }
 
-.dark .bg-architectural-grid {
-  background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  button:not(:disabled) {
+    transition-property: transform, background-color, border-color, color, box-shadow, opacity;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  button:not(:disabled):active {
+    transform: scale(0.985);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(16, 185, 129, 0.65);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 /* Tabular numeric precision for all metrics and timestamps */
@@ -34,9 +55,9 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Enterprise Hairline Card Surface */
+/* Clean Structural Surface */
 .enterprise-card {
-  @apply bg-white dark:bg-[#0D1322] border border-slate-200/90 dark:border-slate-800/90 rounded-lg shadow-[0_1px_2px_rgba(15,23,42,0.03)];
+  @apply bg-white dark:bg-[#111113] border border-zinc-200/80 dark:border-zinc-800/80 rounded-lg;
 }
 
 /* Custom sleek scrollbar */
@@ -50,10 +71,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.3);
+  background: rgba(113, 113, 122, 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(79, 70, 229, 0.6);
+  background: rgba(16, 185, 129, 0.55);
 }

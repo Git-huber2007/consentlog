@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  FileText,
   CheckCircle2,
-  Clock,
   GitCompare,
-  ShieldCheck,
-  AlertTriangle,
-  Calendar,
-  BookOpen,
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -63,29 +57,24 @@ const PrivacyNoticeCentrePage = () => {
   if (loading && notices.length === 0) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-24 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+        <div className="h-20 bg-zinc-200 dark:bg-zinc-900 rounded-lg" />
         <div className="grid lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-4 h-96 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
-          <div className="lg:col-span-8 h-96 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
+          <div className="lg:col-span-4 h-96 bg-zinc-200 dark:bg-zinc-900 rounded-lg" />
+          <div className="lg:col-span-8 h-96 bg-zinc-200 dark:bg-zinc-900 rounded-lg" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
         <div>
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
-              <FileText className="w-5 h-5" />
-            </div>
-            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Versioned Privacy Notice Repository
-            </h1>
-          </div>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            Privacy Notice Repository
+          </h1>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
             Review active and historical privacy notices (v1.0, v1.1, v2.0), inspect clause-level
             change summaries, and verify your explicit acceptance status.
           </p>
@@ -93,18 +82,18 @@ const PrivacyNoticeCentrePage = () => {
 
         <Link
           to="/notices/compare"
-          className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-500/20 flex items-center gap-2 self-start lg:self-center"
+          className="px-3.5 py-2 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold hover:opacity-90 flex items-center gap-2 self-start lg:self-auto"
         >
-          <GitCompare className="w-4 h-4" />
+          <GitCompare className="w-3.5 h-3.5" />
           <span>Compare Versions Side-by-Side</span>
         </Link>
       </div>
 
       <div className="grid lg:grid-cols-12 gap-6">
         {/* Left Column: Version History List */}
-        <div className="lg:col-span-4 space-y-4">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 px-1">
-            Published Notice Lineage ({notices.length} Versions)
+        <div className="lg:col-span-4 space-y-3">
+          <h2 className="text-xs font-semibold text-zinc-500 px-1">
+            Published Lineage ({notices.length} versions)
           </h2>
 
           {notices.map((notice) => {
@@ -116,31 +105,31 @@ const PrivacyNoticeCentrePage = () => {
                 key={notice.version}
                 type="button"
                 onClick={() => setSelectedNotice(notice)}
-                className={`w-full text-left p-5 rounded-2xl border transition-all ${
+                className={`w-full text-left p-4 rounded-lg border transition-colors ${
                   isSelected
-                    ? 'bg-white dark:bg-slate-900 border-indigo-600 ring-2 ring-indigo-600/15 shadow-md'
-                    : 'bg-white/70 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-900'
+                    ? 'bg-white dark:bg-[#111113] border-zinc-900 dark:border-zinc-100 shadow-xs'
+                    : 'bg-white/60 dark:bg-[#111113]/60 border-zinc-200 dark:border-zinc-800/80 hover:border-zinc-400 dark:hover:border-zinc-700'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-extrabold text-base text-indigo-600 dark:text-indigo-400">
+                    <span className="font-mono font-bold text-sm text-zinc-900 dark:text-zinc-100">
                       v{notice.version}
                     </span>
                     {notice.isActive && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500 text-white">
-                        Currently Active
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                        Active
                       </span>
                     )}
                   </div>
 
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    className={`text-[10px] font-medium px-2 py-0.5 rounded ${
                       accepted
-                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'
+                        ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
                         : notice.isActive
-                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                        : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                        ? 'bg-amber-500/10 text-amber-700 dark:text-amber-300'
+                        : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'
                     }`}
                   >
                     {accepted
@@ -151,18 +140,18 @@ const PrivacyNoticeCentrePage = () => {
                   </span>
                 </div>
 
-                <p className="text-sm font-bold text-slate-900 dark:text-white mt-2">
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mt-2">
                   {notice.title}
                 </p>
 
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2">
                   {notice.summaryOfChanges}
                 </p>
 
-                <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                  <span>Effective: {new Date(notice.effectiveDate).toLocaleDateString()}</span>
+                <div className="mt-3 pt-2.5 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+                  <span>Effective {new Date(notice.effectiveDate).toLocaleDateString()}</span>
                   {accepted && notice.userAcceptance?.acceptedAt && (
-                    <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                    <span className="text-emerald-600 dark:text-emerald-400">
                       Signed {new Date(notice.userAcceptance.acceptedAt).toLocaleDateString()}
                     </span>
                   )}
@@ -175,22 +164,22 @@ const PrivacyNoticeCentrePage = () => {
         {/* Right Column: Selected Notice Full Reader */}
         <div className="lg:col-span-8">
           {selectedNotice && (
-            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div className="enterprise-card overflow-hidden">
               {/* Top Reader Header */}
-              <div className="p-6 bg-navy-900 text-white space-y-4">
+              <div className="p-6 bg-zinc-900 dark:bg-zinc-950 text-white border-b border-zinc-800 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-1 rounded-lg bg-indigo-500/20 border border-indigo-400/30 font-mono font-bold text-xs text-indigo-300">
-                      VERSION {selectedNotice.version}
+                  <div className="flex items-center gap-2.5">
+                    <span className="px-2.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 font-mono font-semibold text-xs text-zinc-200">
+                      v{selectedNotice.version}
                     </span>
-                    <span className="text-xs text-slate-300">
-                      Status: <strong>{selectedNotice.status}</strong>
+                    <span className="text-xs text-zinc-400">
+                      Status: <strong className="text-zinc-100">{selectedNotice.status}</strong>
                     </span>
                   </div>
 
                   {selectedNotice.userAcceptance?.accepted ? (
-                    <div className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" />
+                    <div className="px-3 py-1 rounded bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>
                         Accepted on{' '}
                         {new Date(selectedNotice.userAcceptance.acceptedAt).toLocaleString()}
@@ -200,9 +189,9 @@ const PrivacyNoticeCentrePage = () => {
                     <button
                       onClick={() => handleAcknowledge(selectedNotice.version)}
                       disabled={acknowledging}
-                      className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold shadow-lg flex items-center gap-1.5 transition-all disabled:opacity-50"
+                      className="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors disabled:opacity-50"
                     >
-                      <CheckCircle2 className="w-4 h-4" />
+                      <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>
                         {acknowledging
                           ? 'Recording Acceptance...'
@@ -212,38 +201,32 @@ const PrivacyNoticeCentrePage = () => {
                   )}
                 </div>
 
-                <h2 className="text-xl sm:text-2xl font-extrabold text-white">
-                  {selectedNotice.title}
-                </h2>
+                <h2 className="text-xl font-bold text-white">{selectedNotice.title}</h2>
 
-                <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-1">
+                <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-400 font-mono">
                   <span>
-                    Published:{' '}
-                    <strong>{new Date(selectedNotice.publicationDate).toLocaleDateString()}</strong>
+                    Published: {new Date(selectedNotice.publicationDate).toLocaleDateString()}
                   </span>
-                  <span>•</span>
+                  <span>·</span>
                   <span>
-                    Effective Date:{' '}
-                    <strong>{new Date(selectedNotice.effectiveDate).toLocaleDateString()}</strong>
+                    Effective: {new Date(selectedNotice.effectiveDate).toLocaleDateString()}
                   </span>
-                  <span>•</span>
-                  <span>
-                    Author: <strong>{selectedNotice.publishedBy}</strong>
-                  </span>
+                  <span>·</span>
+                  <span>Author: {selectedNotice.publishedBy}</span>
                 </div>
               </div>
 
               {/* Change Summary & Highlights */}
               <div className="p-6 space-y-6">
-                <div className="p-4 rounded-xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/70 space-y-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
-                    Executive Summary of Changes (v{selectedNotice.version})
+                <div className="p-4 rounded-md bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 space-y-2">
+                  <h3 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
+                    Summary of Changes (v{selectedNotice.version})
                   </h3>
-                  <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
                     {selectedNotice.summaryOfChanges}
                   </p>
                   {selectedNotice.highlights && selectedNotice.highlights.length > 0 && (
-                    <ul className="pt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside">
+                    <ul className="pt-1 space-y-1 text-xs text-zinc-600 dark:text-zinc-400 list-disc list-inside">
                       {selectedNotice.highlights.map((h, i) => (
                         <li key={i}>{h}</li>
                       ))}
@@ -254,23 +237,23 @@ const PrivacyNoticeCentrePage = () => {
                 {/* Structured Clauses */}
                 {selectedNotice.clauses && selectedNotice.clauses.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <h3 className="text-xs font-semibold text-zinc-500">
                       Structured Regulatory Clauses ({selectedNotice.clauses.length})
                     </h3>
                     {selectedNotice.clauses.map((clause) => (
                       <div
                         key={clause.clauseId}
-                        className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-1.5"
+                        className="p-4 rounded-md bg-zinc-50/70 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800/80 space-y-1.5"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-slate-900 dark:text-white">
+                          <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
                             {clause.heading}
                           </span>
-                          <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                            {clause.clauseId} • {clause.category}
+                          <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-zinc-200/70 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                            {clause.clauseId} · {clause.category}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                           {clause.body}
                         </p>
                       </div>
@@ -280,10 +263,10 @@ const PrivacyNoticeCentrePage = () => {
 
                 {/* Full Verbatim Legal Text */}
                 <div className="space-y-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Full Verbatim Notice Document
+                  <h3 className="text-xs font-semibold text-zinc-500">
+                    Verbatim Notice Document
                   </h3>
-                  <pre className="p-4 rounded-xl bg-slate-950 text-slate-200 font-mono text-xs whitespace-pre-wrap leading-relaxed border border-slate-800">
+                  <pre className="p-4 rounded-md bg-zinc-950 text-zinc-200 font-mono text-xs whitespace-pre-wrap leading-relaxed border border-zinc-800">
                     {selectedNotice.content}
                   </pre>
                 </div>
@@ -297,4 +280,3 @@ const PrivacyNoticeCentrePage = () => {
 };
 
 export default PrivacyNoticeCentrePage;
-
