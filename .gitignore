@@ -1,0 +1,11 @@
+node_modules/
+.mongodb-data/
+dist/
+build/
+.env
+*.log
+.DS_Store
+desktop.ini
+Thumbs.db
+
+
