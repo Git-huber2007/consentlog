@@ -31,69 +31,19 @@
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ System Architecture (Interactive)
 
-ConsentLog employs a defense-in-depth architecture with clear boundaries between the client interface, gateway authentication, transactional privacy controllers, append-only cryptographic auditing, and persistent document storage:
+[![ConsentLog Interactive Architecture](architecture/architecture-diagram.png)](https://git-huber2007.github.io/consentlog/)
 
-```mermaid
-flowchart TD
-    subgraph ClientTier["1. Frontend Web Tier (React 18 + Vite)"]
-        Browser["👤 Desktop & Mobile Users"]
-        SPA["💻 React 18 SPA (Port 5173)<br/>Vite · Tailwind · React Router"]
-        AuthContext["⚡ Auth & Notice Context<br/>JWT Storage · Banner Triggers"]
-    end
-
-    subgraph GatewayTier["2. API & Security Gateway Tier (Express :5000)"]
-        Gateway["🛡️ Security & API Gateway<br/>Helmet · CORS · Rate Limiter"]
-        AuthGuard["🔐 JWT & RBAC Guard<br/>Role Validation (User / Admin)"]
-    end
-
-    subgraph ServiceTier["3. Business Logic & Audit Engine Tier"]
-        Controllers["⚙️ Express Controllers<br/>Preferences · Notices · DSAR"]
-        AuditEngine["⛓️ Cryptographic Audit Engine<br/>Mutex Lock · Append-Only Sequencer"]
-        CryptoEngine["🔒 SHA-256 Hash Chain<br/>Canonical JSON · Genesis Linkage"]
-    end
-
-    subgraph DataTier["4. Persistence & Storage Tier (MongoDB)"]
-        ODM["📦 Mongoose ODM Layer<br/>Immutable Schema Pre-Hooks"]
-        DB[("🗄️ MongoDB Database<br/>ReplicaSet / Embedded Fallback<br/>WiredTiger ACID Transactions")]
-    end
-
-    Browser -->|HTTPS :5173| SPA
-    SPA <-->|State Sync| AuthContext
-    SPA -->|REST API :5000 / Bearer JWT| Gateway
-    Gateway -->|Verify Token & Role| AuthGuard
-    Gateway -->|Dispatch Request| Controllers
-    Controllers -->|Preferences / Notices| ODM
-    Controllers -->|Append Audit Event| AuditEngine
-    AuditEngine <-->|Deterministic Hash| CryptoEngine
-    AuditEngine -->|Atomic Session Commit| DB
-    ODM -->|WiredTiger Persistence| DB
-
-    classDef client fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
-    classDef security fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#f8fafc;
-    classDef service fill:#18181b,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
-    classDef database fill:#1c1917,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
-
-    class SPA,AuthContext client;
-    class Gateway,AuthGuard,CryptoEngine security;
-    class Controllers,AuditEngine service;
-    class ODM,DB database;
-```
-
-### 🧭 Interactive Archify Viewer & Runtime Features
-
-The architecture is rendered as a fully interactive viewer compiled via **Archify Showcase**:
-- **Live Trace Particle Flow**: Directed relationships feature real-time particle animation tracing requests from Browser → API Gateway → Controllers → SHA-256 Chaining → MongoDB.
-- **Guided Viewpoints**: One-click preset filters for **Full System Topology**, **Cryptographic Audit Ledger**, and **Authentication & RBAC**.
-- **Interactive Node Exploration & Semantic Passport**: Click any component or connection to inspect repository-verified code line ranges, upstream/downstream dependencies, and trust boundaries.
-- **Node Finder**: Press `/` in the viewer to search components and boundaries in real-time.
-- **In-App Explorer**: Access directly from the running web application via the **Architecture** navigation tab (`/architecture`).
-- **Interactive Files**:
-  - Standalone Viewer: [architecture/consentlog-platform.html](architecture/consentlog-platform.html) *(or [architecture/index.html](architecture/index.html))*
-  - GitHub Pages Deployment: [docs/index.html](docs/index.html) *(deployable via GitHub Pages `/docs` branch setting)*
-  - Source Specification: [architecture/candidate.json](architecture/candidate.json)
-- **Automated Verification**: Passed 4/4 Archify gates (`validate`, `deliver`, `check`, headless Chrome `browser-check`).
+> 🚀 **[Click to Launch Full Interactive Architecture Diagram](https://git-huber2007.github.io/consentlog/)**
+> 
+> *Directly open the live, interactive canvas in your browser featuring:*
+> - ⚡ **Live Particle Trace Animation**: Animated signal flow along connection paths from Browser → Gateway → Controllers → SHA-256 Engine → MongoDB.
+> - 🧭 **Guided Viewpoints**: Switch between *Full System Topology*, *Cryptographic Audit Ledger*, and *Authentication & RBAC*.
+> - 🔍 **Semantic Passport & Inspector**: Click any component or connection to inspect verified code line ranges, trust boundaries, and dependencies.
+> - 🔎 **Node Finder**: Press `/` inside the canvas to search components, ports, and models instantly.
+> - 💻 **In-App Explorer**: Available inside the live running app under the **Architecture** navigation tab (`/architecture`).
+> - 📂 **Offline Local File**: Open [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html) directly in any browser.
 
 ---
 
