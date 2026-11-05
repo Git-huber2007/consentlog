@@ -73,8 +73,8 @@ const LoginPage = () => {
             <div className="grid grid-cols-2 gap-2.5">
               <button
                 type="button"
-                onClick={() => quickFill('alex@enterprise.io', 'Alex Rivera')}
-                className={`p-3 rounded-md text-left border transition-colors ${
+                onClick={() => quickFill('alex@enterprise.io', 'Alex Rivera (GDPR)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
                   email === 'alex@enterprise.io'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
                     : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
@@ -82,20 +82,20 @@ const LoginPage = () => {
               >
                 <p className="text-xs font-semibold">Alex Rivera</p>
                 <p
-                  className={`text-[11px] mt-0.5 ${
+                  className={`text-[10px] mt-0.5 ${
                     email === 'alex@enterprise.io'
                       ? 'text-zinc-300 dark:text-zinc-600'
                       : 'text-zinc-500'
                   }`}
                 >
-                  Standard User
+                  Standard User (GDPR)
                 </p>
               </button>
 
               <button
                 type="button"
-                onClick={() => quickFill('admin@consentlog.io', 'Elena Vance')}
-                className={`p-3 rounded-md text-left border transition-colors ${
+                onClick={() => quickFill('admin@consentlog.io', 'Elena Vance (Admin)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
                   email === 'admin@consentlog.io'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
                     : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
@@ -103,13 +103,55 @@ const LoginPage = () => {
               >
                 <p className="text-xs font-semibold">Elena Vance</p>
                 <p
-                  className={`text-[11px] mt-0.5 ${
+                  className={`text-[10px] mt-0.5 ${
                     email === 'admin@consentlog.io'
                       ? 'text-zinc-300 dark:text-zinc-600'
                       : 'text-zinc-500'
                   }`}
                 >
-                  Admin
+                  Admin (CPO)
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => quickFill('priya@cloudscale.in', 'Priya Nair (DPDP)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
+                  email === 'priya@cloudscale.in'
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
+                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
+                }`}
+              >
+                <p className="text-xs font-semibold">Priya Nair</p>
+                <p
+                  className={`text-[10px] mt-0.5 ${
+                    email === 'priya@cloudscale.in'
+                      ? 'text-zinc-300 dark:text-zinc-600'
+                      : 'text-zinc-500'
+                  }`}
+                >
+                  Standard User (DPDP)
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => quickFill('marcus@pacifichealth.us', 'Marcus Sterling (CCPA)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
+                  email === 'marcus@pacifichealth.us'
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
+                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
+                }`}
+              >
+                <p className="text-xs font-semibold">Marcus Sterling</p>
+                <p
+                  className={`text-[10px] mt-0.5 ${
+                    email === 'marcus@pacifichealth.us'
+                      ? 'text-zinc-300 dark:text-zinc-600'
+                      : 'text-zinc-500'
+                  }`}
+                >
+                  Standard User (CCPA)
                 </p>
               </button>
             </div>

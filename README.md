@@ -44,7 +44,7 @@
 ## 🚀 Installation & Execution Instructions
 
 ### 1. Install Dependencies
-From the root directory (`c:\New folder`):
+From the root directory (`c:\ConsentLog`):
 ```bash
 npm run install:all
 ```
