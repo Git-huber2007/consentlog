@@ -20,6 +20,7 @@ import {
   Search,
   ChevronRight,
   FilePlus,
+  Layers,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -33,6 +34,7 @@ const ROUTE_TITLES = {
   '/audit-history': ['Menu', 'Audit Log'],
   '/notices': ['Menu', 'Privacy Notices'],
   '/notices/compare': ['Menu', 'Compare Versions'],
+  '/architecture': ['Menu', 'Architecture'],
   '/profile': ['Menu', 'Account'],
   '/admin': ['Admin', 'Overview'],
   '/admin/users': ['Admin', 'Users'],
@@ -101,6 +103,7 @@ const AppLayout = () => {
         { to: '/audit-history', label: 'Audit Log', icon: History },
         { to: '/notices', label: 'Privacy Notices', icon: FileText },
         { to: '/notices/compare', label: 'Compare Versions', icon: GitCompare },
+        { to: '/architecture', label: 'Architecture', icon: Layers },
         { to: '/profile', label: 'Account', icon: Settings },
       ],
     },

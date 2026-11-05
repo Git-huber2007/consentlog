@@ -6,11 +6,11 @@
   "status": "pass",
   "visualReview": "not-requested",
   "provenance": "current",
-  "deliveryReceiptId": "15f494b9-8abd-4421-9d0a-15e0d3fb7fa8",
+  "deliveryReceiptId": "efd3e6ed-79fa-4612-92f5-99a0b61a672d",
   "artifact": {
     "path": "C:\\ConsentLog\\.archify\\architecture-consentlog-platform-20261105-095100\\consentlog-platform.html",
-    "sha256": "42badc902ff102b6187b8dbef03efff5f7eb8e905b720169162e00d07c9bb46f",
-    "bytes": 771708
+    "sha256": "20d88a88a6f64da3391cc52d1c5f451e1f0e191cf6005c9af3734d021cba58c7",
+    "bytes": 772479
   },
   "state": {
     "detail": "read",

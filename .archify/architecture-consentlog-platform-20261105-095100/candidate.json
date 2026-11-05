@@ -4,6 +4,8 @@
   "meta": {
     "title": "ConsentLog Enterprise Architecture",
     "output": ".archify/architecture-consentlog-platform-20261105-095100/consentlog-platform.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
     "quality_profile": "showcase",
     "repository": {
       "url": "https://github.com/Git-huber2007/consentlog.git",

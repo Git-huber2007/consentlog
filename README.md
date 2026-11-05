@@ -81,9 +81,18 @@ flowchart TD
     class ODM,DB database;
 ```
 
-### 🧭 Architecture Artifacts & Interactive Diagrams
-- **Interactive Visual Viewer**: [architecture/consentlog-platform.html](architecture/consentlog-platform.html) *(or [docs/index.html](docs/index.html) for GitHub Pages)*
-- **Archify Specification**: [architecture/candidate.json](architecture/candidate.json)
+### 🧭 Interactive Archify Viewer & Runtime Features
+
+The architecture is rendered as a fully interactive viewer compiled via **Archify Showcase**:
+- **Live Trace Particle Flow**: Directed relationships feature real-time particle animation tracing requests from Browser → API Gateway → Controllers → SHA-256 Chaining → MongoDB.
+- **Guided Viewpoints**: One-click preset filters for **Full System Topology**, **Cryptographic Audit Ledger**, and **Authentication & RBAC**.
+- **Interactive Node Exploration & Semantic Passport**: Click any component or connection to inspect repository-verified code line ranges, upstream/downstream dependencies, and trust boundaries.
+- **Node Finder**: Press `/` in the viewer to search components and boundaries in real-time.
+- **In-App Explorer**: Access directly from the running web application via the **Architecture** navigation tab (`/architecture`).
+- **Interactive Files**:
+  - Standalone Viewer: [architecture/consentlog-platform.html](architecture/consentlog-platform.html) *(or [architecture/index.html](architecture/index.html))*
+  - GitHub Pages Deployment: [docs/index.html](docs/index.html) *(deployable via GitHub Pages `/docs` branch setting)*
+  - Source Specification: [architecture/candidate.json](architecture/candidate.json)
 - **Automated Verification**: Passed 4/4 Archify gates (`validate`, `deliver`, `check`, headless Chrome `browser-check`).
 
 ---
