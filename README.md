@@ -87,13 +87,7 @@ npm run dev
 - **Backend API**: `http://localhost:5000`
 - **Database**: Automatically connects to local MongoDB or launches an embedded persistent replica set with ACID transaction support.
 
-### 3. Demo Credentials
-| Role | Name | Email | Password |
-| :--- | :--- | :--- | :--- |
-| **Admin (CPO)** | Elena Vance | `admin@consentlog.io` | `Password123!` |
-| **User (GDPR)** | Alex Rivera | `alex@enterprise.io` | `Password123!` |
-| **User (DPDP)** | Priya Nair | `priya@cloudscale.in` | `Password123!` |
-| **User (CCPA)** | Marcus Sterling | `marcus@pacifichealth.us` | `Password123!` |
+
 
 *(One-click account switching is available directly on the login page.)*
 
