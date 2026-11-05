@@ -8,10 +8,32 @@
 
 [![ConsentLog System Architecture](docs/architecture-animated.svg)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)
 
-*Click the diagram to launch the interactive viewer with pan, zoom, search, and component inspection.*
+*Click the diagram above to launch the interactive viewer with pan, zoom, search, and component inspection.*
 
-- **In-App Explorer**: Accessible within the application at `/architecture`
-- **Offline Diagram**: Available locally at [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html)
+- **🚀 Interactive Viewer**: [Open Full-Screen Canvas](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html) *(Pan, zoom, and inspect every tier)*
+- **📄 Standalone Canvas**: [`docs/index.html`](docs/index.html) *(Open locally or publish via GitHub Pages)*
+- **📐 Archify Specification**: [`architecture/candidate.json`](architecture/candidate.json) *(Typed component & boundary model)*
+- **🌐 GitHub Pages Hosting**: Enable in repository **Settings → Pages → Branch: `main` / Folder: `/docs`** for native hosting at `https://git-huber2007.github.io/consentlog/`
+
+<details>
+<summary><b>🔍 Architectural Tiers & Component Topology</b></summary>
+
+| Tier | Component | Responsibilities & Protocols |
+| :--- | :--- | :--- |
+| **1. Frontend Web Tier** | Browser Client | Desktop & mobile clients communicating via HTTP/2 TLS |
+| | React 18 SPA | Vite 6 build, Tailwind CSS design system, React Router v7 navigation |
+| | Client State | AuthContext JWT token cache, ToastProvider notifications, Notice renewal checks |
+| **2. Security & Gateway** | API Gateway | Express v4 reverse proxy on `:5000` with Helmet security headers & CORS origin isolation |
+| | Security Guards | JWT authentication, bcryptjs password hashing, Express Rate Limiter (500 req/15m) |
+| | Input Sanitization | Mongo-sanitize for NoSQL injection prevention, Zod strict boundary schema validation |
+| **3. Business Logic & Ledger** | Controllers | Preference manager, notice side-by-side diff engine, DSAR compliance export |
+| | Sequencer Service | Mutex-locked append-only queue enforcing non-blocking sequential block creation |
+| | Hash Chain Service | Deterministic SHA-256 hash chaining (`eventHash = SHA256(canonicalPayload + prevHash)`) |
+| **4. Persistence & Storage** | Mongoose ODM | Schema enforcement, document models (`User`, `Preference`, `ConsentLog`, `PrivacyNotice`) |
+| | Hook Guard | Pre-save and pre-remove hooks blocking `updateOne`, `deleteOne`, and `findOneAndUpdate` |
+| | MongoDB Engine | WiredTiger storage engine with ACID multi-document transactions and replica set support |
+
+</details>
 
 ---
 

@@ -14,7 +14,6 @@ import {
   Moon,
   Download,
   CornerDownLeft,
-  Layers,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -95,14 +94,6 @@ const CommandPalette = ({ isOpen, onClose }) => {
       shortcut: 'G C',
       icon: GitCompare,
       perform: () => navigate('/notices/compare'),
-    },
-    {
-      id: 'nav-arch',
-      title: 'View Interactive Architecture',
-      category: 'Navigation',
-      shortcut: 'G R',
-      icon: Layers,
-      perform: () => navigate('/architecture'),
     },
     {
       id: 'act-verify',

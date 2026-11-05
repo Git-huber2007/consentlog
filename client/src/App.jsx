@@ -15,7 +15,6 @@ import AuditEventDetailsPage from './pages/AuditEventDetailsPage';
 import PrivacyNoticeCentrePage from './pages/PrivacyNoticeCentrePage';
 import VersionComparisonPage from './pages/VersionComparisonPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
-import ArchitecturePage from './pages/ArchitecturePage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import UserManagementPage from './pages/UserManagementPage';
 import AuditIntegrityPage from './pages/AuditIntegrityPage';
@@ -69,7 +68,6 @@ const App = () => {
                 <Route path="/audit-history/:id" element={<AuditEventDetailsPage />} />
                 <Route path="/notices" element={<PrivacyNoticeCentrePage />} />
                 <Route path="/notices/compare" element={<VersionComparisonPage />} />
-                <Route path="/architecture" element={<ArchitecturePage />} />
                 <Route path="/profile" element={<ProfileSettingsPage />} />
 
                 {/* Admin-Only Pages */}
