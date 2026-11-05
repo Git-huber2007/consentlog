@@ -1,0 +1,324 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "ConsentLog Enterprise Architecture",
+    "output": ".archify/architecture-consentlog-platform-20261105-095100/consentlog-platform.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Git-huber2007/consentlog.git",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "dde5594d9f40e45808c1fd273fbc9a46abf9aa80"
+    },
+    "views": [
+      {
+        "id": "overview",
+        "label": "Full System Topology",
+        "focus": ["browser", "spa", "api_gateway", "controllers", "mongodb"],
+        "note": "End-to-end request lifecycle from user browser to persistent storage"
+      },
+      {
+        "id": "audit-chain",
+        "label": "Cryptographic Audit Ledger",
+        "focus": ["controllers", "audit_engine", "crypto_utils", "odm_models", "mongodb"],
+        "note": "Append-only SHA-256 hash chaining and immutability protection"
+      },
+      {
+        "id": "auth-security",
+        "label": "Authentication & RBAC",
+        "focus": ["spa", "auth_ctx", "api_gateway", "auth_guard"],
+        "note": "JWT tokens, role-based access control, and API gateway rate limiting"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "browser",
+      "type": "external",
+      "label": "Browser Client",
+      "sublabel": "Desktop & Mobile Users",
+      "icon": "person",
+      "pos": [40, 220],
+      "size": [130, 64]
+    },
+    {
+      "id": "spa",
+      "type": "frontend",
+      "label": "React 18 SPA",
+      "sublabel": "Vite + Tailwind + React Router",
+      "tag": "Port 5173",
+      "pos": [300, 220],
+      "size": [160, 64],
+      "sources": [
+        {
+          "path": "client/src/App.jsx",
+          "line": 58,
+          "end_line": 71,
+          "label": "App Routing & Shell"
+        }
+      ]
+    },
+    {
+      "id": "auth_ctx",
+      "type": "frontend",
+      "label": "Auth & Notice State",
+      "sublabel": "Context Providers",
+      "pos": [300, 80],
+      "size": [160, 60],
+      "sources": [
+        {
+          "path": "client/src/context/AuthContext.jsx",
+          "line": 18,
+          "end_line": 50,
+          "label": "Session & Active Notice State"
+        }
+      ]
+    },
+    {
+      "id": "api_gateway",
+      "type": "security",
+      "label": "Security & API Gateway",
+      "sublabel": "Helmet + CORS + Sanitizer",
+      "tag": "Port 5000",
+      "pos": [590, 220],
+      "size": [170, 64],
+      "sources": [
+        {
+          "path": "server/src/index.js",
+          "line": 22,
+          "end_line": 56,
+          "label": "HTTP Security Middleware"
+        }
+      ]
+    },
+    {
+      "id": "auth_guard",
+      "type": "security",
+      "label": "JWT Guard & RBAC",
+      "sublabel": "User & Admin Authorization",
+      "pos": [590, 80],
+      "size": [170, 60],
+      "sources": [
+        {
+          "path": "server/src/middleware/authMiddleware.js",
+          "line": 7,
+          "end_line": 57,
+          "label": "Token Validation & Roles"
+        }
+      ]
+    },
+    {
+      "id": "controllers",
+      "type": "backend",
+      "label": "Express Controllers",
+      "sublabel": "Preferences & Notices",
+      "pos": [890, 220],
+      "size": [170, 64],
+      "sources": [
+        {
+          "path": "server/src/controllers/preferenceController.js",
+          "line": 34,
+          "end_line": 60,
+          "label": "Category & Status Summary"
+        }
+      ]
+    },
+    {
+      "id": "audit_engine",
+      "type": "backend",
+      "label": "Audit Chain Service",
+      "sublabel": "Mutex-Locked Sequencer",
+      "tag": "Append-Only",
+      "pos": [890, 370],
+      "size": [170, 64],
+      "sources": [
+        {
+          "path": "server/src/services/auditService.js",
+          "line": 13,
+          "end_line": 63,
+          "label": "Sequential Audit Append"
+        }
+      ]
+    },
+    {
+      "id": "crypto_utils",
+      "type": "security",
+      "label": "Cryptographic Engine",
+      "sublabel": "SHA-256 Canonical Chaining",
+      "pos": [590, 370],
+      "size": [170, 64],
+      "sources": [
+        {
+          "path": "server/src/utils/hashChain.js",
+          "line": 23,
+          "end_line": 56,
+          "label": "Deterministic SHA-256 Computation"
+        }
+      ]
+    },
+    {
+      "id": "odm_models",
+      "type": "database",
+      "label": "Mongoose ODM Layer",
+      "sublabel": "Immutability Pre-Hooks",
+      "pos": [1195, 220],
+      "size": [160, 64],
+      "sources": [
+        {
+          "path": "server/src/models/ConsentLog.js",
+          "line": 12,
+          "end_line": 65,
+          "label": "Immutable Audit Model"
+        }
+      ]
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "label": "MongoDB Database",
+      "sublabel": "ReplicaSet / Embedded Fallback",
+      "tag": "WiredTiger ACID",
+      "pos": [1195, 370],
+      "size": [160, 64],
+      "sources": [
+        {
+          "path": "server/src/config/db.js",
+          "line": 18,
+          "end_line": 60,
+          "label": "Connection & Fallback Logic"
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Frontend Web Application Tier",
+      "wraps": ["spa", "auth_ctx"]
+    },
+    {
+      "kind": "region",
+      "label": "Backend Governance Gateway Tier",
+      "wraps": ["api_gateway", "auth_guard", "controllers"]
+    },
+    {
+      "kind": "security-group",
+      "label": "Immutable SHA-256 Ledger Subsystem",
+      "wraps": ["crypto_utils", "audit_engine"]
+    },
+    {
+      "kind": "region",
+      "label": "Persistence & Document Store Tier",
+      "wraps": ["odm_models", "mongodb"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "browser-spa",
+      "from": "browser",
+      "to": "spa",
+      "label": "HTTPS User Actions",
+      "variant": "emphasis"
+    },
+    {
+      "id": "spa-authctx",
+      "from": "spa",
+      "to": "auth_ctx",
+      "label": "State Sync",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "spa-api",
+      "from": "spa",
+      "to": "api_gateway",
+      "label": "REST API :5000",
+      "variant": "emphasis"
+    },
+    {
+      "id": "api-authguard",
+      "from": "api_gateway",
+      "to": "auth_guard",
+      "label": "JWT & RBAC Check",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "api-controllers",
+      "from": "api_gateway",
+      "to": "controllers",
+      "label": "Dispatch Action"
+    },
+    {
+      "id": "controllers-odm",
+      "from": "controllers",
+      "to": "odm_models",
+      "label": "Preferences & Notices"
+    },
+    {
+      "id": "controllers-audit",
+      "from": "controllers",
+      "to": "audit_engine",
+      "label": "Append Event",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "audit-crypto",
+      "from": "audit_engine",
+      "to": "crypto_utils",
+      "label": "Deterministic SHA-256",
+      "variant": "security",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "audit-db",
+      "from": "audit_engine",
+      "to": "mongodb",
+      "label": "Atomic Commit",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "odm-db",
+      "from": "odm_models",
+      "to": "mongodb",
+      "label": "WiredTiger Persistence",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Interactive Preference Centre",
+      "items": [
+        "5 granular preference categories with strictly protected Essential Cookies",
+        "Real-time summary counters (Total, Enabled, Disabled, Withdrawn)",
+        "One-click Right-to-Withdraw consent revoking all optional permissions"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Tamper-Evident SHA-256 Audit Trail",
+      "items": [
+        "Sequential block hashing with previousHash linkage from Genesis (0000...0000)",
+        "Zero-mutation surface: HTTP PUT/PATCH/DELETE blocked with 403 Forbidden",
+        "Mongoose ODM pre-hooks permanently prevent update and delete operations"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Versioned Privacy Notices & DSAR",
+      "items": [
+        "Lineage tracking (v1.0, v1.1, v2.0) with non-assumed consent renewal",
+        "Automated side-by-side clause diff engine for Added, Modified, and Removed clauses",
+        "Art. 15 / 20 GDPR & DPDP Act Data Subject Access Request (DSAR) export bundle"
+      ]
+    }
+  ]
+}

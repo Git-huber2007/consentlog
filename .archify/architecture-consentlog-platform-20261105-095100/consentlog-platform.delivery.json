@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "15f494b9-8abd-4421-9d0a-15e0d3fb7fa8",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\ConsentLog\\.archify\\architecture-consentlog-platform-20261105-095100\\candidate.json",
+  "output": "C:\\ConsentLog\\.archify\\architecture-consentlog-platform-20261105-095100\\consentlog-platform.html",
+  "specification": {
+    "sha256": "420e74fe97721a95a7c707d0220ddeca2707b84389e330e892cd314f67b63aec",
+    "bytes": 8531
+  },
+  "artifact": {
+    "sha256": "42badc902ff102b6187b8dbef03efff5f7eb8e905b720169162e00d07c9bb46f",
+    "bytes": 771708
+  }
+}

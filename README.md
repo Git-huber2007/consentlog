@@ -31,6 +31,15 @@
 
 ---
 
+## 🏛️ System Architecture
+
+The interactive architecture diagram of ConsentLog Enterprise Edition is authored and verified using **Archify**:
+- **Interactive Diagram**: [.archify/architecture-consentlog-platform-20261105-095100/consentlog-platform.html](.archify/architecture-consentlog-platform-20261105-095100/consentlog-platform.html)
+- **Specification Source**: [.archify/architecture-consentlog-platform-20261105-095100/candidate.json](.archify/architecture-consentlog-platform-20261105-095100/candidate.json)
+- **Verification Gates**: 100% Passed (`validate`, `deliver`, `check`, headless Chrome `browser-check`).
+
+---
+
 ## 🛠️ Technology Stack
 
 | Layer | Technologies |
