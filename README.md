@@ -33,17 +33,20 @@
 
 ## 🏛️ System Architecture (Interactive)
 
-[![ConsentLog Interactive Architecture](architecture/architecture-diagram.png)](https://git-huber2007.github.io/consentlog/)
+[![ConsentLog Interactive Architecture](architecture/architecture-diagram.png)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)
 
-> 🚀 **[Click to Launch Full Interactive Architecture Diagram](https://git-huber2007.github.io/consentlog/)**
+> 🚀 **[▶ Click Here to Open the Live Interactive Diagram in Your Browser](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)**
 > 
-> *Directly open the live, interactive canvas in your browser featuring:*
+> *(Click above or click the diagram image to open the full interactive canvas)*
+> 
+> ### 🌟 Interactive Controls & Live Features:
 > - ⚡ **Live Particle Trace Animation**: Animated signal flow along connection paths from Browser → Gateway → Controllers → SHA-256 Engine → MongoDB.
 > - 🧭 **Guided Viewpoints**: Switch between *Full System Topology*, *Cryptographic Audit Ledger*, and *Authentication & RBAC*.
 > - 🔍 **Semantic Passport & Inspector**: Click any component or connection to inspect verified code line ranges, trust boundaries, and dependencies.
 > - 🔎 **Node Finder**: Press `/` inside the canvas to search components, ports, and models instantly.
-> - 💻 **In-App Explorer**: Available inside the live running app under the **Architecture** navigation tab (`/architecture`).
-> - 📂 **Offline Local File**: Open [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html) directly in any browser.
+> - 💻 **In-App Explorer**: Navigate to `/architecture` in the ConsentLog sidebar to explore the interactive canvas directly within the application.
+> - 📂 **Offline Local File**: Open [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html) directly in Chrome, Edge, or Firefox.
+> - 🌐 **GitHub Pages (Direct)**: [https://git-huber2007.github.io/consentlog/](https://git-huber2007.github.io/consentlog/) *(requires enabling Pages in repo settings: Settings → Pages → GitHub Actions)*.
 
 ---
 
