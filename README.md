@@ -1,56 +1,42 @@
-# ConsentLog – Intelligent Consent & Preference Management Platform (Enterprise Edition v2.0)
+# ConsentLog – Intelligent Consent & Preference Management Platform
 
-**ConsentLog** is an enterprise-grade, full-stack privacy and consent governance web application inspired by industry leaders like **OneTrust** and **Metaplane**. It demonstrates how organizations collect, customize, withdraw, and cryptographically audit user consent through a centralized preference management engine connected to a real MongoDB database.
-
----
-
-## 🌟 Core Enterprise Capabilities
-
-### 1. Interactive Preference Centre
-- **5 Granular Categories**:
-  1. **Essential Cookies** *(Strictly Necessary — Always Enabled & Protected at API & Schema levels)*
-  2. **Analytics Cookies** *(Optional)*
-  3. **Marketing Cookies** *(Optional)*
-  4. **Personalization** *(Optional)*
-  5. **Third-Party Data Sharing** *(Optional)*
-- **Interactive Controls**: Individual toggles, **Accept All Optional**, **Reject Optional**, and formal **Right-to-Withdraw Consent**.
-- **Live Summary Metrics**: Real-time counters for Total, Enabled, Disabled, and Withdrawn preferences.
-- **Confirmation Modal & Notifications**: Displays a cryptographic transaction summary before committing changes, followed by toast notifications.
-
-### 2. Tamper-Evident, Append-Only Consent Audit History (SHA-256 Hash Chain)
-- **Zero Mutation Surface**: No `PUT`, `PATCH`, or `DELETE` endpoints exist for `ConsentLog` records. Attempting HTTP mutation returns `403 Forbidden (IMMUTABLE_AUDIT_VIOLATION)`, and Mongoose pre-hooks block `updateOne`, `deleteOne`, and `findOneAndUpdate` at the ODM layer.
-- **Canonical SHA-256 Hash Chaining**: Every audit event stores a sequential `sequenceNumber`, `previousHash`, and `eventHash` computed server-side over a deterministic JSON serialization of `{ auditId, sequenceNumber, userId, preferenceName, previousValue, newValue, action, noticeVersion, source, reason, timestamp, previousHash }`.
-- **ACID MongoDB Transactions**: Preference updates, `ConsentRecord` snapshots, and `ConsentLog` audit entries are committed atomically using MongoDB sessions/transactions.
-- **Live Chain Verification (`POST /api/audit/verify`)**: Recomputes the SHA-256 hash of every historical block from Genesis (`0000...0000`) to Head and reports `Verified` or `Verification Failed`.
-- **Threat Model & Production Protections**: Hash chaining reliably detects application-level or single-record tampering, though a privileged DBA with raw disk access could theoretically rewrite the entire chain. In production, pair SHA-256 hash chaining with external RFC 3161/blockchain hash checkpoints, WORM storage (AWS S3 Object Lock), HSM signing, and separated MongoDB role permissions (`insert` + `find` only).
-
-### 3. Version-Controlled Privacy Notices & Side-by-Side Diff Engine
-- **Pre-loaded Version Lineage**: Includes **Version 1.0**, **Version 1.1**, and **Version 2.0 (Active)**.
-- **Side-by-Side Clause Diff Comparison**: Compare any two versions with visual highlights for **Added (`+`)**, **Modified (`~`)**, and **Removed (`-`)** clauses.
-- **Non-Assumed Consent & Renewal Banner**: Publishing or activating a new notice version never assumes automatic user acceptance. Users who have not yet acknowledged the active version see a **Notice Update Banner** prompting them to compare changes and explicitly accept.
+**ConsentLog** is an enterprise-grade, full-stack privacy and consent governance platform. It provides centralized cookie and preference management, version-controlled privacy notices with side-by-side clause diffing, and a tamper-evident, append-only cryptographic audit history backed by SHA-256 hash chaining.
 
 ---
 
 ## 🏛️ System Architecture
 
-### ⚡ Live Animated SVG Architecture Engine
+[![ConsentLog System Architecture](docs/architecture-animated.svg)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)
 
-The architecture diagram runs **live with real-time signal animations directly on your GitHub repository page**:
+*Click the diagram to launch the interactive viewer with pan, zoom, search, and component inspection.*
 
-[![ConsentLog Live Animated Architecture](docs/architecture-animated.svg)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)
+- **In-App Explorer**: Accessible within the application at `/architecture`
+- **Offline Diagram**: Available locally at [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html)
 
-#### 📡 Active Real-Time Signal Animations Directly on GitHub:
-- 🔵 **Blue data pulses** actively flow between `Browser Client → React 18 SPA → Security API Gateway (:5000)`.
-- 🟣 **Purple cryptographic vectors** actively flow between `Express Controllers → Audit Mutex Sequencer → SHA-256 Hash Chaining Engine`.
-- 🟢 **Green transaction pulses** actively flow between `Express Controllers → Mongoose ODM Models → MongoDB WiredTiger Replica Set`.
-- 🟢 **Pulsing green `LIVE TRACE ACTIVE` status indicator** blinks with radar wave animations in real-time.
+---
 
-#### 🔍 One-Click Deep Interactive Explorer:
-Clicking anywhere on the animated diagram above opens the full-screen interactive **Archify canvas**:
-👉 **[Launch Deep Interactive Explorer (HTMLPreview)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)** *(or on [GitHub Pages](https://git-huber2007.github.io/consentlog/))*, where you can pan, zoom, search, switch guided viewpoints, and inspect each node's verified lines of code.
+## 🌟 Core Capabilities
 
-- **In-App Explorer**: Available directly inside the running web application under **Menu → Architecture** (`http://localhost:5173/architecture`).
-- **Offline Local File**: Open [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html) directly in any browser.
+### 1. Interactive Preference Centre
+- **5 Granular Categories**:
+  - **Essential Cookies**: Strictly necessary session security and authentication *(always active)*.
+  - **Analytics Cookies**: First-party telemetry with IP truncation and zero PII.
+  - **Marketing Cookies**: Campaign attribution and engagement measurement.
+  - **Personalization**: Theme settings, regulatory presets, and UI localization.
+  - **Third-Party Data Sharing**: Regulated telemetry governed by Standard Contractual Clauses (SCCs).
+- **Consent Operations**: Individual toggles, **Accept All**, **Reject Optional**, and formal **Right-to-Withdraw**.
+- **Live Summary Metrics**: Real-time counters for Total, Enabled, Disabled, and Withdrawn preferences.
+
+### 2. Tamper-Evident Append-Only Audit History
+- **Zero Mutation Surface**: HTTP `PUT`, `PATCH`, and `DELETE` endpoints return `403 Forbidden` (`IMMUTABLE_AUDIT_VIOLATION`), with Mongoose ODM pre-hooks enforcing write-once integrity.
+- **SHA-256 Hash Chaining**: Every audit entry stores a deterministic hash derived from its sequential block number, previous block hash, and canonical payload.
+- **Live Integrity Verification**: Recomputes the cryptographic chain from Genesis (`0000...0000`) to Head via `POST /api/audit/verify`.
+- **DSAR Compliance Export**: Generate GDPR Art. 15 / 20 and DPDP Act Sec. 11 cryptographically signed export passports via `GET /api/audit/dsar-passport`.
+
+### 3. Version-Controlled Privacy Notices & Diff Engine
+- **Notice Lineage**: Tracks published versions (v1.0, v1.1, v2.0) with effective dates and change summaries.
+- **Side-by-Side Clause Diffing**: Visual comparison of additions (`+`), modifications (`~`), and removals (`-`).
+- **Non-Assumed Consent**: Publishing a new notice triggers an explicit review banner rather than assuming automated acceptance.
 
 ---
 
@@ -58,59 +44,43 @@ Clicking anywhere on the animated diagram above opens the full-screen interactiv
 
 | Layer | Technologies |
 | :--- | :--- |
-| **Frontend** | React 18 (Vite), Tailwind CSS (Dark Navy Sidebar + Light/Dark Mode), React Router v7, Axios, Lucide React, Recharts |
-| **Backend** | Node.js, Express.js, REST API, MongoDB, Mongoose (with automatic Embedded Replica Set fallback via `mongodb-memory-server`) |
-| **Security** | JWT Authentication, `bcryptjs` (12 salt rounds), Zod Input Validation, Role-Based Access Control (`user` / `admin`), `helmet`, `express-rate-limit`, `express-mongo-sanitize`, CORS & Ownership Validation |
+| **Frontend** | React 18, Vite, Tailwind CSS, React Router v7, Axios, Lucide React, Recharts |
+| **Backend** | Node.js, Express 4.21, REST API, MongoDB, Mongoose 8 (with automatic Embedded Replica Set fallback) |
+| **Security** | JWT Authentication, `bcryptjs`, Zod, Role-Based Access Control (`user` / `admin`), Helmet, Rate Limiting, Mongo Sanitize |
 
 ---
 
-## 🚀 Installation & Execution Instructions
+## 🚀 Quick Start
 
 ### 1. Install Dependencies
-From the root directory (`c:\ConsentLog`):
 ```bash
 npm run install:all
 ```
 
-### 2. Run the Full-Stack Application (Backend + Frontend)
+### 2. Run the Application
 ```bash
 npm run dev
 ```
-- **Frontend UI**: `http://localhost:5173`
-- **Backend REST API**: `http://localhost:5000`
-- **Database**: Automatically connects to local MongoDB at `mongodb://127.0.0.1:27017/consentlog_enterprise` if running, or seamlessly launches an **Embedded MongoDB Replica Set** with ACID transaction support and auto-seeds sample data.
+- **Frontend**: `http://localhost:5173`
+- **Backend API**: `http://localhost:5000`
+- **Database**: Automatically connects to local MongoDB or launches an embedded persistent replica set with ACID transaction support.
 
-### 3. Demo Credentials (Pre-Seeded)
+### 3. Demo Credentials
 | Role | Name | Email | Password |
 | :--- | :--- | :--- | :--- |
 | **Admin (CPO)** | Elena Vance | `admin@consentlog.io` | `Password123!` |
-| **Standard User (GDPR)** | Alex Rivera | `alex@enterprise.io` | `Password123!` |
-| **Standard User (DPDP)** | Priya Nair | `priya@cloudscale.in` | `Password123!` |
-| **Standard User (CCPA)** | Marcus Sterling | `marcus@pacifichealth.us` | `Password123!` |
+| **User (GDPR)** | Alex Rivera | `alex@enterprise.io` | `Password123!` |
+| **User (DPDP)** | Priya Nair | `priya@cloudscale.in` | `Password123!` |
+| **User (CCPA)** | Marcus Sterling | `marcus@pacifichealth.us` | `Password123!` |
 
-*(You can also one-click switch between Standard User and Admin credentials directly on the `/login` page.)*
+*(One-click account switching is available directly on the login page.)*
 
 ---
 
-## 🧪 Running the Automated Verification Suite
+## 🧪 Verification & Security Suite
 
-To run the 14-point automated backend & security test suite:
+Run the 14-point automated test suite:
 ```bash
 npm test
 ```
-This verifies:
-1. Unauthenticated request blocking (`401`)
-2. User registration with privacy-by-default baseline (`201`)
-3. JWT login & `bcrypt` password verification
-4. Essential Cookies protection (`400` when attempting to disable)
-5. Transactional preference updates & audit log creation
-6. Formal consent withdrawal & historical preservation
-7. Append-only HTTP immutability (`403` on `PUT`, `PATCH`, `DELETE /api/audit/logs/:id`)
-8. Mongoose ODM-level immutability hook enforcement
-9. Cross-user ownership validation (`403` when inspecting another user's private audit log)
-10. Full SHA-256 cryptographic hash chain verification (`POST /api/audit/verify`)
-11. Role-Based Access Control (`403` for non-admins on `/api/admin/*`)
-12. Privacy Notice side-by-side clause diff comparison (`v1.0` vs `v2.0`)
-13. Admin notice publication & non-assumed user acceptance
-14. Explicit user notice acknowledgment & audit linkage
-
+Verifies unauthorized request blocking, essential cookie protection, transactional preference updates, formal consent withdrawal, HTTP & ODM immutability, SHA-256 hash chain integrity, RBAC isolation, notice version diffing, and explicit acceptance tracking.
