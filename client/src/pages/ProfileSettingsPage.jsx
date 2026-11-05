@@ -77,10 +77,17 @@ const ProfileSettingsPage = () => {
             </label>
             <input
               type="text"
+              list="org-presets"
               value={formData.organization}
               onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
               className="w-full px-3.5 py-2 rounded-md border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 dark:focus:border-zinc-100"
             />
+            <datalist id="org-presets">
+              <option value="Enterprise Global Corp" />
+              <option value="Pacific Health Systems" />
+              <option value="CloudScale Data Networks" />
+              <option value="Apex Financial Services" />
+            </datalist>
           </div>
 
           <div>

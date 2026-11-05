@@ -78,6 +78,15 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const switchOrganization = async (organization) => {
+    const res = await api.put('/auth/profile', { organization });
+    if (res.data?.user) {
+      setUser(res.data.user);
+      localStorage.setItem('consentlog_user', JSON.stringify(res.data.user));
+    }
+    return res.data?.user;
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -87,6 +96,7 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
+        switchOrganization,
         refreshSession,
         activeNoticeInfo,
       }}

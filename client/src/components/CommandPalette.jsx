@@ -14,6 +14,7 @@ import {
   Moon,
   Download,
   CornerDownLeft,
+  Monitor,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -94,6 +95,14 @@ const CommandPalette = ({ isOpen, onClose }) => {
       shortcut: 'G C',
       icon: GitCompare,
       perform: () => navigate('/notices/compare'),
+    },
+    {
+      id: 'nav-simulator',
+      title: 'Open Cookie Banner Simulator',
+      category: 'Navigation',
+      shortcut: 'G S',
+      icon: Monitor,
+      perform: () => navigate('/simulator'),
     },
     {
       id: 'act-verify',

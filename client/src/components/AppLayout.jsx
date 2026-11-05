@@ -20,6 +20,8 @@ import {
   Search,
   ChevronRight,
   FilePlus,
+  Building2,
+  Monitor,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -38,12 +40,26 @@ const ROUTE_TITLES = {
   '/admin/users': ['Admin', 'Users'],
   '/admin/integrity': ['Admin', 'Log Verification'],
   '/admin/notices': ['Admin', 'Manage Notices'],
+  '/admin/simulator': ['Admin', 'Banner Simulator'],
+  '/simulator': ['Tools', 'Banner Simulator'],
 };
 
 const AppLayout = () => {
-  const { user, logout, activeNoticeInfo, refreshSession } = useAuth();
+  const { user, logout, activeNoticeInfo, refreshSession, switchOrganization } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
   const { addToast } = useToast();
+
+  const handleOrgChange = async (e) => {
+    const newOrg = e.target.value;
+    try {
+      if (switchOrganization) {
+        await switchOrganization(newOrg);
+      }
+      addToast(`Switched active organization to ${newOrg}`, 'success');
+    } catch (err) {
+      addToast('Could not switch organization.', 'error');
+    }
+  };
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -114,6 +130,7 @@ const AppLayout = () => {
         { to: '/admin/users', label: 'Users', icon: Users },
         { to: '/admin/integrity', label: 'Log Verification', icon: Lock },
         { to: '/admin/notices', label: 'Manage Notices', icon: FilePlus },
+        { to: '/admin/simulator', label: 'Banner Simulator', icon: Monitor },
       ],
     });
   }
@@ -262,6 +279,22 @@ const AppLayout = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <div className="hidden sm:inline-flex items-center relative">
+              <Building2 className="size-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
+              <select
+                value={user?.organization || 'Enterprise Global Corp'}
+                onChange={handleOrgChange}
+                aria-label="Active Organization"
+                className="h-8 pl-8 pr-3 text-xs font-medium rounded-md border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#111113] text-zinc-700 dark:text-zinc-200 outline-none hover:bg-zinc-50 dark:hover:bg-zinc-900 cursor-pointer transition-colors"
+                title="Active Tenant Organization"
+              >
+                <option value="Enterprise Global Corp">Enterprise Global Corp</option>
+                <option value="Pacific Health Systems">Pacific Health Systems</option>
+                <option value="CloudScale Data Networks">CloudScale Data Networks</option>
+                <option value="Apex Financial Services">Apex Financial Services</option>
+              </select>
+            </div>
+
             <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-md border border-zinc-200/80 dark:border-zinc-800 tabular-nums">
               <span className="size-1.5 rounded-full bg-emerald-500" />
               <span>{user?.jurisdiction || 'GDPR'}</span>

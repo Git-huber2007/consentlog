@@ -19,6 +19,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import UserManagementPage from './pages/UserManagementPage';
 import AuditIntegrityPage from './pages/AuditIntegrityPage';
 import PrivacyNoticeAdminPage from './pages/PrivacyNoticeAdminPage';
+import BannerSimulatorPage from './pages/BannerSimulatorPage';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useAuth();
@@ -68,6 +69,7 @@ const App = () => {
                 <Route path="/audit-history/:id" element={<AuditEventDetailsPage />} />
                 <Route path="/notices" element={<PrivacyNoticeCentrePage />} />
                 <Route path="/notices/compare" element={<VersionComparisonPage />} />
+                <Route path="/simulator" element={<BannerSimulatorPage />} />
                 <Route path="/profile" element={<ProfileSettingsPage />} />
 
                 {/* Admin-Only Pages */}
@@ -100,6 +102,14 @@ const App = () => {
                   element={
                     <ProtectedRoute adminOnly>
                       <PrivacyNoticeAdminPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/simulator"
+                  element={
+                    <ProtectedRoute adminOnly>
+                      <BannerSimulatorPage />
                     </ProtectedRoute>
                   }
                 />

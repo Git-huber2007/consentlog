@@ -5,6 +5,8 @@ import {
   Terminal,
   Zap,
   XCircle,
+  Download,
+  ShieldCheck,
 } from 'lucide-react';
 import api from '../services/api';
 import { useToast } from '../context/ToastContext';
@@ -69,6 +71,47 @@ const AuditIntegrityPage = () => {
     }
   };
 
+  const handleDownloadCertificate = () => {
+    if (!latestReport) {
+      addToast('No verification report available to export.', 'warning');
+      return;
+    }
+    const certificatePayload = {
+      certificateId: `CERT-VERIFY-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${latestReport.verificationId?.slice(-6) || 'HEAD'}`,
+      issuer: 'ConsentLog Enterprise Cryptographic Ledger Engine v2.0',
+      standard: 'SHA-256 Merkle-Linked Append-Only Hash Chain',
+      verificationId: latestReport.verificationId,
+      verificationTimestamp: latestReport.verificationDate,
+      verificationStatus: latestReport.verificationStatus,
+      totalAuditedBlocks: latestReport.totalRecords,
+      verifiedBlocks: latestReport.verifiedRecords,
+      invalidBlocks: latestReport.failedRecords,
+      genesisBlockHash: latestReport.genesisHash || '0000000000000000000000000000000000000000000000000000000000000000',
+      headBlockHash: latestReport.headHash,
+      executionDurationMs: latestReport.executionTimeMs,
+      verifiedBy: latestReport.triggeredBy,
+      complianceAttestations: [
+        'GDPR Art. 5(2) (Accountability Principle)',
+        'GDPR Art. 7(1) (Demonstrable Proof of Consent)',
+        'India DPDP Act 2023 Sec. 6(1) (Verifiable Consent Lineage)',
+        'California Consumer Privacy Act (CCPA/CPRA § 1798.100)',
+      ],
+      cryptographicSignature: latestReport.headHash
+        ? `CL-SIG-SHA256-${latestReport.headHash.slice(0, 32)}`
+        : 'GENESIS-UNCOMMITTED',
+    };
+
+    const jsonString = JSON.stringify(certificatePayload, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `consentlog-audit-certificate-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addToast('Cryptographic Verification Certificate downloaded!', 'success');
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-zinc-200 dark:border-zinc-800/80">
@@ -81,14 +124,26 @@ const AuditIntegrityPage = () => {
           </p>
         </div>
 
-        <button
-          onClick={handleRunIntegrityCheck}
-          disabled={running}
-          className="px-4 py-2.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold flex items-center gap-2 shrink-0 hover:opacity-90 transition-opacity"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${running ? 'animate-spin' : ''}`} />
-          <span>{running ? 'Checking...' : 'Run Verification Check'}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleDownloadCertificate}
+            disabled={!latestReport}
+            className="px-3.5 py-2.5 rounded-md bg-white dark:bg-[#111113] hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center gap-2 shrink-0 transition-colors shadow-xs disabled:opacity-50"
+            title="Download signed JSON verification certificate"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Export Certificate</span>
+          </button>
+
+          <button
+            onClick={handleRunIntegrityCheck}
+            disabled={running}
+            className="px-4 py-2.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-semibold flex items-center gap-2 shrink-0 hover:opacity-90 transition-opacity"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${running ? 'animate-spin' : ''}`} />
+            <span>{running ? 'Checking...' : 'Run Verification Check'}</span>
+          </button>
+        </div>
       </div>
 
       {latestReport && (

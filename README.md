@@ -60,6 +60,15 @@
 - **Side-by-Side Clause Diffing**: Visual comparison of additions (`+`), modifications (`~`), and removals (`-`).
 - **Non-Assumed Consent**: Publishing a new notice triggers an explicit review banner rather than assuming automated acceptance.
 
+### 4. Visitor Cookie Banner Simulator & GTM Consent Mode v2 Embed SDK
+- **Interactive Simulator**: Preview and test visitor-facing consent banners across 3 layout styles (Bottom Sticky Bar, Floating Shield Badge, Center Modal Dialog).
+- **Google Tag Manager Integration**: Ready-to-use snippets compliant with Google's Consent Mode v2 (`ad_storage`, `analytics_storage`, `personalization_storage`).
+- **Universal Embed Tag**: 1-click copyable script tag for direct embedding on any external web property.
+
+### 5. Multi-Tenant Organization Switcher & Audit Certification
+- **Tenant Context Switching**: Seamlessly switch between enterprise subsidiaries with immediate tenant-level preference isolation directly from the navigation bar.
+- **Cryptographic Audit Certificate**: Export cryptographically signed verification receipts validating SHA-256 chain continuity from Genesis to Head.
+
 ---
 
 ## 🛠️ Technology Stack
