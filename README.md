@@ -33,10 +33,58 @@
 
 ## 🏛️ System Architecture
 
-The interactive architecture diagram of ConsentLog Enterprise Edition is authored and verified using **Archify**:
-- **Interactive Diagram**: [.archify/architecture-consentlog-platform-20261105-095100/consentlog-platform.html](.archify/architecture-consentlog-platform-20261105-095100/consentlog-platform.html)
-- **Specification Source**: [.archify/architecture-consentlog-platform-20261105-095100/candidate.json](.archify/architecture-consentlog-platform-20261105-095100/candidate.json)
-- **Verification Gates**: 100% Passed (`validate`, `deliver`, `check`, headless Chrome `browser-check`).
+ConsentLog employs a defense-in-depth architecture with clear boundaries between the client interface, gateway authentication, transactional privacy controllers, append-only cryptographic auditing, and persistent document storage:
+
+```mermaid
+flowchart TD
+    subgraph ClientTier["1. Frontend Web Tier (React 18 + Vite)"]
+        Browser["👤 Desktop & Mobile Users"]
+        SPA["💻 React 18 SPA (Port 5173)<br/>Vite · Tailwind · React Router"]
+        AuthContext["⚡ Auth & Notice Context<br/>JWT Storage · Banner Triggers"]
+    end
+
+    subgraph GatewayTier["2. API & Security Gateway Tier (Express :5000)"]
+        Gateway["🛡️ Security & API Gateway<br/>Helmet · CORS · Rate Limiter"]
+        AuthGuard["🔐 JWT & RBAC Guard<br/>Role Validation (User / Admin)"]
+    end
+
+    subgraph ServiceTier["3. Business Logic & Audit Engine Tier"]
+        Controllers["⚙️ Express Controllers<br/>Preferences · Notices · DSAR"]
+        AuditEngine["⛓️ Cryptographic Audit Engine<br/>Mutex Lock · Append-Only Sequencer"]
+        CryptoEngine["🔒 SHA-256 Hash Chain<br/>Canonical JSON · Genesis Linkage"]
+    end
+
+    subgraph DataTier["4. Persistence & Storage Tier (MongoDB)"]
+        ODM["📦 Mongoose ODM Layer<br/>Immutable Schema Pre-Hooks"]
+        DB[("🗄️ MongoDB Database<br/>ReplicaSet / Embedded Fallback<br/>WiredTiger ACID Transactions")]
+    end
+
+    Browser -->|HTTPS :5173| SPA
+    SPA <-->|State Sync| AuthContext
+    SPA -->|REST API :5000 / Bearer JWT| Gateway
+    Gateway -->|Verify Token & Role| AuthGuard
+    Gateway -->|Dispatch Request| Controllers
+    Controllers -->|Preferences / Notices| ODM
+    Controllers -->|Append Audit Event| AuditEngine
+    AuditEngine <-->|Deterministic Hash| CryptoEngine
+    AuditEngine -->|Atomic Session Commit| DB
+    ODM -->|WiredTiger Persistence| DB
+
+    classDef client fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef security fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#f8fafc;
+    classDef service fill:#18181b,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
+    classDef database fill:#1c1917,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
+
+    class SPA,AuthContext client;
+    class Gateway,AuthGuard,CryptoEngine security;
+    class Controllers,AuditEngine service;
+    class ODM,DB database;
+```
+
+### 🧭 Architecture Artifacts & Interactive Diagrams
+- **Interactive Visual Viewer**: [architecture/consentlog-platform.html](architecture/consentlog-platform.html) *(or [docs/index.html](docs/index.html) for GitHub Pages)*
+- **Archify Specification**: [architecture/candidate.json](architecture/candidate.json)
+- **Automated Verification**: Passed 4/4 Archify gates (`validate`, `deliver`, `check`, headless Chrome `browser-check`).
 
 ---
 
