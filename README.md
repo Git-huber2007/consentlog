@@ -31,22 +31,26 @@
 
 ---
 
-## 🏛️ System Architecture (Interactive)
+## 🏛️ System Architecture
 
-[![ConsentLog Interactive Architecture](architecture/architecture-diagram.png)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)
+### ⚡ Live Animated SVG Architecture Engine
 
-> 🚀 **[▶ Click Here to Open the Live Interactive Diagram in Your Browser](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)**
-> 
-> *(Click above or click the diagram image to open the full interactive canvas)*
-> 
-> ### 🌟 Interactive Controls & Live Features:
-> - ⚡ **Live Particle Trace Animation**: Animated signal flow along connection paths from Browser → Gateway → Controllers → SHA-256 Engine → MongoDB.
-> - 🧭 **Guided Viewpoints**: Switch between *Full System Topology*, *Cryptographic Audit Ledger*, and *Authentication & RBAC*.
-> - 🔍 **Semantic Passport & Inspector**: Click any component or connection to inspect verified code line ranges, trust boundaries, and dependencies.
-> - 🔎 **Node Finder**: Press `/` inside the canvas to search components, ports, and models instantly.
-> - 💻 **In-App Explorer**: Navigate to `/architecture` in the ConsentLog sidebar to explore the interactive canvas directly within the application.
-> - 📂 **Offline Local File**: Open [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html) directly in Chrome, Edge, or Firefox.
-> - 🌐 **GitHub Pages (Direct)**: [https://git-huber2007.github.io/consentlog/](https://git-huber2007.github.io/consentlog/) *(requires enabling Pages in repo settings: Settings → Pages → GitHub Actions)*.
+The architecture diagram runs **live with real-time signal animations directly on your GitHub repository page**:
+
+[![ConsentLog Live Animated Architecture](docs/architecture-animated.svg)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)
+
+#### 📡 Active Real-Time Signal Animations Directly on GitHub:
+- 🔵 **Blue data pulses** actively flow between `Browser Client → React 18 SPA → Security API Gateway (:5000)`.
+- 🟣 **Purple cryptographic vectors** actively flow between `Express Controllers → Audit Mutex Sequencer → SHA-256 Hash Chaining Engine`.
+- 🟢 **Green transaction pulses** actively flow between `Express Controllers → Mongoose ODM Models → MongoDB WiredTiger Replica Set`.
+- 🟢 **Pulsing green `LIVE TRACE ACTIVE` status indicator** blinks with radar wave animations in real-time.
+
+#### 🔍 One-Click Deep Interactive Explorer:
+Clicking anywhere on the animated diagram above opens the full-screen interactive **Archify canvas**:
+👉 **[Launch Deep Interactive Explorer (HTMLPreview)](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html)** *(or on [GitHub Pages](https://git-huber2007.github.io/consentlog/))*, where you can pan, zoom, search, switch guided viewpoints, and inspect each node's verified lines of code.
+
+- **In-App Explorer**: Available directly inside the running web application under **Menu → Architecture** (`http://localhost:5173/architecture`).
+- **Offline Local File**: Open [`architecture/consentlog-platform.html`](architecture/consentlog-platform.html) directly in any browser.
 
 ---
 

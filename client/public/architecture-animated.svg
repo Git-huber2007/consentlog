@@ -1,0 +1,362 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="auto" fill="none">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09090b" />
+      <stop offset="50%" stop-color="#0c0d12" />
+      <stop offset="100%" stop-color="#09090b" />
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141419" />
+      <stop offset="100%" stop-color="#0e0e12" />
+    </linearGradient>
+
+    <!-- Glowing Signal Filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Path Definitions for animateMotion particles -->
+    <path id="pathUserToSpa" d="M170 240 L170 290" />
+    <path id="pathSpaToState" d="M170 375 L170 430" />
+    <path id="pathSpaToGateway" d="M270 330 L355 200" />
+    <path id="pathGatewayToGuard" d="M455 245 L455 290" />
+    <path id="pathGatewayToDispatch" d="M455 375 L455 430" />
+    <path id="pathDispatchToControllers" d="M555 465 L640 200" />
+    <path id="pathControllersToAudit" d="M745 245 L745 290" />
+    <path id="pathAuditToSha" d="M745 375 L745 430" />
+    <path id="pathControllersToOdm" d="M850 200 L935 200" />
+    <path id="pathOdmToHooks" d="M1035 245 L1035 290" />
+    <path id="pathHooksToDb" d="M1035 375 L1035 430" />
+    <path id="pathAuditToDb" d="M850 335 Q890 335 935 465" />
+  </defs>
+
+  <style>
+    @keyframes pulseLive {
+      0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 6px #10b981); }
+      50% { transform: scale(1.25); opacity: 0.6; filter: drop-shadow(0 0 12px #10b981); }
+    }
+    @keyframes radarWave {
+      0% { r: 5px; opacity: 0.8; }
+      100% { r: 16px; opacity: 0; }
+    }
+    @keyframes flowDash {
+      to { stroke-dashoffset: -40; }
+    }
+    @keyframes badgeGlow {
+      0%, 100% { border-color: #27272a; }
+      50% { border-color: #3b82f6; }
+    }
+    .pulse-dot {
+      transform-origin: 1045px 50px;
+      animation: pulseLive 2s infinite ease-in-out;
+    }
+    .radar-circle {
+      animation: radarWave 2s infinite cubic-bezier(0, 0.2, 0.8, 1);
+    }
+    .track-line {
+      stroke: #27272a;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+    .flow-blue {
+      stroke: #38bdf8;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 6 14;
+      animation: flowDash 1.2s linear infinite;
+    }
+    .flow-green {
+      stroke: #34d399;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 6 14;
+      animation: flowDash 1.2s linear infinite;
+    }
+    .flow-purple {
+      stroke: #c084fc;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 6 14;
+      animation: flowDash 1.2s linear infinite;
+    }
+    .font-sans {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .font-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+
+  <!-- Deep Canvas Background -->
+  <rect width="1200" height="680" rx="16" fill="url(#bgGrad)" stroke="#1e1e24" stroke-width="1.5" />
+
+  <!-- Top Header Navigation Bar -->
+  <g id="header">
+    <rect x="25" y="20" width="1150" height="60" rx="10" fill="#111116" stroke="#22222b" stroke-width="1" />
+    
+    <!-- Shield Logo Icon -->
+    <rect x="42" y="34" width="32" height="32" rx="8" fill="#18181b" stroke="#27272a" stroke-width="1.2" />
+    <path d="M58 40 C58 40 66 42 66 48 C66 54 58 60 58 60 C58 60 50 54 50 48 C50 42 58 40 58 40 Z" fill="#09090b" stroke="#10b981" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M54.5 49 L57 51.5 L61.5 47" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Title & Subtitle -->
+    <text x="86" y="47" fill="#ffffff" font-size="15" font-weight="700" class="font-sans" letter-spacing="-0.3">CONSENTLOG ENTERPRISE PLATFORM v2.0</text>
+    <text x="86" y="63" fill="#a1a1aa" font-size="11.5" class="font-sans">Intelligent Consent Governance · Append-Only Cryptographic Audit Engine</text>
+
+    <!-- LIVE TRACE ACTIVE Indicator with Radar Pulse -->
+    <g transform="translate(1010, 36)">
+      <rect x="0" y="0" width="145" height="28" rx="6" fill="#092015" stroke="#059669" stroke-width="1" />
+      <circle cx="16" cy="14" r="5" fill="#10b981" class="pulse-dot" />
+      <circle cx="16" cy="14" r="5" fill="none" stroke="#10b981" stroke-width="1.5" class="radar-circle" />
+      <text x="28" y="18" fill="#34d399" font-size="10.5" font-weight="700" class="font-mono">LIVE TRACE ACTIVE</text>
+    </g>
+  </g>
+
+  <!-- ================= TIER BOUNDARY CONTAINERS ================= -->
+  
+  <!-- Tier 1: Frontend Web Tier -->
+  <rect x="40" y="105" width="260" height="495" rx="12" fill="#0f0f14" stroke="#23232c" stroke-width="1" />
+  <rect x="52" y="117" width="236" height="24" rx="5" fill="#191924" />
+  <text x="64" y="133" fill="#60a5fa" font-size="11" font-weight="700" class="font-sans">1. FRONTEND WEB TIER (:5173)</text>
+
+  <!-- Tier 2: Security & Gateway Tier -->
+  <rect x="325" y="105" width="260" height="495" rx="12" fill="#0f0f14" stroke="#23232c" stroke-width="1" />
+  <rect x="337" y="117" width="236" height="24" rx="5" fill="#14231b" />
+  <text x="349" y="133" fill="#34d399" font-size="11" font-weight="700" class="font-sans">2. SECURITY &amp; GATEWAY (:5000)</text>
+
+  <!-- Tier 3: Business Logic & Audit Ledger -->
+  <rect x="610" y="105" width="270" height="495" rx="12" fill="#0f0f14" stroke="#23232c" stroke-width="1" />
+  <rect x="622" y="117" width="246" height="24" rx="5" fill="#24192b" />
+  <text x="634" y="133" fill="#c084fc" font-size="11" font-weight="700" class="font-sans">3. LOGIC &amp; CRYPTOGRAPHIC LEDGER</text>
+
+  <!-- Tier 4: Persistence Tier -->
+  <rect x="905" y="105" width="260" height="495" rx="12" fill="#0f0f14" stroke="#23232c" stroke-width="1" />
+  <rect x="917" y="117" width="236" height="24" rx="5" fill="#291e14" />
+  <text x="929" y="133" fill="#fbbf24" font-size="11" font-weight="700" class="font-sans">4. PERSISTENCE &amp; WIREDTIGER</text>
+
+  <!-- ================= STATIC TRACK LINES ================= -->
+  <path d="M170 240 L170 290" class="track-line" />
+  <path d="M170 375 L170 430" class="track-line" />
+  <path d="M270 330 L355 200" class="track-line" />
+  <path d="M455 245 L455 290" class="track-line" />
+  <path d="M455 375 L455 430" class="track-line" />
+  <path d="M555 465 L640 200" class="track-line" />
+  <path d="M745 245 L745 290" class="track-line" />
+  <path d="M745 375 L745 430" class="track-line" />
+  <path d="M850 200 L935 200" class="track-line" />
+  <path d="M1035 245 L1035 290" class="track-line" />
+  <path d="M1035 375 L1035 430" class="track-line" />
+  <path d="M850 335 Q890 335 935 465" class="track-line" />
+
+  <!-- ================= ACTIVE REAL-TIME FLOW PULSES ================= -->
+  
+  <!-- Blue Flow: User Interaction to Frontend to Gateway -->
+  <path d="M170 240 L170 290" class="flow-blue" filter="url(#glowBlue)" />
+  <path d="M170 375 L170 430" class="flow-blue" filter="url(#glowBlue)" />
+  <path d="M270 330 L355 200" class="flow-blue" filter="url(#glowBlue)" />
+  <path d="M555 465 L640 200" class="flow-blue" filter="url(#glowBlue)" />
+
+  <!-- Purple Flow: Logic to Audit Mutex & SHA-256 Engine -->
+  <path d="M745 245 L745 290" class="flow-purple" filter="url(#glowPurple)" />
+  <path d="M745 375 L745 430" class="flow-purple" filter="url(#glowPurple)" />
+  <path d="M455 245 L455 290" class="flow-purple" filter="url(#glowPurple)" />
+  <path d="M455 375 L455 430" class="flow-purple" filter="url(#glowPurple)" />
+
+  <!-- Green Flow: Controllers to Mongoose ODM to MongoDB -->
+  <path d="M850 200 L935 200" class="flow-green" filter="url(#glowGreen)" />
+  <path d="M1035 245 L1035 290" class="flow-green" filter="url(#glowGreen)" />
+  <path d="M1035 375 L1035 430" class="flow-green" filter="url(#glowGreen)" />
+  <path d="M850 335 Q890 335 935 465" class="flow-green" filter="url(#glowGreen)" />
+
+  <!-- GLIDING REAL-TIME PARTICLE DOTS (SMIL animateMotion) -->
+  <circle r="4" fill="#60a5fa" filter="url(#glowBlue)">
+    <animateMotion dur="1.8s" repeatCount="indefinite">
+      <mpath href="#pathSpaToGateway" />
+    </animateMotion>
+  </circle>
+
+  <circle r="4" fill="#38bdf8" filter="url(#glowBlue)">
+    <animateMotion dur="2.2s" repeatCount="indefinite">
+      <mpath href="#pathDispatchToControllers" />
+    </animateMotion>
+  </circle>
+
+  <circle r="4" fill="#c084fc" filter="url(#glowPurple)">
+    <animateMotion dur="1.5s" repeatCount="indefinite">
+      <mpath href="#pathControllersToAudit" />
+    </animateMotion>
+  </circle>
+
+  <circle r="4" fill="#e879f9" filter="url(#glowPurple)">
+    <animateMotion dur="1.6s" repeatCount="indefinite">
+      <mpath href="#pathAuditToSha" />
+    </animateMotion>
+  </circle>
+
+  <circle r="4" fill="#34d399" filter="url(#glowGreen)">
+    <animateMotion dur="1.9s" repeatCount="indefinite">
+      <mpath href="#pathControllersToOdm" />
+    </animateMotion>
+  </circle>
+
+  <circle r="4" fill="#10b981" filter="url(#glowGreen)">
+    <animateMotion dur="2.1s" repeatCount="indefinite">
+      <mpath href="#pathHooksToDb" />
+    </animateMotion>
+  </circle>
+
+  <circle r="4" fill="#34d399" filter="url(#glowGreen)">
+    <animateMotion dur="2.4s" repeatCount="indefinite">
+      <mpath href="#pathAuditToDb" />
+    </animateMotion>
+  </circle>
+
+  <!-- ================= COMPONENT CARDS ================= -->
+
+  <!-- Tier 1 Cards -->
+  <!-- 1.1 Browser Client -->
+  <g id="nodeBrowser">
+    <rect x="70" y="160" width="200" height="80" rx="8" fill="url(#cardGrad)" stroke="#27272a" stroke-width="1.2" />
+    <circle cx="92" cy="184" r="10" fill="#1e293b" />
+    <path d="M88 188 C88 184 96 184 96 188 M92 181 A2 2 0 1 0 92 177 A2 2 0 1 0 92 181" stroke="#38bdf8" stroke-width="1.4" fill="none" />
+    <text x="110" y="185" fill="#f4f4f5" font-size="12" font-weight="700" class="font-sans">Browser Client</text>
+    <text x="110" y="198" fill="#71717a" font-size="10" class="font-sans">Desktop &amp; Mobile UI</text>
+    <rect x="85" y="212" width="85" height="18" rx="4" fill="#18181b" />
+    <text x="94" y="224" fill="#a1a1aa" font-size="9" font-weight="600" class="font-mono">HTTP/2 TLS</text>
+  </g>
+
+  <!-- 1.2 React 18 SPA -->
+  <g id="nodeSpa">
+    <rect x="70" y="290" width="200" height="85" rx="8" fill="url(#cardGrad)" stroke="#3b82f6" stroke-width="1.5" />
+    <text x="85" y="315" fill="#ffffff" font-size="12.5" font-weight="700" class="font-sans">React 18 SPA</text>
+    <text x="85" y="330" fill="#93c5fd" font-size="10.5" class="font-sans">Vite · Tailwind · Router v7</text>
+    <text x="85" y="348" fill="#71717a" font-size="10" class="font-sans">Preference Centre &amp; Diff Engine</text>
+    <rect x="185" y="302" width="75" height="18" rx="4" fill="#1e3a8a" />
+    <text x="194" y="314" fill="#93c5fd" font-size="9" font-weight="700" class="font-mono">PORT 5173</text>
+  </g>
+
+  <!-- 1.3 State Context -->
+  <g id="nodeState">
+    <rect x="70" y="430" width="200" height="80" rx="8" fill="url(#cardGrad)" stroke="#27272a" stroke-width="1.2" />
+    <text x="85" y="455" fill="#f4f4f5" font-size="12" font-weight="700" class="font-sans">Session &amp; Notice State</text>
+    <text x="85" y="470" fill="#71717a" font-size="10" class="font-sans">AuthContext &amp; ToastProvider</text>
+    <text x="85" y="492" fill="#60a5fa" font-size="9.5" font-weight="600" class="font-mono">JWT Bearer Cache</text>
+  </g>
+
+  <!-- Tier 2 Cards -->
+  <!-- 2.1 Security & Rate Limiter -->
+  <g id="nodeGateway">
+    <rect x="355" y="160" width="200" height="85" rx="8" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.5" />
+    <text x="370" y="185" fill="#ffffff" font-size="12.5" font-weight="700" class="font-sans">Security API Gateway</text>
+    <text x="370" y="200" fill="#6ee7b7" font-size="10.5" class="font-sans">Helmet · CORS · MongoSanitize</text>
+    <text x="370" y="218" fill="#71717a" font-size="10" class="font-sans">Rate Limiter (500 req/15m)</text>
+    <rect x="470" y="172" width="75" height="18" rx="4" fill="#064e3b" />
+    <text x="479" y="184" fill="#6ee7b7" font-size="9" font-weight="700" class="font-mono">PORT 5000</text>
+  </g>
+
+  <!-- 2.2 JWT Guard & RBAC -->
+  <g id="nodeGuard">
+    <rect x="355" y="290" width="200" height="85" rx="8" fill="url(#cardGrad)" stroke="#27272a" stroke-width="1.2" />
+    <text x="370" y="315" fill="#f4f4f5" font-size="12" font-weight="700" class="font-sans">JWT Guard &amp; RBAC</text>
+    <text x="370" y="330" fill="#71717a" font-size="10.5" class="font-sans">bcryptjs (12 salt rounds)</text>
+    <text x="370" y="348" fill="#10b981" font-size="10" font-weight="600" class="font-mono">Role: User | Admin</text>
+    <rect x="470" y="302" width="75" height="18" rx="4" fill="#18181b" />
+    <text x="478" y="314" fill="#a1a1aa" font-size="9" font-weight="600" class="font-mono">PROTECT</text>
+  </g>
+
+  <!-- 2.3 Route Dispatcher -->
+  <g id="nodeDispatch">
+    <rect x="355" y="430" width="200" height="80" rx="8" fill="url(#cardGrad)" stroke="#27272a" stroke-width="1.2" />
+    <text x="370" y="455" fill="#f4f4f5" font-size="12" font-weight="700" class="font-sans">REST Route Dispatch</text>
+    <text x="370" y="470" fill="#71717a" font-size="10" class="font-sans">/preferences · /audit · /notices</text>
+    <text x="370" y="492" fill="#34d399" font-size="9.5" font-weight="600" class="font-mono">Express v4 Router</text>
+  </g>
+
+  <!-- Tier 3 Cards -->
+  <!-- 3.1 Express Controllers -->
+  <g id="nodeControllers">
+    <rect x="640" y="160" width="210" height="85" rx="8" fill="url(#cardGrad)" stroke="#8b5cf6" stroke-width="1.5" />
+    <text x="655" y="185" fill="#ffffff" font-size="12.5" font-weight="700" class="font-sans">Express Controllers</text>
+    <text x="655" y="200" fill="#d8b4fe" font-size="10.5" class="font-sans">Essential Protection Engine</text>
+    <text x="655" y="218" fill="#71717a" font-size="10" class="font-sans">Privacy Notice Diff &amp; DSAR</text>
+    <rect x="755" y="172" width="85" height="18" rx="4" fill="#4c1d95" />
+    <text x="765" y="184" fill="#d8b4fe" font-size="9" font-weight="700" class="font-mono">ATOMIC OPS</text>
+  </g>
+
+  <!-- 3.2 Audit Mutex Sequencer -->
+  <g id="nodeAudit">
+    <rect x="640" y="290" width="210" height="85" rx="8" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.5" />
+    <text x="655" y="315" fill="#ffffff" font-size="12.5" font-weight="700" class="font-sans">Audit Chain Service</text>
+    <text x="655" y="330" fill="#d8b4fe" font-size="10.5" class="font-sans">Mutex-Locked In-Memory Sequencer</text>
+    <text x="655" y="348" fill="#c084fc" font-size="10" font-weight="600" class="font-mono">Strict Append-Only Queue</text>
+    <rect x="755" y="302" width="85" height="18" rx="4" fill="#581c87" />
+    <text x="763" y="314" fill="#f0abfc" font-size="9" font-weight="700" class="font-mono">NO MUTATION</text>
+  </g>
+
+  <!-- 3.3 SHA-256 Engine -->
+  <g id="nodeSha">
+    <rect x="640" y="430" width="210" height="85" rx="8" fill="url(#cardGrad)" stroke="#27272a" stroke-width="1.2" />
+    <text x="655" y="455" fill="#f4f4f5" font-size="12" font-weight="700" class="font-sans">SHA-256 Hash Chain</text>
+    <text x="655" y="470" fill="#71717a" font-size="10" class="font-sans">Deterministic JSON Canonicalizer</text>
+    <text x="655" y="492" fill="#c084fc" font-size="9.5" font-weight="600" class="font-mono">Genesis: 0000...0000</text>
+  </g>
+
+  <!-- Tier 4 Cards -->
+  <!-- 4.1 Mongoose ODM Layer -->
+  <g id="nodeOdm">
+    <rect x="935" y="160" width="200" height="85" rx="8" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.5" />
+    <text x="950" y="185" fill="#ffffff" font-size="12.5" font-weight="700" class="font-sans">Mongoose ODM Layer</text>
+    <text x="950" y="200" fill="#fde68a" font-size="10.5" class="font-sans">Schema Validation &amp; Models</text>
+    <text x="950" y="218" fill="#71717a" font-size="10" class="font-sans">User, Preference, ConsentLog</text>
+    <rect x="1045" y="172" width="80" height="18" rx="4" fill="#78350f" />
+    <text x="1054" y="184" fill="#fde68a" font-size="9" font-weight="700" class="font-mono">MONGOOSE 8</text>
+  </g>
+
+  <!-- 4.2 Immutability Pre-Hooks -->
+  <g id="nodeHooks">
+    <rect x="935" y="290" width="200" height="85" rx="8" fill="url(#cardGrad)" stroke="#27272a" stroke-width="1.2" />
+    <text x="950" y="315" fill="#f4f4f5" font-size="12" font-weight="700" class="font-sans">Immutability Pre-Hooks</text>
+    <text x="950" y="330" fill="#71717a" font-size="10.5" class="font-sans">Blocks updateOne / deleteOne</text>
+    <text x="950" y="348" fill="#f59e0b" font-size="10" font-weight="600" class="font-mono">HTTP 403 Forbidden</text>
+    <rect x="1045" y="302" width="80" height="18" rx="4" fill="#18181b" />
+    <text x="1055" y="314" fill="#a1a1aa" font-size="9" font-weight="600" class="font-mono">HOOK GUARD</text>
+  </g>
+
+  <!-- 4.3 MongoDB Replica Set -->
+  <g id="nodeDb">
+    <rect x="935" y="430" width="200" height="85" rx="8" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.5" />
+    <text x="950" y="455" fill="#ffffff" font-size="12.5" font-weight="700" class="font-sans">MongoDB Database</text>
+    <text x="950" y="470" fill="#fde68a" font-size="10.5" class="font-sans">Replica Set / Memory Fallback</text>
+    <text x="950" y="492" fill="#fbbf24" font-size="9.5" font-weight="600" class="font-mono">WiredTiger ACID Sessions</text>
+    <rect x="1045" y="442" width="80" height="18" rx="4" fill="#78350f" />
+    <text x="1056" y="454" fill="#fde68a" font-size="9" font-weight="700" class="font-mono">PERSISTENT</text>
+  </g>
+
+  <!-- ================= BOTTOM CALLOUT BAR ================= -->
+  <g id="footerBar">
+    <rect x="40" y="615" width="1120" height="45" rx="8" fill="#111116" stroke="#22222b" stroke-width="1" />
+    
+    <text x="60" y="642" fill="#38bdf8" font-size="11" font-weight="700" class="font-mono">✦ BLUE:</text>
+    <text x="110" y="642" fill="#a1a1aa" font-size="11" class="font-sans">Client Telemetry &amp; JWT</text>
+
+    <text x="270" y="642" fill="#34d399" font-size="11" font-weight="700" class="font-mono">✦ GREEN:</text>
+    <text x="325" y="642" fill="#a1a1aa" font-size="11" class="font-sans">ACID State Updates</text>
+
+    <text x="475" y="642" fill="#c084fc" font-size="11" font-weight="700" class="font-mono">✦ PURPLE:</text>
+    <text x="535" y="642" fill="#a1a1aa" font-size="11" class="font-sans">SHA-256 Chained Hash</text>
+
+    <rect x="740" y="622" width="405" height="30" rx="6" fill="#181822" stroke="#2b2b3d" stroke-width="1" />
+    <text x="755" y="641" fill="#e4e4e7" font-size="11" font-weight="600" class="font-sans">👆 Click diagram to open Deep Interactive Canvas (Pan · Zoom · Inspect)</text>
+  </g>
+</svg>
