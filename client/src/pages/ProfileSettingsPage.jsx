@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save } from 'lucide-react';
+import { Save, ShieldCheck, Download } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -138,6 +138,51 @@ const ProfileSettingsPage = () => {
           </button>
         </div>
       </form>
+
+      {/* Compliance & Data Portability Passport */}
+      <div className="enterprise-card p-6 mt-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="size-4 text-emerald-500" />
+              <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                Data Subject Access Request (DSAR) Passport
+              </h2>
+            </div>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
+              Generate and download your cryptographically signed compliance bundle conforming to GDPR Art. 15 (Right of Access), GDPR Art. 20 (Data Portability), and India DPDP Act Sec. 11. Includes complete tamper-evident audit lineage signed with SHA-256.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                addToast('Generating signed DSAR Compliance Passport...', 'info');
+                const res = await api.get('/audit/dsar-passport');
+                const jsonContent = JSON.stringify(res.data, null, 2);
+                const blob = new Blob([jsonContent], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `consentlog-dsar-passport-${new Date().toISOString().slice(0, 10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                addToast(
+                  `DSAR Passport downloaded! SHA-256: ${res.data.passportSignature?.slice(0, 12)}...`,
+                  'success'
+                );
+              } catch (err) {
+                addToast(err.response?.data?.message || 'Could not download DSAR passport.', 'error');
+              }
+            }}
+            className="h-9 px-4 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium flex items-center gap-1.5 shrink-0 transition-colors shadow-xs"
+          >
+            <Download className="size-3.5" />
+            <span>Download DSAR Passport</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import {
   Download,
   Copy,
   Check,
+  ShieldCheck,
 } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -124,6 +125,27 @@ const ConsentHistoryPage = () => {
     addToast(`Exported ${logs.length} records to CSV.`, 'success');
   };
 
+  const handleExportDsarPassport = async () => {
+    try {
+      addToast('Generating signed DSAR Compliance Passport...', 'info');
+      const res = await api.get('/audit/dsar-passport');
+      const jsonContent = JSON.stringify(res.data, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `consentlog-dsar-passport-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      addToast(
+        `DSAR Passport exported! Signed SHA-256: ${res.data.passportSignature?.slice(0, 12)}...`,
+        'success'
+      );
+    } catch (err) {
+      addToast(err.response?.data?.message || 'Could not export DSAR passport.', 'error');
+    }
+  };
+
   const resetFilters = () => {
     setSearch('');
     setSelectedUser('all');
@@ -162,6 +184,15 @@ const ConsentHistoryPage = () => {
           >
             <Download className="size-3.5 text-zinc-500" />
             <span>Export CSV</span>
+          </button>
+
+          <button
+            onClick={handleExportDsarPassport}
+            className="h-9 px-3 rounded-md bg-white dark:bg-[#111113] hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5"
+            title="Download GDPR Art. 15/20 & DPDP Cryptographically Signed Data Subject Passport"
+          >
+            <ShieldCheck className="size-3.5 text-emerald-500" />
+            <span>Export DSAR</span>
           </button>
 
           <button

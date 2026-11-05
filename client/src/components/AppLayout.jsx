@@ -199,6 +199,21 @@ const AppLayout = () => {
           ))}
         </div>
 
+        <div className="px-3 py-2 border-t border-zinc-200/80 dark:border-zinc-800/80">
+          <a
+            href="https://github.com/Git-huber2007/consentlog#readme"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between px-3 py-2 text-xs font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-md transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <span className="size-1.5 rounded-full bg-emerald-500" />
+              <span>System Architecture (Git)</span>
+            </span>
+            <ArrowUpRight className="size-3.5 text-zinc-400" />
+          </a>
+        </div>
+
         <div className="p-3 border-t border-zinc-200/80 dark:border-zinc-800/80">
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
