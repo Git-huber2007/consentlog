@@ -288,66 +288,68 @@ const AppLayout = () => {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 bg-white/85 dark:bg-[#060911]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Open menu"
-              className="lg:hidden size-8 inline-flex items-center justify-center rounded-md text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-            >
-              <Menu className="size-4" />
-            </button>
-
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-slate-400 dark:text-slate-500">{breadcrumbs[0]}</span>
-              <ChevronRight className="size-3.5 text-slate-300 dark:text-slate-700" />
-              <span className="font-semibold text-slate-900 dark:text-white">
-                {breadcrumbs[1]}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="hidden sm:inline-flex items-center relative">
-              <Building2 className="size-3.5 text-slate-400 absolute left-2.5 pointer-events-none" />
-              <select
-                value={user?.organization || 'Enterprise Global Corp'}
-                onChange={handleOrgChange}
-                aria-label="Active Organization"
-                className="h-8 pl-8 pr-3 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 outline-none hover:bg-white dark:hover:bg-slate-800 cursor-pointer transition-colors shadow-2xs backdrop-blur-sm"
-                title="Active Tenant Organization"
+        <header className="h-14 bg-white/85 dark:bg-[#060911]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 sticky top-0 z-30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 h-full flex items-center justify-between w-full">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open menu"
+                className="lg:hidden size-8 inline-flex items-center justify-center rounded-md text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
               >
-                <option value="Enterprise Global Corp">Enterprise Global Corp</option>
-                <option value="Pacific Health Systems">Pacific Health Systems</option>
-                <option value="CloudScale Data Networks">CloudScale Data Networks</option>
-                <option value="Apex Financial Services">Apex Financial Services</option>
-              </select>
+                <Menu className="size-4" />
+              </button>
+
+              <div className="flex items-center gap-1.5 text-xs">
+                <span className="text-slate-400 dark:text-slate-500">{breadcrumbs[0]}</span>
+                <ChevronRight className="size-3.5 text-slate-300 dark:text-slate-700" />
+                <span className="font-semibold text-slate-900 dark:text-white">
+                  {breadcrumbs[1]}
+                </span>
+              </div>
             </div>
 
-            <div className="hidden md:flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-xl border border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 shadow-2xs">
-                <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                {user?.jurisdiction || 'GDPR (EU)'}
-              </span>
-              <span className="inline-flex items-center text-xs font-mono font-semibold px-2.5 py-1 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 shadow-2xs">
-                v{activeNoticeInfo?.version || '2.0'} Active
-              </span>
-            </div>
+            <div className="flex items-center gap-2">
+              <div className="hidden sm:inline-flex items-center relative">
+                <Building2 className="size-3.5 text-slate-400 absolute left-2.5 pointer-events-none" />
+                <select
+                  value={user?.organization || 'Enterprise Global Corp'}
+                  onChange={handleOrgChange}
+                  aria-label="Active Organization"
+                  className="h-8 pl-8 pr-3 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 outline-none hover:bg-white dark:hover:bg-slate-800 cursor-pointer transition-colors shadow-2xs backdrop-blur-sm"
+                  title="Active Tenant Organization"
+                >
+                  <option value="Enterprise Global Corp">Enterprise Global Corp</option>
+                  <option value="Pacific Health Systems">Pacific Health Systems</option>
+                  <option value="CloudScale Data Networks">CloudScale Data Networks</option>
+                  <option value="Apex Financial Services">Apex Financial Services</option>
+                </select>
+              </div>
 
-            <button
-              onClick={toggleTheme}
-              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              aria-label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="size-8 inline-flex items-center justify-center rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-colors shadow-2xs cursor-pointer"
-            >
-              {darkMode ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4" />}
-            </button>
+              <div className="hidden md:flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-xl border border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 shadow-2xs">
+                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {user?.jurisdiction || 'GDPR (EU)'}
+                </span>
+                <span className="inline-flex items-center text-xs font-mono font-semibold px-2.5 py-1 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 shadow-2xs">
+                  v{activeNoticeInfo?.version || '2.0'} Active
+                </span>
+              </div>
+
+              <button
+                onClick={toggleTheme}
+                title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                aria-label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                className="size-8 inline-flex items-center justify-center rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-colors shadow-2xs cursor-pointer"
+              >
+                {darkMode ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4" />}
+              </button>
+            </div>
           </div>
         </header>
 
         {activeNoticeInfo && !activeNoticeInfo.hasAccepted && (
           <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 sm:px-8 py-2.5">
-            <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2.5 text-xs">
                 <span className="font-mono font-medium px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[11px] tabular-nums">
                   v{activeNoticeInfo.version}
@@ -382,7 +384,7 @@ const AppLayout = () => {
           </div>
         )}
 
-        <main className="flex-1 p-4 sm:p-8 max-w-6xl w-full mx-auto">
+        <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>
       </div>

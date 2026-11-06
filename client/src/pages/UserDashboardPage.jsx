@@ -396,13 +396,16 @@ const UserDashboardPage = () => {
           </div>
 
           <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {(userConsent?.summary?.categories || []).map((cat) => {
+            {(userConsent?.summary?.categories || []).map((cat, idx) => {
               const meta = CATEGORY_META[cat.key] || { icon: Cookie, desc: 'Consent category' };
               const Icon = meta.icon;
+              const isLastOdd = idx === 4;
               return (
                 <div
                   key={cat.key}
                   className={`p-3.5 rounded-xl border transition-all flex items-start gap-3 ${
+                    isLastOdd ? 'sm:col-span-2' : ''
+                  } ${
                     cat.enabled
                       ? 'bg-emerald-500/[0.04] dark:bg-emerald-500/[0.08] border-emerald-500/30 shadow-[0_0_15px_-4px_rgba(16,185,129,0.15)]'
                       : 'bg-slate-50/70 dark:bg-slate-900/40 border-slate-200/80 dark:border-white/10'

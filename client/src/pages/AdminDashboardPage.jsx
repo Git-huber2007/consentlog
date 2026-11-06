@@ -205,7 +205,7 @@ const AdminDashboardPage = () => {
       </div>
 
       <div className="grid lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-6 enterprise-card p-5">
+        <div className="lg:col-span-6 luxury-card p-6">
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-0.5">
             Opt-Ins by Category
           </h3>
@@ -247,7 +247,7 @@ const AdminDashboardPage = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-6 enterprise-card p-5">
+        <div className="lg:col-span-6 luxury-card p-6">
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-0.5">
             Consent Status Breakdown
           </h3>
@@ -295,7 +295,7 @@ const AdminDashboardPage = () => {
         </div>
       </div>
 
-      <div className="enterprise-card overflow-hidden">
+      <div className="luxury-card overflow-hidden">
         <div className="p-5 border-b border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between">
           <div>
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">

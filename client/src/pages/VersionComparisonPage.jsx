@@ -68,7 +68,7 @@ const VersionComparisonPage = () => {
         </Link>
       </div>
 
-      <div className="enterprise-card p-5 grid md:grid-cols-11 gap-4 items-center">
+      <div className="luxury-card p-6 grid md:grid-cols-11 gap-4 items-center">
         <div className="md:col-span-5">
           <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5">
             From Version
@@ -110,31 +110,35 @@ const VersionComparisonPage = () => {
         </div>
       </div>
 
-      <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800/80">
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Added</span>
-          <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 block">Added Clauses</span>
+          <p className="font-mono text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">
             +{summary.addedClauses ?? 0}
           </p>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Modified</span>
-          <p className="font-mono text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1 tabular-nums">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-amber-500/[0.05] dark:from-amber-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-500" />
+          <span className="text-xs font-bold text-amber-600 dark:text-amber-400 block">Modified Clauses</span>
+          <p className="font-mono text-3xl font-extrabold text-amber-600 dark:text-amber-400 mt-1 tabular-nums">
             ~{summary.modifiedClauses ?? 0}
           </p>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Removed</span>
-          <p className="font-mono text-2xl font-bold text-rose-600 dark:text-rose-400 mt-1 tabular-nums">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-rose-500/[0.05] dark:from-rose-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-rose-600" />
+          <span className="text-xs font-bold text-rose-600 dark:text-rose-400 block">Removed Clauses</span>
+          <p className="font-mono text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-1 tabular-nums">
             -{summary.removedClauses ?? 0}
           </p>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Unchanged</span>
-          <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-slate-500/[0.05] dark:from-slate-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-slate-400 to-slate-600" />
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block">Unchanged</span>
+          <p className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white mt-1 tabular-nums">
             {summary.unchangedClauses ?? 0}
           </p>
         </div>

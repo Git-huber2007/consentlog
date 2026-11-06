@@ -157,7 +157,7 @@ const PrivacyNoticeCentrePage = () => {
 
         <div className="lg:col-span-8">
           {selectedNotice && (
-            <div className="enterprise-card overflow-hidden">
+            <div className="luxury-card overflow-hidden">
               <div className="p-6 bg-zinc-900 dark:bg-zinc-950 text-white border-b border-zinc-800 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">

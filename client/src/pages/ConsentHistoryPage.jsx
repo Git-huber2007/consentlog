@@ -206,45 +206,41 @@ const ConsentHistoryPage = () => {
         </div>
       </div>
 
-      <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 sm:divide-x divide-zinc-200/80 dark:divide-zinc-800/80">
-        <div className="p-4">
-          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            Total Entries
-          </span>
-          <p className="font-mono text-2xl font-semibold text-zinc-900 dark:text-white mt-1.5 tabular-nums">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500" />
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block">Total Entries</span>
+          <p className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white mt-1 tabular-nums">
             {stats.totalAuditEvents ?? 0}
           </p>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            Today
-          </span>
-          <p className="font-mono text-2xl font-semibold text-zinc-900 dark:text-white mt-1.5 tabular-nums">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-sky-500/[0.05] dark:from-sky-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-cyan-500" />
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block">Today's Changes</span>
+          <p className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white mt-1 tabular-nums">
             {stats.todaysChanges ?? 0}
           </p>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            Granted
-          </span>
-          <p className="font-mono text-2xl font-semibold text-emerald-600 dark:text-emerald-400 mt-1.5 tabular-nums">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 block">Granted Rights</span>
+          <p className="font-mono text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">
             {stats.consentGrants ?? 0}
           </p>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-            Withdrawn
-          </span>
-          <p className="font-mono text-2xl font-semibold text-rose-600 dark:text-rose-400 mt-1.5 tabular-nums">
+        <div className="luxury-card p-4.5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-rose-500/[0.05] dark:from-rose-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-orange-500" />
+          <span className="text-xs font-bold text-rose-600 dark:text-rose-400 block">Withdrawn Rights</span>
+          <p className="font-mono text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-1 tabular-nums">
             {stats.consentWithdrawals ?? 0}
           </p>
         </div>
       </div>
 
-      <div className="enterprise-card p-4 space-y-3">
+      <div className="luxury-card p-5 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-zinc-600 dark:text-zinc-300 tabular-nums">
             Showing {logs.length} of {totalLogs} entries
@@ -349,7 +345,7 @@ const ConsentHistoryPage = () => {
         </div>
       </div>
 
-      <div className="enterprise-card overflow-hidden">
+      <div className="luxury-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
