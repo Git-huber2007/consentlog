@@ -3,36 +3,46 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   CONSENTLOG ENTERPRISE DESIGN SYSTEM
-   Bespoke, High-End Enterprise Design System (Stripe / Linear / Raycast Standard)
-   - Light Mode: Clean Alpine Slate & Pure Titanium White
-   - Dark Mode: Deep Obsidian Sapphire Carbon (#090D16 & #0E1526)
+   CONSENTLOG LUXURY ENTERPRISE DESIGN SYSTEM
+   Linear & Stripe-Grade Architectural Precision
+   - Light: Architectural Oyster Slate & Dual-Layer Elevated Cards
+   - Dark: Luminous Obsidian Sapphire (#080C14 / #0F172A)
    ========================================================================== */
 
 :root {
-  --bg-app: #F8FAFC;
+  --bg-app: #F5F7FA;
   --bg-sidebar: #FFFFFF;
   --bg-card: #FFFFFF;
-  --bg-card-hover: #F1F5F9;
+  --bg-card-hover: #F8FAFC;
+  --bg-inset: #F1F4F8;
   --border-app: #E2E8F0;
   --border-subtle: #EDF2F7;
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --accent-primary: #2563EB;
-  --card-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 10px 24px -4px rgba(15, 23, 42, 0.03);
+  --text-main: #0B101B;
+  --text-muted: #5B677B;
+  --text-subtle: #8A97AA;
+  --accent-primary: #10B981;
+  --accent-blue: #2563EB;
+  --grid-dot: rgba(15, 23, 42, 0.04);
+  --card-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04), 0 8px 24px -4px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shell-ring: rgba(15, 23, 42, 0.06);
 }
 
 .dark {
-  --bg-app: #090D16;
-  --bg-sidebar: #0C101A;
-  --bg-card: #0E1526;
-  --bg-card-hover: #141D33;
+  --bg-app: #080C14;
+  --bg-sidebar: #0C121E;
+  --bg-card: #0F172A;
+  --bg-card-hover: #162035;
+  --bg-inset: #090E18;
   --border-app: #1E293B;
-  --border-subtle: #162032;
+  --border-subtle: #162235;
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
-  --accent-primary: #38BDF8;
-  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --text-subtle: #64748B;
+  --accent-primary: #10B981;
+  --accent-blue: #38BDF8;
+  --grid-dot: rgba(56, 189, 248, 0.04);
+  --card-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shell-ring: rgba(255, 255, 255, 0.08);
 }
 
 @layer base {
@@ -42,12 +52,14 @@
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.012em;
     background-color: var(--bg-app);
+    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+    background-size: 24px 24px;
     color: var(--text-main);
-    transition: background-color 150ms ease, color 150ms ease;
+    transition: background-color 180ms ease, color 180ms ease;
   }
 
   h1, h2, h3, h4 {
-    letter-spacing: -0.025em;
+    letter-spacing: -0.028em;
     text-wrap: balance;
   }
 
@@ -80,8 +92,8 @@
 }
 
 /* ==========================================================================
-   ENTERPRISE PALETTE HARMONIZATION
-   Upgrade all dark surfaces to Obsidian Sapphire for consistent premium depth
+   GLOBAL UTILITY OVERRIDES
+   Harmonize all pages to the luxury enterprise palette
    ========================================================================== */
 
 .dark .dark\:bg-\[\#09090B\],
@@ -89,7 +101,7 @@
 .dark .dark\:bg-\[\#111113\],
 .dark .dark\:bg-zinc-950,
 .dark .dark\:bg-zinc-900:not(button):not(kbd):not(span):not(code):not(select) {
-  background-color: #0E1526 !important;
+  background-color: #0F172A !important;
   border-color: #1E293B !important;
   color: #F8FAFC !important;
 }
@@ -110,24 +122,24 @@
   color: #94A3B8 !important;
 }
 
-/* Tabular numeric precision for all metrics, dates, and hashes */
+/* Tabular numeric precision */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Clean Enterprise Card Surface */
+/* Double-Bezel Hardware Card */
 .enterprise-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-app);
   box-shadow: var(--card-shadow);
-  border-radius: 0.625rem;
+  border-radius: 0.875rem;
   transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
 
-/* Custom sleek scrollbar */
+/* Sleek custom scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -135,10 +147,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.25);
-  border-radius: 3px;
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.45);
+  background: rgba(148, 163, 184, 0.48);
 }

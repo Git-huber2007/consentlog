@@ -177,18 +177,23 @@ const AppLayout = () => {
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-60 bg-white dark:bg-[#0C101A] border-r border-zinc-200/80 dark:border-zinc-800/60 flex flex-col transition-transform duration-200 ease-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#0C121E] border-r border-slate-200/80 dark:border-slate-800/80 flex flex-col transition-transform duration-200 ease-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        <div className="h-14 px-4 flex items-center justify-between border-b border-zinc-200/80 dark:border-zinc-800/60">
-          <Link to="/dashboard" className="flex items-center gap-2.5">
-            <div className="size-7 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 flex items-center justify-center shadow-xs">
-              <ShieldCheck className="size-4" />
+        <div className="h-14 px-4 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80">
+          <Link to="/dashboard" className="flex items-center gap-2.5 group">
+            <div className="size-8 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
+              <ShieldCheck className="size-4.5" />
             </div>
-            <span className="font-semibold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">
-              ConsentLog
-            </span>
+            <div className="flex flex-col">
+              <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white">
+                ConsentLog
+              </span>
+              <span className="text-[9px] font-mono tracking-widest uppercase text-emerald-600 dark:text-emerald-400 font-bold -mt-0.5">
+                Enterprise Trust
+              </span>
+            </div>
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
@@ -203,20 +208,20 @@ const AppLayout = () => {
           <button
             type="button"
             onClick={() => setPaletteOpen(true)}
-            className="w-full h-8 px-2.5 rounded-lg bg-zinc-100/70 dark:bg-zinc-900/60 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/70 border border-zinc-200/80 dark:border-zinc-800 text-xs text-zinc-500 flex items-center justify-between shadow-xs transition-colors"
+            className="w-full h-8 px-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-900/70 hover:bg-slate-200/60 dark:hover:bg-slate-800/70 border border-slate-200/80 dark:border-slate-800 text-xs text-slate-500 flex items-center justify-between shadow-2xs transition-colors"
           >
             <span className="flex items-center gap-2">
-              <Search className="size-3.5 text-zinc-400" />
-              <span>Search...</span>
+              <Search className="size-3.5 text-slate-400" />
+              <span>Quick Command...</span>
             </span>
-            <kbd className="font-mono text-[10px] text-zinc-400 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700/80 px-1.5 py-0.5 rounded shadow-2xs">⌘K</kbd>
+            <kbd className="font-mono text-[10px] text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 px-1.5 py-0.5 rounded shadow-2xs">⌘K</kbd>
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
           {navItems.map((group, idx) => (
             <div key={idx}>
-              <p className="px-2.5 mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+              <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
                 {group.section}
               </p>
               <div className="space-y-0.5">
@@ -229,14 +234,14 @@ const AppLayout = () => {
                       end={item.exact || item.to === '/notices'}
                       onClick={() => setSidebarOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                        `flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                           isActive
-                            ? 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-900 dark:text-white font-semibold'
-                            : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900/80 hover:text-zinc-900 dark:hover:text-zinc-100'
+                            ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs'
+                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
                         }`
                       }
                     >
-                      <Icon className="size-3.5 shrink-0" />
+                      <Icon className="size-4 shrink-0" />
                       <span>{item.label}</span>
                     </NavLink>
                   );
@@ -246,39 +251,44 @@ const AppLayout = () => {
           ))}
         </div>
 
-        <div className="p-3 border-t border-zinc-200/80 dark:border-zinc-800/60 bg-white dark:bg-[#0C101A]">
-          <div className="flex items-center justify-between gap-2">
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate">
-                  {user?.name?.replace(/\s*\(.*?\)\s*/g, '')}
-                </p>
-                <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 font-semibold">
-                  {user?.role === 'admin'
-                    ? 'Admin'
-                    : user?.role === 'dpo'
-                    ? 'DPO'
-                    : user?.role === 'auditor'
-                    ? 'Auditor'
-                    : 'User'}
-                </span>
+        <div className="p-3 border-t border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0C121E]">
+          <div className="flex items-center justify-between gap-2.5 p-1">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="size-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center font-bold text-xs text-slate-800 dark:text-slate-200 shrink-0">
+                {user?.name?.[0] || 'U'}
               </div>
-              <p className="text-[11px] text-zinc-500 truncate">{user?.email}</p>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                    {user?.name?.replace(/\s*\(.*?\)\s*/g, '')}
+                  </p>
+                  <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.2 rounded font-extrabold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                    {user?.role === 'admin'
+                      ? 'Admin'
+                      : user?.role === 'dpo'
+                      ? 'DPO'
+                      : user?.role === 'auditor'
+                      ? 'Auditor'
+                      : 'User'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 dark:text-slate-500 truncate">{user?.email}</p>
+              </div>
             </div>
             <button
               onClick={handleLogout}
               title="Sign out"
               aria-label="Sign out"
-              className="size-8 inline-flex items-center justify-center rounded-lg text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 shrink-0 transition-colors"
+              className="size-7 inline-flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
             >
-              <LogOut className="size-4" />
+              <LogOut className="size-3.5" />
             </button>
           </div>
         </div>
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 bg-white/80 dark:bg-[#0C101A]/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/60 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <header className="h-14 bg-white/80 dark:bg-[#080C14]/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -289,9 +299,9 @@ const AppLayout = () => {
             </button>
 
             <div className="flex items-center gap-1.5 text-xs">
-              <span className="text-zinc-400 dark:text-zinc-500">{breadcrumbs[0]}</span>
-              <ChevronRight className="size-3.5 text-zinc-300 dark:text-zinc-700" />
-              <span className="font-medium text-zinc-900 dark:text-zinc-100">
+              <span className="text-slate-400 dark:text-slate-500">{breadcrumbs[0]}</span>
+              <ChevronRight className="size-3.5 text-slate-300 dark:text-slate-700" />
+              <span className="font-semibold text-slate-900 dark:text-white">
                 {breadcrumbs[1]}
               </span>
             </div>
@@ -299,12 +309,12 @@ const AppLayout = () => {
 
           <div className="flex items-center gap-2">
             <div className="hidden sm:inline-flex items-center relative">
-              <Building2 className="size-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
+              <Building2 className="size-3.5 text-slate-400 absolute left-2.5 pointer-events-none" />
               <select
                 value={user?.organization || 'Enterprise Global Corp'}
                 onChange={handleOrgChange}
                 aria-label="Active Organization"
-                className="h-8 pl-8 pr-3 text-xs font-medium rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] text-zinc-700 dark:text-zinc-200 outline-none hover:bg-zinc-50 dark:hover:bg-zinc-800/70 cursor-pointer transition-colors shadow-2xs"
+                className="h-8 pl-8 pr-3 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0E1526] text-slate-700 dark:text-slate-200 outline-none hover:bg-slate-50 dark:hover:bg-slate-800/70 cursor-pointer transition-colors shadow-2xs"
                 title="Active Tenant Organization"
               >
                 <option value="Enterprise Global Corp">Enterprise Global Corp</option>
@@ -315,11 +325,11 @@ const AppLayout = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 shadow-2xs">
-                <span className="size-1.5 rounded-full bg-emerald-500" />
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-xl border border-emerald-500/30 bg-emerald-50/70 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 shadow-2xs">
+                <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 {user?.jurisdiction || 'GDPR (EU)'}
               </span>
-              <span className="inline-flex items-center text-xs font-mono px-2.5 py-1 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] text-zinc-600 dark:text-zinc-400 shadow-2xs">
+              <span className="inline-flex items-center text-xs font-mono font-semibold px-2.5 py-1 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0E1526] text-slate-700 dark:text-slate-300 shadow-2xs">
                 v{activeNoticeInfo?.version || '2.0'} Active
               </span>
             </div>
@@ -328,7 +338,7 @@ const AppLayout = () => {
               onClick={toggleTheme}
               title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="size-8 inline-flex items-center justify-center rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors shadow-2xs cursor-pointer"
+              className="size-8 inline-flex items-center justify-center rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0E1526] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-2xs cursor-pointer"
             >
               {darkMode ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4" />}
             </button>
