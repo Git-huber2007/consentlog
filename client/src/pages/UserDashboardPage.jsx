@@ -19,6 +19,9 @@ import {
   FileText,
   Activity,
   Building2,
+  Users,
+  AlertCircle,
+  Layers,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -141,36 +144,72 @@ const UserDashboardPage = () => {
       value: metrics.totalRegisteredUsers ?? 0,
       sub: 'Verified tenants',
       tag: 'Users',
+      badge: 'Verified',
+      icon: Users,
+      accent: 'from-indigo-500 via-blue-500 to-indigo-600',
+      chip: 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-200/80 dark:border-indigo-500/25',
+      pill: 'bg-indigo-50/80 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-200/60 dark:border-indigo-500/20',
+      glow: 'from-indigo-500/[0.05] dark:from-indigo-500/[0.08]',
     },
     {
       label: 'Signed Notices',
       value: metrics.totalConsentRecords ?? 0,
       sub: 'Cryptographic records',
       tag: 'Accepted',
+      badge: '100% SLA',
+      icon: CheckCircle2,
+      accent: 'from-emerald-500 via-teal-500 to-emerald-600',
+      chip: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200/80 dark:border-emerald-500/25',
+      pill: 'bg-emerald-50/80 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-500/20',
+      glow: 'from-emerald-500/[0.05] dark:from-emerald-500/[0.08]',
     },
     {
       label: 'Active Preferences',
       value: metrics.activeConsentPreferences ?? 0,
       sub: 'Enabled categories',
       tag: 'Active',
+      badge: 'Enforced',
+      icon: ShieldCheck,
+      accent: 'from-sky-500 via-cyan-500 to-blue-500',
+      chip: 'bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-200/80 dark:border-sky-500/25',
+      pill: 'bg-sky-50/80 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-200/60 dark:border-sky-500/20',
+      glow: 'from-sky-500/[0.05] dark:from-sky-500/[0.08]',
     },
     {
       label: 'Withdrawn Rights',
       value: metrics.withdrawnConsents ?? 0,
       sub: 'Revocation events',
       tag: 'Opted Out',
+      badge: 'Logged',
+      icon: AlertCircle,
+      accent: 'from-rose-500 via-orange-500 to-rose-600',
+      chip: 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200/80 dark:border-rose-500/25',
+      pill: 'bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-200/60 dark:border-rose-500/20',
+      glow: 'from-rose-500/[0.05] dark:from-rose-500/[0.08]',
     },
     {
       label: 'Ledger Blocks',
       value: metrics.totalAuditEvents ?? 0,
       sub: 'SHA-256 sealed logs',
       tag: 'Audit',
+      badge: 'Immutable',
+      icon: Layers,
+      accent: 'from-amber-500 via-yellow-500 to-amber-600',
+      chip: 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200/80 dark:border-amber-500/25',
+      pill: 'bg-amber-50/80 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200/60 dark:border-amber-500/20',
+      glow: 'from-amber-500/[0.05] dark:from-amber-500/[0.08]',
     },
     {
       label: 'Active Policy',
       value: `v${metrics.currentNoticeVersion || '2.0'}`,
       sub: 'Current revision',
       tag: 'Notice',
+      badge: 'Live',
+      icon: FileText,
+      accent: 'from-purple-500 via-fuchsia-500 to-purple-600',
+      chip: 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-200/80 dark:border-purple-500/25',
+      pill: 'bg-purple-50/80 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-200/60 dark:border-purple-500/20',
+      glow: 'from-purple-500/[0.05] dark:from-purple-500/[0.08]',
     },
   ];
 
@@ -231,31 +270,37 @@ const UserDashboardPage = () => {
           2. BENTO METRICS TILES
           ================================================================== */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
-        {kpiMetrics.map((item) => (
-          <div
-            key={item.label}
-            className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
-                {item.tag}
-              </span>
-              <span className="size-1.5 rounded-full bg-slate-200 dark:bg-slate-700 group-hover:bg-emerald-500 transition-colors" />
-            </div>
-
-            <div className="mt-3">
-              <div className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
-                {item.value}
+        {kpiMetrics.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div
+              key={item.label}
+              className={`luxury-card p-4 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b ${item.glow} to-transparent`}
+            >
+              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.accent}`} />
+              <div className="flex items-center justify-between mb-3 pt-0.5">
+                <div className={`size-8 rounded-xl flex items-center justify-center border shadow-2xs ${item.chip}`}>
+                  <Icon className="size-4" />
+                </div>
+                <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border ${item.pill}`}>
+                  {item.badge}
+                </span>
               </div>
-              <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 mt-1 line-clamp-1">
-                {item.label}
-              </p>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
-                {item.sub}
-              </p>
+
+              <div>
+                <div className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+                  {item.value}
+                </div>
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1.5 leading-snug">
+                  {item.label}
+                </p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
+                  {item.sub}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* ==================================================================

@@ -148,7 +148,7 @@ const AuditIntegrityPage = () => {
 
       {latestReport && (
         <div className="grid lg:grid-cols-12 gap-5">
-          <div className="lg:col-span-5 enterprise-card p-5 space-y-4">
+          <div className="lg:col-span-5 luxury-card p-5 space-y-4 relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.04] to-transparent">
             <div className="flex items-center justify-between text-xs text-zinc-500">
               <span className="font-medium">Latest Check</span>
               <span className="font-mono">{latestReport.verificationId}</span>
@@ -156,9 +156,9 @@ const AuditIntegrityPage = () => {
 
             <div className="flex items-center gap-3">
               <div
-                className={`p-2.5 rounded-md ${
+                className={`p-2.5 rounded-xl border ${
                   latestReport.verificationStatus === 'Verified'
-                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
                     : 'bg-rose-500/10 text-rose-600 border border-rose-500/20'
                 }`}
               >
@@ -175,7 +175,7 @@ const AuditIntegrityPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 divide-x divide-zinc-200 dark:divide-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-md">
+            <div className="grid grid-cols-3 divide-x divide-slate-200 dark:divide-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/50 dark:bg-slate-900/40">
               <div className="p-3 text-center">
                 <span className="text-[11px] text-zinc-500 block">Total</span>
                 <p className="font-mono text-lg font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">
@@ -183,7 +183,7 @@ const AuditIntegrityPage = () => {
                 </p>
               </div>
               <div className="p-3 text-center">
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 block">
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 block font-semibold">
                   Valid
                 </span>
                 <p className="font-mono text-lg font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
@@ -191,7 +191,7 @@ const AuditIntegrityPage = () => {
                 </p>
               </div>
               <div className="p-3 text-center">
-                <span className="text-[11px] text-rose-600 dark:text-rose-400 block">Invalid</span>
+                <span className="text-[11px] text-rose-600 dark:text-rose-400 block font-semibold">Invalid</span>
                 <p className="font-mono text-lg font-bold text-rose-600 dark:text-rose-400 tabular-nums">
                   {latestReport.failedRecords}
                 </p>
@@ -199,23 +199,23 @@ const AuditIntegrityPage = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7 p-5 rounded-lg bg-zinc-950 text-zinc-100 border border-zinc-800 font-mono text-xs space-y-3">
-            <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-              <span className="text-zinc-200 font-semibold flex items-center gap-2">
-                <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="lg:col-span-7 luxury-card p-5 font-mono text-xs space-y-3 relative overflow-hidden bg-gradient-to-b from-slate-900/[0.04] dark:from-slate-800/[0.4] to-transparent">
+            <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-2">
+              <span className="text-slate-800 dark:text-zinc-200 font-semibold flex items-center gap-2">
+                <Terminal className="w-3.5 h-3.5 text-emerald-500" />
                 Hash Chain Summary
               </span>
-              <span className="text-emerald-400 text-[11px]">SHA-256</span>
+              <span className="text-emerald-600 dark:text-emerald-400 text-[11px] font-bold">SHA-256</span>
             </div>
             <div>
               <span className="text-zinc-500 text-[11px] block">First Entry Seed:</span>
-              <p className="text-zinc-300 break-all text-[11px]">{latestReport.genesisHash}</p>
+              <p className="text-slate-700 dark:text-zinc-300 break-all text-[11px]">{latestReport.genesisHash}</p>
             </div>
             <div>
               <span className="text-zinc-500 text-[11px] block">
                 Latest Entry Hash (#{latestReport.totalRecords}):
               </span>
-              <p className="text-emerald-400 font-semibold break-all text-[11px]">
+              <p className="text-emerald-600 dark:text-emerald-400 font-semibold break-all text-[11px]">
                 {latestReport.headHash}
               </p>
             </div>
@@ -223,7 +223,7 @@ const AuditIntegrityPage = () => {
         </div>
       )}
 
-      <div className="enterprise-card p-5 space-y-4">
+      <div className="luxury-card p-5 space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">

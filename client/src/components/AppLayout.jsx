@@ -177,13 +177,13 @@ const AppLayout = () => {
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#0C121E] border-r border-slate-200/80 dark:border-slate-800/80 flex flex-col transition-transform duration-200 ease-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white/85 dark:bg-[#090D18]/90 backdrop-blur-xl border-r border-slate-200/80 dark:border-white/10 flex flex-col transition-transform duration-200 ease-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        <div className="h-14 px-4 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80">
+        <div className="h-14 px-4 flex items-center justify-between border-b border-slate-200/80 dark:border-white/10">
           <Link to="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="size-8 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
+            <div className="size-8.5 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center shadow-md shadow-emerald-500/20 transition-transform group-hover:scale-105">
               <ShieldCheck className="size-4.5" />
             </div>
             <div className="flex flex-col">
@@ -288,7 +288,7 @@ const AppLayout = () => {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 bg-white/80 dark:bg-[#080C14]/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <header className="h-14 bg-white/85 dark:bg-[#060911]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -314,7 +314,7 @@ const AppLayout = () => {
                 value={user?.organization || 'Enterprise Global Corp'}
                 onChange={handleOrgChange}
                 aria-label="Active Organization"
-                className="h-8 pl-8 pr-3 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0E1526] text-slate-700 dark:text-slate-200 outline-none hover:bg-slate-50 dark:hover:bg-slate-800/70 cursor-pointer transition-colors shadow-2xs"
+                className="h-8 pl-8 pr-3 text-xs font-semibold rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 outline-none hover:bg-white dark:hover:bg-slate-800 cursor-pointer transition-colors shadow-2xs backdrop-blur-sm"
                 title="Active Tenant Organization"
               >
                 <option value="Enterprise Global Corp">Enterprise Global Corp</option>
@@ -325,11 +325,11 @@ const AppLayout = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-xl border border-emerald-500/30 bg-emerald-50/70 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 shadow-2xs">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-xl border border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 shadow-2xs">
                 <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 {user?.jurisdiction || 'GDPR (EU)'}
               </span>
-              <span className="inline-flex items-center text-xs font-mono font-semibold px-2.5 py-1 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0E1526] text-slate-700 dark:text-slate-300 shadow-2xs">
+              <span className="inline-flex items-center text-xs font-mono font-semibold px-2.5 py-1 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 shadow-2xs">
                 v{activeNoticeInfo?.version || '2.0'} Active
               </span>
             </div>
@@ -338,7 +338,7 @@ const AppLayout = () => {
               onClick={toggleTheme}
               title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="size-8 inline-flex items-center justify-center rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0E1526] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-2xs cursor-pointer"
+              className="size-8 inline-flex items-center justify-center rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-colors shadow-2xs cursor-pointer"
             >
               {darkMode ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4" />}
             </button>

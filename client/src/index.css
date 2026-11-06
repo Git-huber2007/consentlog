@@ -8,34 +8,35 @@
    ========================================================================== */
 
 :root {
-  --bg-app: #F5F7FA;
-  --bg-sidebar: rgba(255, 255, 255, 0.85);
-  --bg-card: rgba(255, 255, 255, 0.92);
-  --bg-card-hover: #FFFFFF;
-  --bg-inset: #EEF2F6;
-  --border-app: rgba(226, 232, 240, 0.9);
-  --border-hover: rgba(37, 99, 235, 0.35);
-  --border-subtle: rgba(237, 242, 247, 0.9);
-  --text-main: #0B101B;
-  --text-muted: #5B677B;
-  --text-subtle: #8A97AA;
+  --bg-app: #F8FAFC;
+  --bg-sidebar: rgba(255, 255, 255, 0.88);
+  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-card-hover: rgba(255, 255, 255, 0.98);
+  --bg-inset: #F1F5F9;
+  --border-app: rgba(226, 232, 240, 0.85);
+  --border-hover: rgba(16, 185, 129, 0.45);
+  --border-subtle: rgba(241, 245, 249, 0.9);
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --text-subtle: #94A3B8;
   --accent-primary: #10B981;
   --accent-blue: #2563EB;
-  --glow-primary: rgba(37, 99, 235, 0.08);
-  --glow-secondary: rgba(16, 185, 129, 0.06);
-  --grid-dot: rgba(15, 23, 42, 0.035);
-  --card-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 10px 24px -4px rgba(15, 23, 42, 0.03), inset 0 1px 0 rgba(255, 255, 255, 1);
-  --card-hover-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 20px 32px -8px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
+  --glow-primary: rgba(99, 102, 241, 0.08);
+  --glow-secondary: rgba(16, 185, 129, 0.09);
+  --glow-tertiary: rgba(14, 165, 233, 0.07);
+  --grid-dot: rgba(15, 23, 42, 0.04);
+  --card-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 10px 28px -4px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --card-hover-shadow: 0 4px 14px rgba(15, 23, 42, 0.06), 0 20px 36px -6px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .dark {
-  --bg-app: #080C14;
-  --bg-sidebar: rgba(12, 18, 30, 0.85);
-  --bg-card: rgba(15, 23, 42, 0.75);
-  --bg-card-hover: rgba(22, 32, 53, 0.85);
-  --bg-inset: #070B13;
-  --border-app: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(16, 185, 129, 0.4);
+  --bg-app: #060911;
+  --bg-sidebar: rgba(11, 16, 28, 0.88);
+  --bg-card: rgba(14, 21, 38, 0.78);
+  --bg-card-hover: rgba(20, 30, 52, 0.88);
+  --bg-inset: #05080E;
+  --border-app: rgba(255, 255, 255, 0.09);
+  --border-hover: rgba(16, 185, 129, 0.45);
   --border-subtle: rgba(255, 255, 255, 0.05);
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
@@ -43,10 +44,11 @@
   --accent-primary: #10B981;
   --accent-blue: #38BDF8;
   --glow-primary: rgba(16, 185, 129, 0.12);
-  --glow-secondary: rgba(56, 189, 248, 0.08);
+  --glow-secondary: rgba(56, 189, 248, 0.09);
+  --glow-tertiary: rgba(139, 92, 246, 0.08);
   --grid-dot: rgba(255, 255, 255, 0.035);
-  --card-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --card-hover-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 0 24px -4px rgba(16, 185, 129, 0.12);
+  --card-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --card-hover-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 24px -4px rgba(16, 185, 129, 0.14);
 }
 
 @layer base {
@@ -57,10 +59,11 @@
     letter-spacing: -0.012em;
     background-color: var(--bg-app);
     background-image: 
-      radial-gradient(1100px 550px at 50% -120px, var(--glow-primary), transparent 75%),
-      radial-gradient(900px 450px at 90% 120px, var(--glow-secondary), transparent 70%),
+      radial-gradient(1200px 600px at 15% -80px, var(--glow-primary), transparent 70%),
+      radial-gradient(1100px 550px at 85% 0px, var(--glow-secondary), transparent 65%),
+      radial-gradient(900px 450px at 50% 100%, var(--glow-tertiary), transparent 70%),
       radial-gradient(var(--grid-dot) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 24px 24px;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px;
     background-attachment: fixed;
     color: var(--text-main);
     transition: background-color 200ms ease, color 200ms ease;
@@ -137,20 +140,32 @@
 
 /* High-End Glassmorphism Card Surface */
 .enterprise-card,
-.luxury-card {
+.luxury-card,
+.kpi-card {
+  position: relative;
+  overflow: hidden;
   background-color: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-app);
   box-shadow: var(--card-shadow);
-  border-radius: 1rem;
+  border-radius: 1.125rem;
   transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease;
 }
 
 .enterprise-card:hover,
-.luxury-card:hover {
+.luxury-card:hover,
+.kpi-card:hover {
+  transform: translateY(-2px);
   border-color: var(--border-hover);
   box-shadow: var(--card-hover-shadow);
+}
+
+/* Light mode card surface refinement */
+:root .bg-white:not(button):not(kbd):not(span):not(code):not(select):not(input):not(nav) {
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Shimmer Accent Button */

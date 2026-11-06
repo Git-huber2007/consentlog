@@ -136,16 +136,17 @@ const CookieInventoryPage = () => {
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {[
-          { label: 'Total Trackers', count: stats.total || 0, color: 'text-zinc-900 dark:text-zinc-100' },
-          { label: 'Essential', count: stats.essential || 0, color: 'text-zinc-900 dark:text-zinc-100' },
-          { label: 'Analytics', count: stats.analytics || 0, color: 'text-emerald-600 dark:text-emerald-400' },
-          { label: 'Marketing', count: stats.marketing || 0, color: 'text-amber-600 dark:text-amber-400' },
-          { label: 'Personalization', count: stats.personalization || 0, color: 'text-blue-600 dark:text-blue-400' },
-          { label: '3rd-Party Sharing', count: stats.thirdPartySharing || 0, color: 'text-purple-600 dark:text-purple-400' },
+          { label: 'Total Trackers', count: stats.total || 0, color: 'text-slate-900 dark:text-white', accent: 'from-slate-400 to-slate-600' },
+          { label: 'Essential', count: stats.essential || 0, color: 'text-slate-900 dark:text-white', accent: 'from-indigo-500 to-blue-500' },
+          { label: 'Analytics', count: stats.analytics || 0, color: 'text-emerald-600 dark:text-emerald-400', accent: 'from-emerald-500 to-teal-500' },
+          { label: 'Marketing', count: stats.marketing || 0, color: 'text-amber-600 dark:text-amber-400', accent: 'from-amber-500 to-orange-500' },
+          { label: 'Personalization', count: stats.personalization || 0, color: 'text-sky-600 dark:text-sky-400', accent: 'from-sky-500 to-cyan-500' },
+          { label: '3rd-Party Sharing', count: stats.thirdPartySharing || 0, color: 'text-purple-600 dark:text-purple-400', accent: 'from-purple-500 to-pink-500' },
         ].map((item, idx) => (
-          <div key={idx} className="enterprise-card p-3.5 text-center">
-            <span className="text-[11px] text-zinc-500 block">{item.label}</span>
-            <span className={`font-mono text-xl font-bold mt-1 block ${item.color}`}>
+          <div key={idx} className="luxury-card p-3.5 text-center relative overflow-hidden">
+            <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.accent}`} />
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block">{item.label}</span>
+            <span className={`font-mono text-2xl font-extrabold mt-1 block tabular-nums ${item.color}`}>
               {item.count}
             </span>
           </div>

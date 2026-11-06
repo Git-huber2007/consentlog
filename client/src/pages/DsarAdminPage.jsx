@@ -82,21 +82,24 @@ const DsarAdminPage = () => {
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="enterprise-card p-4">
-          <span className="text-xs text-zinc-500 block">Total Requests</span>
-          <span className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 block">
+        <div className="luxury-card p-4 relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500" />
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block">Total Requests</span>
+          <span className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white mt-1 block tabular-nums">
             {requests.length}
           </span>
         </div>
-        <div className="enterprise-card p-4">
-          <span className="text-xs text-amber-600 dark:text-amber-400 block font-medium">Pending Review</span>
-          <span className="font-mono text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1 block">
+        <div className="luxury-card p-4 relative overflow-hidden bg-gradient-to-b from-amber-500/[0.05] dark:from-amber-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-500" />
+          <span className="text-xs text-amber-600 dark:text-amber-400 block font-bold">Pending Review</span>
+          <span className="font-mono text-3xl font-extrabold text-amber-600 dark:text-amber-400 mt-1 block tabular-nums">
             {pendingCount}
           </span>
         </div>
-        <div className="enterprise-card p-4">
-          <span className="text-xs text-emerald-600 dark:text-emerald-400 block font-medium">Completed & Anonymized</span>
-          <span className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 block">
+        <div className="luxury-card p-4 relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <span className="text-xs text-emerald-600 dark:text-emerald-400 block font-bold">Completed & Anonymized</span>
+          <span className="font-mono text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 block tabular-nums">
             {completedCount}
           </span>
         </div>

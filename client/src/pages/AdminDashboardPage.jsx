@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import {
   RefreshCw,
   ArrowUpRight,
+  Users,
+  ShieldCheck,
+  FileText,
+  GitCompare,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -102,57 +106,101 @@ const AdminDashboardPage = () => {
         </div>
       </div>
 
-      <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800/80">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link
           to="/admin/users"
-          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
+          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
-          <span className="text-xs text-zinc-500 block">Users</span>
-          <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">
-            {metrics.totalRegisteredUsers}
-          </p>
-          <span className="text-[11px] text-zinc-500 mt-1 inline-block">
-            View users →
-          </span>
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-9 rounded-xl flex items-center justify-center border shadow-2xs bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-200/80 dark:border-indigo-500/25">
+              <Users className="size-4.5" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-indigo-50/80 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-200/60 dark:border-indigo-500/20">
+              Accounts
+            </span>
+          </div>
+          <div>
+            <p className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+              {metrics.totalRegisteredUsers}
+            </p>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1.5 flex items-center justify-between">
+              <span>Registered Users</span>
+              <span className="text-indigo-600 dark:text-indigo-400 font-mono text-[11px] group-hover:translate-x-1 transition-transform">→</span>
+            </p>
+          </div>
         </Link>
 
         <Link
           to="/admin/integrity"
-          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
+          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
-          <span className="text-xs text-zinc-500 block">Audit Log</span>
-          <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
-            {metrics.auditIntegrityStatus}
-          </p>
-          <span className="text-[11px] text-zinc-500 mt-1 inline-block font-mono">
-            {metrics.totalAuditEvents} entries →
-          </span>
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-9 rounded-xl flex items-center justify-center border shadow-2xs bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200/80 dark:border-emerald-500/25">
+              <ShieldCheck className="size-4.5" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-emerald-50/80 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-500/20">
+              SHA-256
+            </span>
+          </div>
+          <div>
+            <p className="font-mono text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums tracking-tight">
+              {metrics.auditIntegrityStatus}
+            </p>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1.5 flex items-center justify-between">
+              <span>{metrics.totalAuditEvents} Audit Entries</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[11px] group-hover:translate-x-1 transition-transform">→</span>
+            </p>
+          </div>
         </Link>
 
         <Link
           to="/admin/notices"
-          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
+          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-purple-500/[0.05] dark:from-purple-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
-          <span className="text-xs text-zinc-500 block">Active Notice</span>
-          <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1">
-            v{metrics.currentNoticeVersion}
-          </p>
-          <span className="text-[11px] text-zinc-500 mt-1 inline-block">
-            Manage versions →
-          </span>
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-9 rounded-xl flex items-center justify-center border shadow-2xs bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-200/80 dark:border-purple-500/25">
+              <FileText className="size-4.5" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-purple-50/80 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-200/60 dark:border-purple-500/20">
+              Active
+            </span>
+          </div>
+          <div>
+            <p className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+              v{metrics.currentNoticeVersion}
+            </p>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1.5 flex items-center justify-between">
+              <span>Manage Versions</span>
+              <span className="text-purple-600 dark:text-purple-400 font-mono text-[11px] group-hover:translate-x-1 transition-transform">→</span>
+            </p>
+          </div>
         </Link>
 
         <Link
           to="/notices/compare"
-          className="p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-900/40 transition-colors block"
+          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-sky-500/[0.05] dark:from-sky-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
-          <span className="text-xs text-zinc-500 block">Version Comparison</span>
-          <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1">
-            v1.0 ↔ v2.0
-          </p>
-          <span className="text-[11px] text-zinc-500 mt-1 inline-block">
-            Compare changes →
-          </span>
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-cyan-500" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-9 rounded-xl flex items-center justify-center border shadow-2xs bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-200/80 dark:border-sky-500/25">
+              <GitCompare className="size-4.5" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-sky-50/80 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-200/60 dark:border-sky-500/20">
+              Diffs
+            </span>
+          </div>
+          <div>
+            <p className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+              v1.0 ↔ v2.0
+            </p>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1.5 flex items-center justify-between">
+              <span>Compare Changes</span>
+              <span className="text-sky-600 dark:text-sky-400 font-mono text-[11px] group-hover:translate-x-1 transition-transform">→</span>
+            </p>
+          </div>
         </Link>
       </div>
 

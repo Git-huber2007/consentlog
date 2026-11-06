@@ -8,6 +8,8 @@ import {
   Clock,
   Calendar,
   AlertCircle,
+  ShieldCheck,
+  Layers,
 } from 'lucide-react';
 import api from '../services/api';
 import { useToast } from '../context/ToastContext';
@@ -349,46 +351,80 @@ const PreferenceCentrePage = () => {
         </div>
       </div>
 
-      <div className="enterprise-card grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200 dark:divide-zinc-800/80">
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Categories</span>
-          <div className="mt-1 flex items-baseline justify-between">
-            <span className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-200/80 dark:border-indigo-500/25">
+              <Layers className="size-4" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-indigo-50/80 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-200/60 dark:border-indigo-500/20">
+              Total
+            </span>
+          </div>
+          <div>
+            <span className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
               {liveCounts.total}
             </span>
-            <span className="text-[11px] text-zinc-500">1 Required · 4 Optional</span>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Categories</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">1 Required · 4 Optional</p>
           </div>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Enabled</span>
-          <div className="mt-1 flex items-baseline justify-between">
-            <span className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
-              {liveCounts.enabled}
-            </span>
-            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200/80 dark:border-emerald-500/25">
+              <CheckCircle2 className="size-4" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-emerald-50/80 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-500/20">
               Active
             </span>
           </div>
-        </div>
-
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Disabled</span>
-          <div className="mt-1 flex items-baseline justify-between">
-            <span className="font-mono text-2xl font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">
-              {liveCounts.disabled}
+          <div>
+            <span className="font-mono text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums tracking-tight">
+              {liveCounts.enabled}
             </span>
-            <span className="text-[11px] text-zinc-500">Off</span>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Enabled Categories</p>
+            <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Data processing allowed</p>
           </div>
         </div>
 
-        <div className="p-4">
-          <span className="text-xs text-zinc-500 block">Withdrawn</span>
-          <div className="mt-1 flex items-baseline justify-between">
-            <span className="font-mono text-2xl font-bold text-rose-600 dark:text-rose-400 tabular-nums">
+        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-slate-500/[0.05] dark:from-slate-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-slate-400 to-slate-600" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200/80 dark:border-slate-700">
+              <XCircle className="size-4" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200/60 dark:border-slate-700">
+              Off
+            </span>
+          </div>
+          <div>
+            <span className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+              {liveCounts.disabled}
+            </span>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Disabled</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Tracking blocked</p>
+          </div>
+        </div>
+
+        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-rose-500/[0.05] dark:from-rose-500/[0.08] to-transparent">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-orange-500" />
+          <div className="flex items-center justify-between mb-3 pt-0.5">
+            <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200/80 dark:border-rose-500/25">
+              <AlertCircle className="size-4" />
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-200/60 dark:border-rose-500/20">
+              Revoked
+            </span>
+          </div>
+          <div>
+            <span className="font-mono text-3xl font-extrabold text-rose-600 dark:text-rose-400 tabular-nums tracking-tight">
               {liveCounts.withdrawn}
             </span>
-            <span className="text-[11px] text-rose-600 dark:text-rose-400">Revoked</span>
+            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Withdrawn Rights</p>
+            <p className="text-[10px] text-rose-600 dark:text-rose-400 font-medium">Explicit revocation</p>
           </div>
         </div>
       </div>
