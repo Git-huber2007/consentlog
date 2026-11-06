@@ -281,6 +281,16 @@ const ensureSeedData = async (forceReset = false) => {
     jurisdiction: 'GDPR (EU)',
   });
 
+  const liamUser = await User.create({
+    name: 'Liam Chen',
+    email: 'liam@apexfinancial.com',
+    password: 'Password123!',
+    role: 'user',
+    organization: 'Apex Financial Services',
+    department: 'Risk & Quantitative Analytics',
+    jurisdiction: 'CCPA (California)',
+  });
+
   const daysAgo = (d, hoursOffset = 0) =>
     new Date(Date.now() - d * 24 * 60 * 60 * 1000 + hoursOffset * 3600 * 1000);
 
@@ -359,6 +369,21 @@ const ensureSeedData = async (forceReset = false) => {
         marketing: { lastModified: daysAgo(5), status: 'Disabled' },
         personalization: { lastModified: daysAgo(5), status: 'Disabled' },
         thirdPartySharing: { lastModified: daysAgo(5), status: 'Disabled' },
+      },
+    },
+    {
+      userId: liamUser._id,
+      essential: true,
+      analytics: false,
+      marketing: true,
+      personalization: true,
+      thirdPartySharing: false,
+      categoryMeta: {
+        essential: { lastModified: daysAgo(4), status: 'Always Active' },
+        analytics: { lastModified: daysAgo(4), status: 'Disabled' },
+        marketing: { lastModified: daysAgo(2), status: 'Granted' },
+        personalization: { lastModified: daysAgo(2), status: 'Granted' },
+        thirdPartySharing: { lastModified: daysAgo(4), status: 'Disabled' },
       },
     },
   ]);

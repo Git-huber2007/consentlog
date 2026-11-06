@@ -61,7 +61,7 @@ const LoginPage = () => {
         </p>
       </div>
 
-      <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-lg">
         <div className="enterprise-card p-6 sm:p-8 space-y-6">
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs text-zinc-500">
@@ -70,28 +70,7 @@ const LoginPage = () => {
               </span>
               <span className="text-[11px]">Click to fill</span>
             </div>
-            <div className="grid grid-cols-2 gap-2.5">
-              <button
-                type="button"
-                onClick={() => quickFill('alex@enterprise.io', 'Alex Rivera (Data Subject)')}
-                className={`p-2.5 rounded-md text-left border transition-colors ${
-                  email === 'alex@enterprise.io'
-                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
-                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
-                }`}
-              >
-                <p className="text-xs font-semibold">Alex Rivera</p>
-                <p
-                  className={`text-[10px] mt-0.5 ${
-                    email === 'alex@enterprise.io'
-                      ? 'text-zinc-300 dark:text-zinc-600'
-                      : 'text-zinc-500'
-                  }`}
-                >
-                  Data Subject (GDPR)
-                </p>
-              </button>
-
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => quickFill('admin@consentlog.io', 'Elena Vance (Admin)')}
@@ -101,36 +80,15 @@ const LoginPage = () => {
                     : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
                 }`}
               >
-                <p className="text-xs font-semibold">Elena Vance</p>
+                <p className="text-xs font-semibold truncate">Elena Vance</p>
                 <p
-                  className={`text-[10px] mt-0.5 ${
+                  className={`text-[10px] mt-0.5 truncate ${
                     email === 'admin@consentlog.io'
                       ? 'text-zinc-300 dark:text-zinc-600'
                       : 'text-zinc-500'
                   }`}
                 >
-                  Chief Privacy Officer (Admin)
-                </p>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => quickFill('priya@cloudscale.in', 'Priya Nair (DPO)')}
-                className={`p-2.5 rounded-md text-left border transition-colors ${
-                  email === 'priya@cloudscale.in'
-                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
-                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
-                }`}
-              >
-                <p className="text-xs font-semibold">Priya Nair</p>
-                <p
-                  className={`text-[10px] mt-0.5 ${
-                    email === 'priya@cloudscale.in'
-                      ? 'text-zinc-300 dark:text-zinc-600'
-                      : 'text-zinc-500'
-                  }`}
-                >
-                  Data Protection Officer (DPO)
+                  Chief Privacy Officer
                 </p>
               </button>
 
@@ -143,15 +101,99 @@ const LoginPage = () => {
                     : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
                 }`}
               >
-                <p className="text-xs font-semibold">Marcus Sterling</p>
+                <p className="text-xs font-semibold truncate">Marcus Sterling</p>
                 <p
-                  className={`text-[10px] mt-0.5 ${
+                  className={`text-[10px] mt-0.5 truncate ${
                     email === 'marcus@pacifichealth.us'
                       ? 'text-zinc-300 dark:text-zinc-600'
                       : 'text-zinc-500'
                   }`}
                 >
                   Compliance Auditor
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => quickFill('priya@cloudscale.in', 'Priya Nair (DPO)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
+                  email === 'priya@cloudscale.in'
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
+                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
+                }`}
+              >
+                <p className="text-xs font-semibold truncate">Priya Nair</p>
+                <p
+                  className={`text-[10px] mt-0.5 truncate ${
+                    email === 'priya@cloudscale.in'
+                      ? 'text-zinc-300 dark:text-zinc-600'
+                      : 'text-zinc-500'
+                  }`}
+                >
+                  Data Protection Officer
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => quickFill('alex@enterprise.io', 'Alex Rivera (General User)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
+                  email === 'alex@enterprise.io'
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
+                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
+                }`}
+              >
+                <p className="text-xs font-semibold truncate">Alex Rivera</p>
+                <p
+                  className={`text-[10px] mt-0.5 truncate ${
+                    email === 'alex@enterprise.io'
+                      ? 'text-zinc-300 dark:text-zinc-600'
+                      : 'text-zinc-500'
+                  }`}
+                >
+                  General User (GDPR)
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => quickFill('sophie@eurobank.eu', 'Sophie Laurent (General User)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
+                  email === 'sophie@eurobank.eu'
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
+                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
+                }`}
+              >
+                <p className="text-xs font-semibold truncate">Sophie Laurent</p>
+                <p
+                  className={`text-[10px] mt-0.5 truncate ${
+                    email === 'sophie@eurobank.eu'
+                      ? 'text-zinc-300 dark:text-zinc-600'
+                      : 'text-zinc-500'
+                  }`}
+                >
+                  General User (EU Bank)
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => quickFill('liam@apexfinancial.com', 'Liam Chen (General User)')}
+                className={`p-2.5 rounded-md text-left border transition-colors ${
+                  email === 'liam@apexfinancial.com'
+                    ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
+                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-700'
+                }`}
+              >
+                <p className="text-xs font-semibold truncate">Liam Chen</p>
+                <p
+                  className={`text-[10px] mt-0.5 truncate ${
+                    email === 'liam@apexfinancial.com'
+                      ? 'text-zinc-300 dark:text-zinc-600'
+                      : 'text-zinc-500'
+                  }`}
+                >
+                  General User (CCPA)
                 </p>
               </button>
             </div>
