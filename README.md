@@ -1,30 +1,102 @@
-# ConsentLog Enterprise
-
 <div align="center">
 
-![ConsentLog Banner](https://raw.githubusercontent.com/Git-huber2007/consentlog/main/docs/architecture-animated.svg)
+![ConsentLog Enterprise Platform](docs/consentlog-hero.svg)
 
-**Intelligent Enterprise Consent & Preference Governance Platform**
+<br/>
 
-*Cryptographic SHA-256 Chained Audit Trail · Real-Time Microservice Verification · GDPR Art. 17 DSAR Workflow · Webhook Event Dispatcher · Cookie Inventory Scanner*
+[![Verification Suite](https://img.shields.io/badge/Verification%20Suite-19%20of%2019%20Passed-10b981?style=for-the-badge&logo=checkmarx&logoColor=white)](https://github.com/Git-huber2007/consentlog)
+[![Compliance](https://img.shields.io/badge/Regulatory%20Standard-GDPR%20%7C%20CCPA%20%7C%20DPDP-06b6d4?style=for-the-badge&logo=shield&logoColor=white)](https://gdpr-info.eu/)
+[![Ledger](https://img.shields.io/badge/Integrity-SHA--256%20Chained-8b5cf6?style=for-the-badge&logo=hyperledger&logoColor=white)](https://github.com/Git-huber2007/consentlog)
+[![Stack](https://img.shields.io/badge/Stack-Node.js%20%7C%20React%20%7C%20MongoDB-27272a?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=flat-square&logo=github)](https://github.com/Git-huber2007/consentlog)
-[![Verification Suite](https://img.shields.io/badge/tests-19%2F19%20passed%20(100%25)-success?style=flat-square&logo=jest)](https://github.com/Git-huber2007/consentlog)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Regulatory Compliance](https://img.shields.io/badge/compliance-GDPR%20|%20CCPA%20|%20DPDP-indigo?style=flat-square)](https://gdpr-info.eu/)
-[![Audit Ledger](https://img.shields.io/badge/ledger-SHA--256%20Chained-black?style=flat-square&logo=hyperledger)](https://github.com/Git-huber2007/consentlog)
-[![Node.js](https://img.shields.io/badge/node->=20.0.0-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/react-18.x-61DAFB?style=flat-square&logo=react)](https://react.dev/)
+<br/>
 
-[System Architecture](#-system-architecture) • [Core Capabilities](#-core-capabilities) • [API Reference](#-api-reference) • [Quick Start](#-quick-start) • [Compliance Matrix](#-compliance--security-matrix)
+**A zero-trust privacy governance platform engineered for enterprise compliance.**  
+Records every consent event into an immutable, mathematically verifiable audit chain while orchestrating real-time downstream propagation and microservice verification.
+
+<br/>
+
+[Overview](#-executive-overview) • [Key Capabilities](#-enterprise-capabilities) • [Architecture](#-system-architecture) • [Microservice API](#-real-time-verification-api) • [Quick Start](#-quick-start) • [Compliance Matrix](#-regulatory-compliance-matrix)
 
 </div>
 
 ---
 
-## 🏛️ System Architecture
+## 📋 Executive Overview
 
-ConsentLog is engineered as a zero-trust, multi-tenant privacy governance engine. Every consent state transition is recorded as an immutable block cryptographically chained to its predecessor with SHA-256 hashing.
+Modern privacy regulations (**GDPR Art. 7**, **CCPA/CPRA § 1798.120**, **DPDP Act 2023 Sec. 6**) require organizations to maintain undeniable, itemized proof of consumer consent. 
+
+**ConsentLog** replaces black-box cookie banners with a full-lifecycle privacy infrastructure:
+- **Zero-Mutation Cryptographic Ledger**: Every consent change is written to an append-only SHA-256 hash-chained block. Audit records cannot be altered or deleted at the API or database layer.
+- **Microsecond Microservice Intercepts**: Backend services, email queues, and tracking pixels verify user consent in real time (`<10ms`) via authenticated REST endpoints.
+- **Privacy-by-Default Architecture**: All non-essential categories (Marketing, Analytics, Third-Party Sharing) remain strictly disabled until explicit opt-in.
+- **Enterprise DSAR & Erasure Automation**: Fulfills GDPR Article 17 "Right to Erasure" by cryptographically anonymizing identifying user data while preserving ledger chain continuity.
+
+---
+
+## ⚡ Enterprise Capabilities
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🔒 Cryptographic Audit Ledger
+- **Append-Only Immutability**: All HTTP `PUT`, `PATCH`, and `DELETE` requests against audit records are hard-blocked with `403 Forbidden` (`IMMUTABLE_AUDIT_VIOLATION`).
+- **Deterministic SHA-256 Chaining**: Each block hash is cryptographically computed from canonical payload, sequence index, and previous block hash.
+- **Live Head-to-Genesis Verifier**: Automated recomputation endpoint (`POST /api/audit/verify`) detects even 1-bit discrepancies.
+- **Data Portability Passport**: Exports GDPR Art. 15/20 cryptographically signed JSON & PDF passports.
+
+</td>
+<td width="50%" valign="top">
+
+### ⏱️ Retention & Expiration Lifecycle
+- **EDPB & CNIL SLA Calculations**: Automatically calculates dynamic consent decay per legal jurisdiction (12 months for GDPR, 6 months for CNIL, 24 months for CCPA).
+- **Proactive Renewal Countdown**: Informs users and data protection officers before consent expires.
+- **Auto-Revocation Enforcement**: System automatically flags expired preferences to halt unconsented processing.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🔀 Downstream Webhook Dispatcher
+- **Decoupled Event Broadcasting**: Propagates consent transitions (`granted`, `withdrawn`, `updated`, `erased`) to external CRMs, CDPs, and data warehouses in real time.
+- **HMAC-SHA256 Delivery Signatures**: Dispatches `X-ConsentLog-Signature: sha256=<hmac>` headers generated with endpoint-specific secrets.
+- **Delivery Audit Logs**: Tracks status codes, payload hashes, and round-trip delivery latencies.
+
+</td>
+<td width="50%" valign="top">
+
+### 👤 Article 17 DSAR Erasure Engine
+- **Legal Compliance Without Ledger Destruction**: Reconciles the legal tension between GDPR erasure mandates and accounting/security non-repudiation.
+- **Cryptographic Pseudonymization**: Sanitizes identifying PII into irreversible tokens (`ANON-XXXXXX`, `erased-XXXX@consentlog.deleted`).
+- **Terminal Block Creation**: Documents the erasure event on the immutable ledger without modifying past blocks.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🔍 Cookie & Tracker Inventory Scanner
+- **Categorized Tracker Registry**: Live catalog mapping trackers across Essential, Analytics, Marketing, and Functional groups.
+- **Autonomous Domain Scanner**: Crawls web domains to detect first-party cookies, tracking beacons, and third-party script sources.
+- **Direct Policy Enforcement**: Syncs discovered trackers directly with user preference categories and GTM consent variables.
+
+</td>
+<td width="50%" valign="top">
+
+### 🎛️ Versioned Notices & Banner Simulator
+- **Notice Lineage & Side-by-Side Diffs**: Visual clause comparison highlighting additions (`+`), modifications (`~`), and deletions (`-`).
+- **Non-Assumed Consent Gate**: Notice updates automatically trigger explicit review prompts rather than implied consent.
+- **Consent Mode v2 Simulator**: Interactive preview across Bottom Bar, Floating Shield, and Modal styles with drop-in GTM code snippets.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏛️ System Architecture
 
 ```
                     ┌────────────────────────────────────────────────────────┐
@@ -35,7 +107,7 @@ ConsentLog is engineered as a zero-trust, multi-tenant privacy governance engine
                                                 ▼
                     ┌────────────────────────────────────────────────────────┐
                     │                 SECURITY GATEWAY TIER                  │
-                    │   Helmet · Rate Limiting · JWT Auth · API Key Auth     │
+                    │   Helmet · Rate Limiter · JWT Auth · Microservice Keys │
                     │   Express Mongo Sanitize · Role-Based Access Control   │
                     └───────────────────────────┬────────────────────────────┘
                                                 │
@@ -43,11 +115,11 @@ ConsentLog is engineered as a zero-trust, multi-tenant privacy governance engine
                  ▼                                                             ▼
   ┌───────────────────────────────┐                             ┌───────────────────────────────┐
   │      GOVERNANCE ENGINE        │                             │    DISPATCH & AUDIT TIER      │
-  │  · Preference Centre (5 Cats) │                             │  · SHA-256 Hash Chained Logs  │
-  │  · Versioned Notices & Diffs  │                             │  · Mutex Sequencer Service    │
-  │  · Retention & Expiration SLA │                             │  · HMAC-SHA256 Signed Hooks   │
-  │  · DSAR Article 17 Erasure    │                             │  · Cryptographic Certificates │
-  │  · Cookie & Tracker Inventory │                             │  · Microservice Status Engine │
+  │  · 5 Granular Categories      │                             │  · SHA-256 Hash Chained Logs  │
+  │  · EDPB/CNIL Retention SLA    │                             │  · Mutex Sequencer Service    │
+  │  · Versioned Notices & Diffs  │                             │  · HMAC-SHA256 Signed Hooks   │
+  │  · Article 17 DSAR Erasure    │                             │  · Cryptographic Certificates │
+  │  · Tracker Inventory Scanner  │                             │  · Microservice Status Engine │
   └──────────────┬────────────────┘                             └──────────────┬────────────────┘
                  │                                                             │
                  └──────────────────────────────┬──────────────────────────────┘
@@ -60,87 +132,23 @@ ConsentLog is engineered as a zero-trust, multi-tenant privacy governance engine
                     └────────────────────────────────────────────────────────┘
 ```
 
-- **🚀 Interactive Topology Canvas**: [Launch Full-Screen Architecture Viewer](https://htmlpreview.github.io/?https://github.com/Git-huber2007/consentlog/blob/main/docs/index.html) *(Pan, zoom, and inspect every subsystem)*
-- **📐 Archify Specification**: [`architecture/candidate.json`](architecture/candidate.json) *(Full component boundary schema)*
-- **🌐 Standalone Canvas**: [`docs/index.html`](docs/index.html) *(Deployable natively via GitHub Pages)*
+> **Interactive Visualization**: Explore the full interactive topology map in [`docs/index.html`](docs/index.html) or inspect the formal component boundary model in [`architecture/candidate.json`](architecture/candidate.json).
 
 ---
 
-## 🌟 Core Capabilities
+## ⚡ Real-Time Verification API
 
-### 1. Tamper-Evident Append-Only Cryptographic Audit History
-- **Zero Mutation Surface**: Audit logs cannot be updated or erased through application APIs; HTTP `PUT`, `PATCH`, and `DELETE` calls return `403 Forbidden` (`IMMUTABLE_AUDIT_VIOLATION`). Mongoose schema hooks enforce write-once integrity.
-- **SHA-256 Hash Chaining**: Every log entry derives its deterministic signature from:
-  $$\text{Block Hash} = \text{SHA256}(\text{Canonical Payload} + \text{Previous Block Hash} + \text{Sequence ID})$$
-- **Automated Chain Verification**: Live endpoint (`POST /api/audit/verify`) validates chain continuity from Genesis (`0000...0000`) through Head block.
-- **Data Subject Portability Passport**: Generates GDPR Art. 15/20 and DPDP Act Sec. 11 cryptographically sealed JSON and PDF audit passports.
+Microservices, marketing automation engines, and analytics pipelines query this endpoint prior to processing personal data.
 
-### 2. Multi-Jurisdiction Consent Expiration & Retention Lifecycle
-- **EDPB & CNIL SLA Engine**: Calculates real-time consent decay based on legal jurisdiction (e.g., 12 months for GDPR, 6 months for CNIL, 24 months for CCPA).
-- **Proactive Expiration Alerts**: Visual countdown alerts users when consent validity approaches legal expiration windows.
-- **Renewal Enforcement**: Flags expired categories to prevent automated processing until explicit re-authorization is provided.
+### Request
 
-### 3. Downstream Webhook Event Dispatcher
-- **Decoupled Architecture**: Propagates real-time consent state changes to external stacks (HubSpot, Segment, Salesforce, CDP).
-- **Cryptographic Delivery Signatures**: Dispatches `X-ConsentLog-Signature: sha256=<hmac>` headers generated with endpoint-specific secrets.
-- **Event Scope**: Subscribes to `consent.granted`, `consent.withdrawn`, `consent.updated`, and `user.erased`.
-
-### 4. Article 17 "Right to Erasure" (DSAR Workflow)
-- **Immutable Ledger Anonymization**: Resolves the conflict between GDPR Article 17 erasure mandates and audit continuity.
-- **Cryptographic Pseudonymization**: Converts identifying PII into irreversible tokens (`ANON-XXXXXX`, `erased-XXXX@consentlog.deleted`).
-- **Chain Preservation**: Documents the erasure event in a terminal audit block while maintaining historical ledger validity.
-
-### 5. First- & Third-Party Cookie Inventory Scanner
-- **Tracker Catalog**: Categorizes scripts across Essential, Analytics, Marketing, and Functional classifications with host domain tracking.
-- **Automated Domain Scanner**: Real-time HTTP scanner discovering cookies, tracker origins, and third-party script tags.
-- **Regulatory Mapping**: Links inventory trackers directly to user preferences and GTM Consent Mode v2 variables.
-
-### 6. External REST Verification API & Developer Keys
-- **High-Throughput Microservice Check**: `GET /api/v1/consent/check` enables backend microservices to check consent status in under 10ms.
-- **Cryptographic Verification Proof**: Returns `isAllowed: boolean` accompanied by the data subject's latest SHA-256 ledger proof block.
-- **Key Lifecycle Management**: Role-based issuance of hashed API credentials (`cl_live_...`) with automatic tracking of last-used timestamps.
-
-### 7. Version-Controlled Privacy Notices & Visual Diff Engine
-- **Historical Notice Lineage**: Tracks legal notices (v1.0, v1.1, v2.0) with publication dates and summaries of changes.
-- **Side-by-Side Clause Diffing**: Visual clause breakdown highlighting additions (`+`), modifications (`~`), and removals (`-`).
-- **Non-Assumed Consent**: Publishing a new notice triggers an explicit review banner rather than assuming automated acceptance.
-
-### 8. Cookie Banner Simulator & GTM Consent Mode v2 Embed SDK
-- **Interactive Simulator**: Configurable preview supporting Bottom Sticky Bar, Floating Shield Badge, and Modal Dialog layouts.
-- **Google Tag Manager Ready**: Drop-in snippets pre-configured for `ad_storage`, `analytics_storage`, and `personalization_storage`.
-- **Universal Embed Tag**: Single-line integration script for external web applications.
-
----
-
-## 🛠️ Technology Stack
-
-| Domain | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Frontend** | React 18, Vite 6, Tailwind CSS | High-performance, accessible single-page application |
-| **State & Router** | React Router v7, React Context | Declarative routing and authenticated session state |
-| **Icons & Charts** | Lucide React, Recharts | Interactive telemetry visualizations and UI icons |
-| **Backend Runtime** | Node.js 20+, Express 4.21 | REST API, webhook dispatcher, and microservice gateway |
-| **Database & ODM** | MongoDB, Mongoose 8 | Multi-document ACID transactions with replica set support |
-| **Embedded Database** | MongoMemoryReplSet | Zero-configuration local development & test replica set |
-| **Security & Auth** | JWT, bcryptjs, Helmet, Express Rate Limit | Token validation, header hardening, rate throttling |
-| **Data Validation** | Zod, Express Mongo Sanitize | Boundary input schema validation & NoSQL injection shield |
-| **Cryptography** | Node.js `crypto` (SHA-256, HMAC) | Immutable audit hash chaining and webhook signing |
-
----
-
-## 📡 API Reference
-
-### Microservice External Verification (`/api/v1/consent`)
-
-#### Verify Consent Status
-```http
-GET /api/v1/consent/check?email=user@company.com&category=marketing
+```bash
+curl -X GET "https://api.consentlog.io/api/v1/consent/check?email=alex@enterprise.io&category=marketing" \
+  -H "X-API-Key: cl_live_084a7a9094054a329beacbcf92da6839"
 ```
-**Headers:**
-```http
-X-API-Key: cl_live_xxxxxxxxxxxxxxxxxxxxxxxx
-```
-**Response (`200 OK`):**
+
+### Response (`200 OK`)
+
 ```json
 {
   "success": true,
@@ -162,75 +170,67 @@ X-API-Key: cl_live_xxxxxxxxxxxxxxxxxxxxxxxx
 }
 ```
 
----
+<details>
+<summary><b>🔍 Expand Full REST API Route Reference</b></summary>
+<br/>
 
-### Core Consent & Preference Endpoints (`/api/consent`, `/api/preferences`)
+| Scope | Method | Route | Description | Auth Required |
+| :--- | :--- | :--- | :--- | :--- |
+| **Microservice** | `GET` | `/api/v1/consent/check` | Real-time status lookup with SHA-256 proof block | `X-API-Key` |
+| **Preferences** | `GET` | `/api/preferences` | Retrieve user preferences across all 5 categories | User JWT |
+| | `PUT` | `/api/preferences` | Batch update preferences with transactional audit logging | User JWT |
+| | `PATCH` | `/api/preferences/:name` | Toggle individual preference | User JWT |
+| **Consent** | `POST` | `/api/consent/withdraw` | Execute formal Right to Withdraw consent | User JWT |
+| | `GET` | `/api/consent/retention` | Get consent expiration countdown & legal SLA | User JWT |
+| | `POST` | `/api/consent/dsar/request` | Submit GDPR Article 17 Right to Erasure request | User JWT |
+| | `GET` | `/api/consent/dsar/my-requests` | View user's submitted DSAR requests | User JWT |
+| **Audit Ledger** | `GET` | `/api/audit` | Paginated SHA-256 chained audit logs | User JWT |
+| | `POST` | `/api/audit/verify` | Recompute cryptographic chain from Genesis to Head | User / Admin |
+| | `GET` | `/api/audit/certificate` | Export cryptographic audit certificate receipt | User / Admin |
+| | `GET` | `/api/audit/dsar-passport` | Export GDPR Art. 15/20 cryptographically signed passport | User JWT |
+| **Notices** | `GET` | `/api/notices/active` | Fetch active privacy notice with localized content | Public |
+| | `GET` | `/api/notices/:version` | Fetch historical notice with diff comparison (`?compareWith=`) | Public |
+| | `POST` | `/api/notices/acknowledge` | Acknowledge notice and append audit block | User JWT |
+| **Admin** | `GET` | `/api/admin/metrics` | System-wide consent distribution telemetry | Admin JWT |
+| | `GET` | `/api/admin/webhooks` | List registered downstream webhook endpoints | Admin JWT |
+| | `POST` | `/api/admin/webhooks` | Register webhook with HMAC-SHA256 secret | Admin JWT |
+| | `POST` | `/api/admin/webhooks/:id/test` | Dispatch test ping to webhook endpoint | Admin JWT |
+| | `GET` | `/api/admin/dsar/requests` | List pending Article 17 erasure requests | Admin JWT |
+| | `POST` | `/api/admin/dsar/requests/:id/process` | Execute cryptographic pseudonymization & log block | Admin JWT |
+| | `GET` | `/api/admin/cookies` | List cookie & tracker inventory | Admin JWT |
+| | `POST` | `/api/admin/cookies/scan` | Trigger live domain tracker scan | Admin JWT |
+| | `GET` | `/api/admin/api-keys` | List active microservice API keys | Admin JWT |
+| | `POST` | `/api/admin/api-keys` | Generate new API key (`cl_live_...`) | Admin JWT |
+| | `DELETE` | `/api/admin/api-keys/:id` | Revoke microservice API key | Admin JWT |
 
-| Method | Endpoint | Description | Auth |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/preferences` | Retrieve user preferences across all 5 categories | User |
-| `PUT` | `/api/preferences` | Update category preferences and append audit block | User |
-| `PATCH` | `/api/preferences/:name` | Toggle single preference with transactional lock | User |
-| `POST` | `/api/consent/withdraw` | Exercise formal Right to Withdraw consent | User |
-| `GET` | `/api/consent/retention` | Get consent expiration countdown & retention SLA | User |
-| `POST` | `/api/consent/dsar/request` | Submit Article 17 Right to Erasure request | User |
-| `GET` | `/api/consent/dsar/my-requests` | View user's submitted DSAR requests | User |
-
----
-
-### Audit & Cryptographic Ledger Endpoints (`/api/audit`)
-
-| Method | Endpoint | Description | Auth |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/audit` | Retrieve paginated SHA-256 chained audit history | User |
-| `POST` | `/api/audit/verify` | Recompute cryptographic chain from Genesis to Head | User / Admin |
-| `GET` | `/api/audit/certificate` | Export cryptographic audit certificate receipt | User / Admin |
-| `GET` | `/api/audit/dsar-passport` | Export GDPR Art. 15/20 cryptographically signed passport | User |
-
----
-
-### Admin & Governance Endpoints (`/api/admin`)
-
-| Method | Endpoint | Description | Auth |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/admin/metrics` | System-wide consent metrics and distribution | Admin |
-| `GET` | `/api/admin/webhooks` | List configured downstream webhook endpoints | Admin |
-| `POST` | `/api/admin/webhooks` | Register new webhook endpoint with HMAC secret | Admin |
-| `POST` | `/api/admin/webhooks/:id/test` | Trigger test ping payload to webhook target | Admin |
-| `DELETE` | `/api/admin/webhooks/:id` | Remove webhook endpoint subscription | Admin |
-| `GET` | `/api/admin/dsar/requests` | List pending Article 17 erasure requests | Admin |
-| `POST` | `/api/admin/dsar/requests/:id/process` | Execute cryptographic pseudonymization & log event | Admin |
-| `GET` | `/api/admin/cookies` | List cookie & tracker inventory registry | Admin |
-| `POST` | `/api/admin/cookies/scan` | Trigger live domain tracker scan | Admin |
-| `GET` | `/api/admin/api-keys` | List issued microservice API keys | Admin |
-| `POST` | `/api/admin/api-keys` | Generate new authenticated API key (`cl_live_...`) | Admin |
-| `DELETE` | `/api/admin/api-keys/:id` | Revoke microservice API key credential | Admin |
+</details>
 
 ---
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- **Node.js**: `v20.0.0` or higher
-- **npm**: `v10.0.0` or higher
-- **MongoDB**: Optional (An embedded multi-document replica set launches automatically if no local MongoDB instance is detected)
+### 1. Installation
 
-### 1. Clone & Install
 ```bash
 git clone https://github.com/Git-huber2007/consentlog.git
 cd consentlog
 npm run install:all
 ```
 
-### 2. Launch Development Environment
+### 2. Run Development Cluster
+
 ```bash
 npm run dev
 ```
-- **Frontend SPA**: `http://localhost:5173`
-- **Backend API Gateway**: `http://localhost:5000`
-- **Health Check**: `http://localhost:5000/api/health`
 
-### 3. Build for Production
+- **Frontend Client**: `http://localhost:5173`
+- **Backend Gateway**: `http://localhost:5000`
+- **Health Telemetry**: `http://localhost:5000/api/health`
+
+*(If MongoDB is not running locally, ConsentLog automatically initializes an embedded multi-document replica set with full ACID transaction support).*
+
+### 3. Production Build
+
 ```bash
 npm run build
 ```
@@ -239,63 +239,64 @@ npm run build
 
 ## 🧪 Verification & Security Suite
 
-The platform includes an automated 19-point integration and compliance test suite covering access control, cryptographic hash chains, immutability barriers, and new enterprise workflows.
+ConsentLog includes a 19-point automated integration and security test suite validating zero-mutation constraints, cryptographic chaining, and regulatory workflows.
 
 ```bash
 npm test
 ```
 
-### Verified Test Cases (19/19 Passing)
-1. **Unauthorized Access**: Blocks unauthenticated requests with `HTTP 401`.
-2. **Privacy by Default**: Validates onboarding registration baseline (all non-essential categories disabled).
-3. **Password Security**: Tests bcrypt credential hashing and JWT token issuance.
-4. **Essential Cookies Protection**: Rejects modification of essential cookies with `400 Bad Request`.
-5. **Transactional Preference Updates**: Verifies multi-document ACID write consistency.
-6. **Formal Consent Withdrawal**: Verifies Right to Withdraw without audit log loss.
-7. **API-Level Immutability**: Confirms `PUT`, `PATCH`, and `DELETE` on `/api/audit` are rejected with `403 Forbidden`.
-8. **ODM-Level Hook Guard**: Validates Mongoose pre-hooks block direct document mutation.
-9. **Tenant & User Isolation**: Ensures cross-user audit record isolation.
-10. **Cryptographic Chain Validation**: Validates SHA-256 block continuity across all records.
-11. **Role-Based Access Control**: Prevents non-admin accounts from accessing administrative routes.
-12. **Notice Diff Engine**: Computes precise line-by-line diffs between published notice versions.
-13. **Notice Publishing**: Validates version lineage without automated assumption of consent.
-14. **Explicit Re-Consent**: Tracks audit linkage upon user acceptance of revised notice terms.
-15. **Consent Retention SLA**: Validates EDPB/CNIL countdowns and expiration calculations.
-16. **Webhook Dispatcher**: Verifies endpoint registration and HMAC-SHA256 signature headers.
-17. **Article 17 Erasure**: Confirms PII erasure, user pseudonymization, and audit block generation.
-18. **Cookie Inventory**: Verifies registry categorization across regulatory groups.
-19. **External Verification API**: Tests `GET /api/v1/consent/check` with API keys and cryptographic proof returns.
+```
+======================================================================
+  CONSENTLOG ENTERPRISE - VERIFICATION RESULTS (19/19 CHECKS)
+======================================================================
+  [1/19]  Unauthorized API requests strictly blocked (HTTP 401)             ✅ PASSED
+  [2/19]  User registration & privacy-by-default onboarding verified        ✅ PASSED
+  [3/19]  JWT Authentication & bcrypt password verification passed          ✅ PASSED
+  [4/19]  Essential Cookies protection enforced (cannot be disabled)        ✅ PASSED
+  [5/19]  Preference updates & transactional ConsentLog creation verified   ✅ PASSED
+  [6/19]  Consent withdrawal & historical audit preservation verified       ✅ PASSED
+  [7/19]  Append-only API immutability enforced (PUT/PATCH/DELETE blocked)  ✅ PASSED
+  [8/19]  Mongoose ODM-level immutability hooks verified                    ✅ PASSED
+  [9/19]  Ownership validation enforced (cross-user isolation)              ✅ PASSED
+  [10/19] SHA-256 Hash Chain verified across all blocks                     ✅ PASSED
+  [11/19] Role-Based Access Control verified (Admin routes protected)       ✅ PASSED
+  [12/19] Privacy Notice side-by-side diff engine verified                  ✅ PASSED
+  [13/19] Versioned Privacy Notice publication & non-assumed consent        ✅ PASSED
+  [14/19] Explicit Privacy Notice acceptance & SHA-256 audit linkage        ✅ PASSED
+  [15/19] Consent Retention SLA calculated (EDPB / CNIL countdown)          ✅ PASSED
+  [16/19] Webhook created with HMAC-SHA256 secret and event listeners       ✅ PASSED
+  [17/19] Article 17 Right to Erasure executed and user anonymized          ✅ PASSED
+  [18/19] Domain scanner cataloged cookies across 5 regulatory categories   ✅ PASSED
+  [19/19] External API query verified consent status with SHA-256 proof     ✅ PASSED
+======================================================================
+  ALL 19/19 VERIFICATION CHECKS PASSED (100% SUITE INTEGRITY)
+======================================================================
+```
 
 ---
 
-## 👥 Pre-Configured Test Credentials
+## 👥 Demo Credentials
 
-| Role | Email | Password | Default Jurisdiction |
+| Identity | Email | Password | Primary Jurisdiction |
 | :--- | :--- | :--- | :--- |
 | **Chief Privacy Officer (Admin)** | `admin@consentlog.io` | `Password123!` | Global Governance HQ |
 | **Enterprise User (GDPR)** | `alex@enterprise.io` | `Password123!` | GDPR (European Union) |
 | **Healthcare User (DPDP)** | `priya@enterprise.io` | `Password123!` | DPDP Act (India) |
 | **Financial User (CCPA)** | `marcus@enterprise.io` | `Password123!` | CCPA / CPRA (California) |
 
-*(One-click demo account switching is also available directly on the login interface.)*
+*(One-click demo switching buttons are available directly on the login page).*
 
 ---
 
-## 📋 Compliance & Security Matrix
+## 🛡️ Regulatory Compliance Matrix
 
-| Regulatory Standard | Legal Mandate | ConsentLog Implementation |
+| Legal Mandate | Regulatory Requirement | ConsentLog Architectural Enforcement |
 | :--- | :--- | :--- |
-| **GDPR Art. 7(1)** | Burden of Proof | SHA-256 chained audit ledger providing mathematical proof of consent conditions at any timestamp. |
-| **GDPR Art. 7(3)** | Right to Withdraw | Single-click withdrawal mechanism as easily accessible as granting consent, instantly revoking tokens. |
-| **GDPR Art. 15 & 20** | Access & Portability | Cryptographically sealed JSON and PDF DSAR passports containing full consent history. |
-| **GDPR Art. 17** | Right to Erasure | Cryptographic anonymization to `ANON-XXXXXX` while preserving append-only audit continuity. |
-| **EDPB Guidelines 05/2020** | Refresh & Expiration | Automated expiration scheduler calculating legal decay and alerting users prior to lapse. |
-| **CCPA / CPRA § 1798.120** | Opt-Out of Sale / Share | Dedicated third-party data sharing toggle with immediate downstream webhook dispatch. |
-| **DPDP Act 2023 Sec. 6** | Itemized Consent Notice | Multilingual notice versioning with side-by-side clause diffing and explicit re-consent gates. |
-| **ISO/IEC 27001:2022** | Non-Repudiation (A.8.15) | Write-once append-only storage guards preventing database-level mutation of audit records. |
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
+| **GDPR Art. 7(1)** | Burden of Proof | Deterministic SHA-256 chained audit trail providing mathematically verifiable proof of consent at any millisecond. |
+| **GDPR Art. 7(3)** | Right to Withdraw | One-click withdrawal mechanism matching the ease of granting consent; immediately revokes downstream processing tokens. |
+| **GDPR Art. 15 & 20** | Access & Portability | Cryptographically sealed JSON and PDF DSAR compliance passports containing complete historical consent lineages. |
+| **GDPR Art. 17** | Right to Erasure | Cryptographic anonymization to `ANON-XXXXXX` ensuring PII destruction while preserving immutable ledger continuity. |
+| **EDPB Guidelines 05/2020** | Expiration & Refresh | SLA countdown engine computing legal expiration windows and prompting explicit renewal before consent decay. |
+| **CCPA / CPRA § 1798.120** | Opt-Out of Sale / Sharing | Dedicated third-party data sharing controls backed by immediate HMAC-SHA256 signed webhook dispatch to downstream data brokers. |
+| **DPDP Act 2023 Sec. 6** | Itemized Notice & Consent | Notice version lineage with clause-level diffing and mandatory re-affirmation gates prior to processing. |
+| **ISO/IEC 27001:2022 (A.8.15)** | Non-Repudiation Logging | Write-once append-only database guards and ODM mutation hooks eliminating unauthorized tampering or deletion. |
