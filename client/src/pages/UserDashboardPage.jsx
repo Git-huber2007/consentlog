@@ -147,28 +147,28 @@ const UserDashboardPage = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           <button
             onClick={handleDownloadDsarPassport}
             disabled={exporting}
-            className="h-9 px-3 rounded-md bg-white dark:bg-[#111113] hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 flex items-center gap-1.5"
+            className="h-8.5 px-3 rounded-lg bg-white dark:bg-[#0E1526] hover:bg-zinc-50 dark:hover:bg-zinc-800/80 border border-zinc-200/80 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
           >
-            <Download className="size-3.5 text-zinc-500" />
+            <Download className="size-3.5 text-zinc-400" />
             <span>{exporting ? 'Exporting...' : 'Export Data'}</span>
           </button>
 
           <button
             onClick={handleQuickVerifyChain}
             disabled={verifying}
-            className="h-9 px-3 rounded-md bg-white dark:bg-[#111113] hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 flex items-center gap-1.5"
+            className="h-8.5 px-3 rounded-lg bg-white dark:bg-[#0E1526] hover:bg-zinc-50 dark:hover:bg-zinc-800/80 border border-zinc-200/80 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-200 flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
           >
-            <RefreshCw className={`size-3.5 ${verifying ? 'animate-spin text-emerald-500' : 'text-zinc-500'}`} />
+            <RefreshCw className={`size-3.5 ${verifying ? 'animate-spin text-emerald-500' : 'text-zinc-400'}`} />
             <span>{verifying ? 'Checking...' : 'Verify Logs'}</span>
           </button>
 
           <Link
             to="/preferences"
-            className="h-9 px-3.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 hover:opacity-90 text-xs font-medium flex items-center gap-1.5"
+            className="h-8.5 px-3.5 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-white text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
           >
             <Sliders className="size-3.5" />
             <span>Preferences</span>
@@ -176,14 +176,17 @@ const UserDashboardPage = () => {
         </div>
       </div>
 
-      <div className="enterprise-card grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-zinc-200/80 dark:divide-zinc-800/80">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {kpiMetrics.map((item) => (
-          <div key={item.label} className="p-4 flex flex-col justify-between">
-            <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+          <div
+            key={item.label}
+            className="p-4 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-[#0E1526] shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex flex-col justify-between"
+          >
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
               {item.label}
             </span>
-            <div className="mt-2">
-              <p className="font-mono text-2xl font-semibold text-zinc-900 dark:text-white tabular-nums">
+            <div className="mt-3">
+              <p className="font-mono text-2xl font-bold text-zinc-900 dark:text-white tabular-nums tracking-tight">
                 {item.value}
               </p>
               <p className="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">{item.sub}</p>
@@ -193,89 +196,112 @@ const UserDashboardPage = () => {
       </div>
 
       <div className="grid lg:grid-cols-12 gap-5">
-        <div className="lg:col-span-5 p-5 rounded-lg bg-zinc-900 dark:bg-[#111113] text-white border border-zinc-800 flex flex-col justify-between space-y-4">
+        <div className="lg:col-span-5 p-5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-[#0E1526] text-zinc-900 dark:text-white shadow-xs flex flex-col justify-between space-y-4">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-base font-semibold text-white flex items-center gap-2">
-                <span>Audit Log: {metrics.auditIntegrityStatus || 'Verified'}</span>
-                <CheckCircle2 className="size-4 text-emerald-400" />
-              </h2>
-              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
-                All {metrics.totalAuditEvents || 0} log entries match their recorded SHA-256 hashes with no missing records.
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center justify-center size-5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                  <CheckCircle2 className="size-3.5" />
+                </span>
+                <h2 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-white">
+                  Audit Ledger: {metrics.auditIntegrityStatus || 'Cryptographically Verified'}
+                </h2>
+              </div>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed">
+                All {metrics.totalAuditEvents || 0} sequential audit events match their recorded SHA-256 hashes with zero tampering detected.
               </p>
             </div>
             <Link
               to={user?.role === 'admin' ? '/admin/integrity' : '/audit-history'}
-              className="text-xs font-medium text-zinc-300 hover:text-white flex items-center gap-1 shrink-0"
+              className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 shrink-0"
             >
-              <span>Details</span>
+              <span>Verify Chain</span>
               <ArrowUpRight className="size-3.5" />
             </Link>
           </div>
 
-          <div className="p-3 rounded-md bg-zinc-950 border border-zinc-800/90 font-mono text-[11px] space-y-1 tabular-nums">
-            <div className="flex justify-between text-zinc-500">
-              <span>Latest Hash</span>
-              <span className="text-emerald-400">Valid</span>
+          <div className="p-3 rounded-lg bg-zinc-50 dark:bg-[#080B11] border border-zinc-200/70 dark:border-zinc-800/80 font-mono text-[11px] space-y-1.5 tabular-nums">
+            <div className="flex justify-between items-center text-zinc-500 dark:text-zinc-400 text-[10px] uppercase tracking-wider font-semibold">
+              <span>Latest Ledger Block Hash</span>
+              <span className="px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">SHA-256 Valid</span>
             </div>
-            <p className="text-zinc-300 truncate">
+            <p className="text-zinc-700 dark:text-zinc-300 font-mono truncate select-all">
               {data?.latestVerification?.headHash ||
                 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}
             </p>
           </div>
         </div>
 
-        <div className="lg:col-span-7 enterprise-card p-5 flex flex-col justify-between space-y-4">
+        <div className="lg:col-span-7 p-5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-[#0E1526] shadow-xs flex flex-col justify-between space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-white">
-              Your Preferences
-            </h2>
+            <div>
+              <h2 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-white">
+                Consent Category Controls
+              </h2>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                Active regulatory preference state across all channels
+              </p>
+            </div>
             <Link
               to="/preferences"
-              className="text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white flex items-center gap-1"
+              className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
             >
-              <span>Edit</span>
+              <span>Configure</span>
               <ArrowUpRight className="size-3.5" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
             {(userConsent?.summary?.categories || []).map((cat) => (
               <div
                 key={cat.key}
-                className={`p-3 rounded-md border ${
+                className={`p-2.5 rounded-lg border transition-colors flex items-center justify-between gap-2 ${
                   cat.enabled
-                    ? 'bg-emerald-500/5 border-emerald-500/25'
-                    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200/80 dark:border-zinc-800'
+                    ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-500/20'
+                    : 'bg-zinc-50/60 dark:bg-zinc-900/40 border-zinc-200/80 dark:border-zinc-800'
                 }`}
               >
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-zinc-900 dark:text-white truncate">
+                    {cat.name}
+                  </p>
+                  <p className="text-[10px] text-zinc-500 dark:text-zinc-400">
+                    {cat.key === 'essential' ? 'Strictly Necessary' : cat.enabled ? 'Granted' : 'Opted Out'}
+                  </p>
+                </div>
                 <span
-                  className={`font-mono text-[10px] font-medium px-1.5 py-0.5 rounded ${
+                  className={`shrink-0 font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full ${
                     cat.enabled
-                      ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
-                      : 'bg-zinc-200/80 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
+                      ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-500/30'
+                      : 'bg-zinc-200/70 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
                   }`}
                 >
                   {cat.statusBadge}
                 </span>
-                <p className="text-xs font-medium text-zinc-900 dark:text-white mt-2 line-clamp-1">
-                  {cat.name}
-                </p>
               </div>
             ))}
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800/80 text-xs text-zinc-500 font-mono tabular-nums">
-            <span>
-              Enabled: <strong className="text-zinc-900 dark:text-zinc-100">{userConsent?.summary?.enabledPreferences || 1}/5</strong> ·{' '}
-              Disabled: <strong className="text-zinc-900 dark:text-zinc-100">{userConsent?.summary?.disabledPreferences || 4}</strong> ·{' '}
-              Withdrawn: <strong className="text-rose-600 dark:text-rose-400">{userConsent?.summary?.withdrawnPreferences || 0}</strong>
+            <span className="flex items-center gap-3">
+              <span className="flex items-center gap-1.5">
+                <span className="size-2 rounded-full bg-emerald-500" />
+                <span>Enabled: <strong className="text-zinc-900 dark:text-white">{userConsent?.summary?.enabledPreferences || 1}/5</strong></span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="size-2 rounded-full bg-zinc-400" />
+                <span>Disabled: <strong className="text-zinc-900 dark:text-white">{userConsent?.summary?.disabledPreferences || 4}</strong></span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="size-2 rounded-full bg-rose-500" />
+                <span>Withdrawn: <strong className="text-rose-600 dark:text-rose-400">{userConsent?.summary?.withdrawnPreferences || 0}</strong></span>
+              </span>
             </span>
             <Link
               to="/audit-history"
-              className="font-sans font-medium text-zinc-700 dark:text-zinc-300 hover:underline"
+              className="font-sans font-semibold text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white underline text-xs"
             >
-              View History
+              Audit Ledger →
             </Link>
           </div>
         </div>

@@ -314,12 +314,15 @@ const AppLayout = () => {
               </select>
             </div>
 
-            <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] tabular-nums shadow-2xs">
-              <span className="size-1.5 rounded-full bg-emerald-500" />
-              <span className="font-medium text-zinc-800 dark:text-zinc-200">{user?.jurisdiction || 'GDPR'}</span>
-              <span className="text-zinc-300 dark:text-zinc-700">·</span>
-              <span className="font-mono text-[11px]">Notice v{activeNoticeInfo?.version || '2.0'}</span>
-            </span>
+            <div className="hidden md:flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 shadow-2xs">
+                <span className="size-1.5 rounded-full bg-emerald-500" />
+                {user?.jurisdiction || 'GDPR (EU)'}
+              </span>
+              <span className="inline-flex items-center text-xs font-mono px-2.5 py-1 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] text-zinc-600 dark:text-zinc-400 shadow-2xs">
+                v{activeNoticeInfo?.version || '2.0'} Active
+              </span>
+            </div>
 
             <button
               onClick={toggleTheme}
