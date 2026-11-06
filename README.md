@@ -16,7 +16,7 @@ Records every consent event into an immutable, mathematically verifiable audit c
 
 <br/>
 
-[Overview](#-executive-overview) • [Key Capabilities](#-enterprise-capabilities) • [Architecture](#-system-architecture) • [Microservice API](#-real-time-verification-api) • [Quick Start](#-quick-start) • [Compliance Matrix](#-regulatory-compliance-matrix)
+[Overview](#-executive-overview) • [Visual Showcase](#-visual-showcase) • [Key Capabilities](#-enterprise-capabilities) • [Architecture](#-system-architecture) • [Microservice API](#-real-time-verification-api) • [Quick Start](#-quick-start) • [Compliance Matrix](#-regulatory-compliance-matrix)
 
 </div>
 
@@ -31,6 +31,53 @@ Modern privacy regulations (**GDPR Art. 7**, **CCPA/CPRA § 1798.120**, **DPDP A
 - **Microsecond Microservice Intercepts**: Backend services, email queues, and tracking pixels verify user consent in real time (`<10ms`) via authenticated REST endpoints.
 - **Privacy-by-Default Architecture**: All non-essential categories (Marketing, Analytics, Third-Party Sharing) remain strictly disabled until explicit opt-in.
 - **Enterprise DSAR & Erasure Automation**: Fulfills GDPR Article 17 "Right to Erasure" by cryptographically anonymizing identifying user data while preserving ledger chain continuity.
+
+---
+
+## 📸 Visual Showcase
+
+### 1. Interactive Preference Centre & Legal Retention SLA
+Granular controls across 5 categories, protected Essential Cookies enforcement, one-click Right to Withdraw, and real-time EDPB/CNIL legal retention countdown timer.
+
+<p align="center">
+  <img src="docs/screenshots/01-preference-centre.png" alt="ConsentLog Preference Centre & Retention SLA" width="100%" />
+</p>
+
+---
+
+### 2. Tamper-Evident SHA-256 Chained Audit History
+Append-only cryptographic ledger tracking block sequence IDs, previous block hashes, deterministic SHA-256 verification seals, and one-click GDPR Art. 15/20 data passport export.
+
+<p align="center">
+  <img src="docs/screenshots/02-audit-history.png" alt="Tamper-Evident Audit Ledger" width="100%" />
+</p>
+
+---
+
+### 3. Privacy Notice Versioning & Side-by-Side Diff Engine
+Auditable policy lifecycle management with automated visual clause diffing (`+` additions in green, `~` modifications in amber, `-` removals in red) and non-assumed re-consent enforcement.
+
+<p align="center">
+  <img src="docs/screenshots/03-notice-diff-engine.png" alt="Privacy Notice Diff Engine" width="100%" />
+</p>
+
+---
+
+### 4. Visitor Cookie Banner Simulator & GTM Consent Mode v2
+Real-time banner customization with Bottom Bar, Floating Shield, and Modal Dialog layouts, dark/light themes, and drop-in Google Tag Manager Consent Mode v2 integration code.
+
+<p align="center">
+  <img src="docs/screenshots/04-banner-simulator.png" alt="Cookie Banner Simulator & Embed SDK" width="100%" />
+</p>
+
+---
+
+### 5. Live Cookie & Tracker Inventory Scanner
+Comprehensive domain crawler classifying first- and third-party trackers (Google Analytics, Hotjar, Stripe, Segment) across regulatory classifications with direct preference mapping.
+
+<p align="center">
+  <img src="docs/screenshots/05-tracker-inventory.png" alt="Cookie & Tracker Inventory Scanner" width="100%" />
+</p>
 
 ---
 
