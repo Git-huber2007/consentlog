@@ -1,6 +1,10 @@
 <div align="center">
 
-![ConsentLog Enterprise Platform](docs/consentlog-hero.svg)
+# ConsentLog
+
+### Intelligent Enterprise Consent & Preference Governance Platform
+
+*Tamper-evident SHA-256 chained audit ledger · Real-time microservice verification · GDPR Article 17 DSAR engine*
 
 <br/>
 
@@ -9,12 +13,14 @@
 [![Ledger](https://img.shields.io/badge/Integrity-SHA--256%20Chained-8b5cf6?style=for-the-badge&logo=hyperledger&logoColor=white)](https://github.com/Git-huber2007/consentlog)
 [![Stack](https://img.shields.io/badge/Stack-Node.js%20%7C%20React%20%7C%20MongoDB-27272a?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
-<br/>
+<br/><br/>
 
-**A zero-trust privacy governance platform engineered for enterprise compliance.**  
-Records every consent event into an immutable, mathematically verifiable audit chain while orchestrating real-time downstream propagation and microservice verification.
+<img src="docs/screenshots/01-preference-centre.png" alt="ConsentLog Platform Interface" width="100%" />
 
 <br/>
+<sub><i>Live platform interface: 5 granular consent categories, privacy-by-default controls, and real-time EDPB/CNIL retention SLA countdown.</i></sub>
+
+<br/><br/>
 
 [Overview](#-executive-overview) • [Visual Showcase](#-visual-showcase) • [Key Capabilities](#-enterprise-capabilities) • [Architecture](#-system-architecture) • [Microservice API](#-real-time-verification-api) • [Quick Start](#-quick-start) • [Compliance Matrix](#-regulatory-compliance-matrix)
 
