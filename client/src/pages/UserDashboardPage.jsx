@@ -224,44 +224,39 @@ const UserDashboardPage = () => {
           ================================================================== */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-1">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-[0.16em] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 mb-2">
-            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Cryptographic Ledger Online</span>
-          </div>
           <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            Compliance &amp; Trust Dashboard
+            Dashboard
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
-            Active session: <strong className="text-slate-800 dark:text-slate-200">{user?.email}</strong> · Jurisdiction: <strong className="text-slate-800 dark:text-slate-200">{user?.jurisdiction || 'GDPR (EU)'}</strong> · Tenant: <strong className="text-slate-800 dark:text-slate-200">{user?.organization || 'Enterprise Global Corp'}</strong>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Real-time cryptographic consent ledger &amp; privacy state
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <button
             onClick={handleDownloadDsarPassport}
             disabled={exporting}
-            className="h-9.5 px-3.5 rounded-xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/90 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer backdrop-blur-sm"
+            className="h-8.5 px-3 rounded-xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/90 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer backdrop-blur-sm"
           >
             <Download className="size-3.5 text-slate-400" />
-            <span>{exporting ? 'Exporting...' : 'Export JSON Passport'}</span>
+            <span>Export Data</span>
           </button>
 
           <button
             onClick={handleQuickVerifyChain}
             disabled={verifying}
-            className="h-9.5 px-3.5 rounded-xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/90 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer backdrop-blur-sm"
+            className="h-8.5 px-3 rounded-xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/90 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer backdrop-blur-sm"
           >
             <RefreshCw className={`size-3.5 ${verifying ? 'animate-spin text-emerald-500' : 'text-slate-400'}`} />
-            <span>{verifying ? 'Verifying...' : 'Verify Cryptographic Logs'}</span>
+            <span>Verify Logs</span>
           </button>
 
           <Link
             to="/preferences"
-            className="btn-luxury h-9.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="btn-luxury h-8.5 px-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] shrink-0"
           >
             <Sliders className="size-3.5" />
-            <span>Manage Preferences</span>
-            <span className="size-4.5 rounded-full bg-white/20 flex items-center justify-center text-[10px] ml-1">→</span>
+            <span>Preferences</span>
           </Link>
         </div>
       </div>
