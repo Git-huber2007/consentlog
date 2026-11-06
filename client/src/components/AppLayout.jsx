@@ -31,7 +31,6 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useToast } from '../context/ToastContext';
 import CommandPalette from './CommandPalette';
-import ThemeSelector from './ThemeSelector';
 import api from '../services/api';
 
 const ROUTE_TITLES = {
@@ -178,29 +177,23 @@ const AppLayout = () => {
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-60 bg-[var(--bg-sidebar,#ffffff)] border-r border-[var(--border-app,rgba(228,228,231,0.8))] flex flex-col transition-transform duration-200 ease-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-60 bg-white dark:bg-[#0C101A] border-r border-zinc-200/80 dark:border-zinc-800/60 flex flex-col transition-transform duration-200 ease-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        <div className="h-14 px-4 flex items-center justify-between border-b border-[var(--border-subtle)]">
-          <Link to="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="size-7 rounded-lg bg-[var(--accent-primary)] flex items-center justify-center text-[var(--accent-btn-text,#ffffff)] shadow-sm transition-transform group-hover:scale-105">
+        <div className="h-14 px-4 flex items-center justify-between border-b border-zinc-200/80 dark:border-zinc-800/60">
+          <Link to="/dashboard" className="flex items-center gap-2.5">
+            <div className="size-7 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 flex items-center justify-center shadow-xs">
               <ShieldCheck className="size-4" />
             </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-sm tracking-tight text-[var(--text-main)]">
-                ConsentLog
-              </span>
-              <span className="text-[9px] font-mono tracking-widest uppercase text-[var(--accent-primary)] font-semibold -mt-0.5">
-                Enterprise
-              </span>
-            </div>
+            <span className="font-semibold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">
+              ConsentLog
+            </span>
           </Link>
-          <span className="status-live-beacon hidden sm:inline-flex" title="Audit ledger operational" />
           <button
             onClick={() => setSidebarOpen(false)}
             aria-label="Close menu"
-            className="lg:hidden size-8 inline-flex items-center justify-center rounded-md text-[var(--text-muted)] hover:text-[var(--text-main)]"
+            className="lg:hidden size-8 inline-flex items-center justify-center rounded-md text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
           >
             <X className="size-4" />
           </button>
@@ -210,20 +203,20 @@ const AppLayout = () => {
           <button
             type="button"
             onClick={() => setPaletteOpen(true)}
-            className="w-full h-8 px-2.5 rounded-lg bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-app)] text-xs text-[var(--text-muted)] flex items-center justify-between shadow-xs transition-colors"
+            className="w-full h-8 px-2.5 rounded-lg bg-zinc-100/70 dark:bg-zinc-900/60 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/70 border border-zinc-200/80 dark:border-zinc-800 text-xs text-zinc-500 flex items-center justify-between shadow-xs transition-colors"
           >
             <span className="flex items-center gap-2">
-              <Search className="size-3.5 text-[var(--text-muted)]" />
+              <Search className="size-3.5 text-zinc-400" />
               <span>Search...</span>
             </span>
-            <kbd className="font-mono text-[10px] text-[var(--text-muted)] bg-[var(--bg-card-hover)] border border-[var(--border-subtle)] px-1.5 py-0.5 rounded">⌘K</kbd>
+            <kbd className="font-mono text-[10px] text-zinc-400 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700/80 px-1.5 py-0.5 rounded shadow-2xs">⌘K</kbd>
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
           {navItems.map((group, idx) => (
             <div key={idx}>
-              <p className="px-2.5 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] opacity-75">
+              <p className="px-2.5 mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                 {group.section}
               </p>
               <div className="space-y-0.5">
@@ -236,10 +229,10 @@ const AppLayout = () => {
                       end={item.exact || item.to === '/notices'}
                       onClick={() => setSidebarOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 ${
+                        `flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                           isActive
-                            ? 'bg-[var(--sidebar-active-bg)] text-[var(--sidebar-active-text)] font-semibold shadow-xs'
-                            : 'text-[var(--text-muted)] hover:bg-[var(--bg-card-hover)] hover:text-[var(--text-main)]'
+                            ? 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-900 dark:text-white font-semibold'
+                            : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900/80 hover:text-zinc-900 dark:hover:text-zinc-100'
                         }`
                       }
                     >
@@ -253,14 +246,14 @@ const AppLayout = () => {
           ))}
         </div>
 
-        <div className="p-3 border-t border-[var(--border-subtle)] bg-[var(--bg-sidebar)]">
+        <div className="p-3 border-t border-zinc-200/80 dark:border-zinc-800/60 bg-white dark:bg-[#0C101A]">
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <p className="text-xs font-semibold text-[var(--text-main)] truncate">
+                <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate">
                   {user?.name?.replace(/\s*\(.*?\)\s*/g, '')}
                 </p>
-                <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-[var(--badge-bg)] text-[var(--badge-text)] font-semibold">
+                <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 font-semibold">
                   {user?.role === 'admin'
                     ? 'Admin'
                     : user?.role === 'dpo'
@@ -270,13 +263,13 @@ const AppLayout = () => {
                     : 'User'}
                 </span>
               </div>
-              <p className="text-[11px] text-[var(--text-muted)] truncate">{user?.email}</p>
+              <p className="text-[11px] text-zinc-500 truncate">{user?.email}</p>
             </div>
             <button
               onClick={handleLogout}
               title="Sign out"
               aria-label="Sign out"
-              className="size-8 inline-flex items-center justify-center rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-card-hover)] shrink-0 transition-colors"
+              className="size-8 inline-flex items-center justify-center rounded-lg text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 shrink-0 transition-colors"
             >
               <LogOut className="size-4" />
             </button>
@@ -285,7 +278,7 @@ const AppLayout = () => {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 bg-[var(--header-bg,rgba(250,250,250,0.85))] backdrop-blur-md border-b border-[var(--border-app,rgba(228,228,231,0.8))] px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <header className="h-14 bg-white/80 dark:bg-[#0C101A]/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/60 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -306,12 +299,12 @@ const AppLayout = () => {
 
           <div className="flex items-center gap-2">
             <div className="hidden sm:inline-flex items-center relative">
-              <Building2 className="size-3.5 text-[var(--text-muted)] absolute left-2.5 pointer-events-none" />
+              <Building2 className="size-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
               <select
                 value={user?.organization || 'Enterprise Global Corp'}
                 onChange={handleOrgChange}
                 aria-label="Active Organization"
-                className="h-8 pl-8 pr-3 text-xs font-medium rounded-full border border-[var(--border-app)] bg-[var(--bg-card)] text-[var(--text-main)] outline-none hover:bg-[var(--bg-card-hover)] cursor-pointer transition-colors shadow-xs"
+                className="h-8 pl-8 pr-3 text-xs font-medium rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] text-zinc-700 dark:text-zinc-200 outline-none hover:bg-zinc-50 dark:hover:bg-zinc-800/70 cursor-pointer transition-colors shadow-2xs"
                 title="Active Tenant Organization"
               >
                 <option value="Enterprise Global Corp">Enterprise Global Corp</option>
@@ -321,14 +314,21 @@ const AppLayout = () => {
               </select>
             </div>
 
-            <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-[var(--text-muted)] px-3 py-1 rounded-full border border-[var(--border-app)] bg-[var(--bg-card)] tabular-nums shadow-xs">
-              <span className="size-1.5 rounded-full bg-emerald-500 shadow-xs" />
-              <span className="font-medium text-[var(--text-main)]">{user?.jurisdiction || 'GDPR'}</span>
-              <span className="text-[var(--border-app)]">·</span>
-              <span className="font-mono text-[11px]">v{activeNoticeInfo?.version || '2.0'}</span>
+            <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] tabular-nums shadow-2xs">
+              <span className="size-1.5 rounded-full bg-emerald-500" />
+              <span className="font-medium text-zinc-800 dark:text-zinc-200">{user?.jurisdiction || 'GDPR'}</span>
+              <span className="text-zinc-300 dark:text-zinc-700">·</span>
+              <span className="font-mono text-[11px]">Notice v{activeNoticeInfo?.version || '2.0'}</span>
             </span>
 
-            <ThemeSelector />
+            <button
+              onClick={toggleTheme}
+              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="size-8 inline-flex items-center justify-center rounded-lg border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-[#101726] text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors shadow-2xs cursor-pointer"
+            >
+              {darkMode ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4" />}
+            </button>
           </div>
         </header>
 
