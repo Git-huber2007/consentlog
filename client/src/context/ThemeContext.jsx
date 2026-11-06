@@ -2,19 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export const THEMES = [
   {
-    id: 'obsidian',
-    name: 'Obsidian Ledger',
-    tagline: 'Surgical OLED Dark',
-    isDark: true,
-    accent: '#10B981',
-    accentSecondary: '#06B6D4',
-    bgPreview: '#08090C',
-    dotColor: '#10B981',
-  },
-  {
     id: 'frost',
     name: 'Nordic Frost',
-    tagline: 'Clean Alpine Light',
+    tagline: 'Clean Architectural Alpine Light',
     isDark: false,
     accent: '#2563EB',
     accentSecondary: '#0284C7',
@@ -22,24 +12,34 @@ export const THEMES = [
     dotColor: '#2563EB',
   },
   {
+    id: 'ivory',
+    name: 'Executive Ivory',
+    tagline: 'Warm Regulatory & Swiss Luxury',
+    isDark: false,
+    accent: '#C2410C',
+    accentSecondary: '#D97706',
+    bgPreview: '#F7F4EE',
+    dotColor: '#C2410C',
+  },
+  {
+    id: 'obsidian',
+    name: 'Obsidian Ledger',
+    tagline: 'Surgical Cryptographic Deep Slate',
+    isDark: true,
+    accent: '#10B981',
+    accentSecondary: '#06B6D4',
+    bgPreview: '#080B11',
+    dotColor: '#10B981',
+  },
+  {
     id: 'cyber',
     name: 'Tokyo Midnight',
-    tagline: 'Phosphor Matrix',
+    tagline: 'Phosphor Matrix Cyber Terminal',
     isDark: true,
     accent: '#00FF9D',
     accentSecondary: '#00E5FF',
     bgPreview: '#030508',
     dotColor: '#00FF9D',
-  },
-  {
-    id: 'ivory',
-    name: 'Executive Ivory',
-    tagline: 'Regulator Luxury',
-    isDark: false,
-    accent: '#C2410C',
-    accentSecondary: '#D97706',
-    bgPreview: '#FAF7F2',
-    dotColor: '#C2410C',
   },
 ];
 
@@ -48,13 +48,14 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
   const [theme, setThemeState] = useState(() => {
     const saved = localStorage.getItem('consentlog_active_theme');
-    if (saved && THEMES.some((t) => t.id === saved)) {
+    // If user was previously stuck on dark obsidian or legacy dark, default to fresh frost
+    if (saved === 'obsidian' || saved === 'dark' || !saved) {
+      return 'frost';
+    }
+    if (THEMES.some((t) => t.id === saved)) {
       return saved;
     }
-    const legacy = localStorage.getItem('consentlog_theme');
-    if (legacy === 'light') return 'frost';
-    if (legacy === 'dark') return 'obsidian';
-    return 'obsidian';
+    return 'frost';
   });
 
   const activeThemeMeta = THEMES.find((t) => t.id === theme) || THEMES[0];

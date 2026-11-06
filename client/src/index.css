@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   CONSENTLOG MULTI-THEME TOKEN ARCHITECTURE
-   4 Distinct Enterprise Aesthetic Profiles:
-   1. Obsidian Ledger (OLED Dark Cryptographic)
-   2. Nordic Frost (Clean Alpine Architectural Light)
-   3. Tokyo Midnight (Phosphor Matrix High-Tech)
-   4. Executive Ivory (Warm Regulatory Luxury)
+   CONSENTLOG BESPOKE DESIGN TOKEN ARCHITECTURE
+   4 High-End Enterprise Aesthetic Profiles:
+   1. Nordic Frost (Clean Architectural Alpine Light - Default)
+   2. Executive Ivory (Warm Regulatory & Private Banking Luxury)
+   3. Obsidian Ledger (Surgical Cryptographic Deep Slate OLED)
+   4. Tokyo Midnight (Phosphor Matrix Cybernetic Terminal)
    ========================================================================== */
 
 :root,
@@ -24,77 +24,85 @@
   --text-muted: #64748B;
   --accent-primary: #2563EB;
   --accent-secondary: #0284C7;
-  --accent-glow: rgba(37, 99, 235, 0.16);
+  --accent-glow: rgba(37, 99, 235, 0.2);
+  --accent-btn-text: #FFFFFF;
   --badge-bg: #EFF6FF;
   --badge-text: #1D4ED8;
-  --header-bg: rgba(248, 250, 252, 0.88);
+  --header-bg: rgba(248, 250, 252, 0.9);
   --sidebar-active-bg: #EFF6FF;
   --sidebar-active-text: #1D4ED8;
-  --card-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 24px -6px rgba(15, 23, 42, 0.04);
+  --grid-dot: rgba(15, 23, 42, 0.05);
+  --card-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 10px 24px -4px rgba(15, 23, 42, 0.03), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+[data-theme="ivory"] {
+  --bg-app: #F7F4EE;
+  --bg-sidebar: #EFEBE3;
+  --bg-card: #FFFDF9;
+  --bg-card-hover: #F9F5EC;
+  --bg-input: #FFFDF9;
+  --border-app: #E5DDCF;
+  --border-subtle: #EFE7DB;
+  --text-main: #25201B;
+  --text-muted: #7A7067;
+  --accent-primary: #C2410C;
+  --accent-secondary: #D97706;
+  --accent-glow: rgba(194, 65, 12, 0.22);
+  --accent-btn-text: #FFFFFF;
+  --badge-bg: #FCEFE0;
+  --badge-text: #9A3412;
+  --header-bg: rgba(247, 244, 238, 0.92);
+  --sidebar-active-bg: #FCEFE0;
+  --sidebar-active-text: #9A3412;
+  --grid-dot: rgba(194, 65, 12, 0.06);
+  --card-shadow: 0 1px 3px rgba(45, 30, 15, 0.04), 0 12px 28px -6px rgba(45, 30, 15, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 .dark,
 [data-theme="obsidian"] {
-  --bg-app: #08090C;
-  --bg-sidebar: #0C0E13;
-  --bg-card: #11141C;
-  --bg-card-hover: #161A24;
-  --bg-input: #0E1118;
-  --border-app: #202634;
-  --border-subtle: #181D28;
+  --bg-app: #080B11;
+  --bg-sidebar: #0C1019;
+  --bg-card: #101726;
+  --bg-card-hover: #162035;
+  --bg-input: #0E1422;
+  --border-app: #1E2A3E;
+  --border-subtle: #172030;
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
   --accent-primary: #10B981;
   --accent-secondary: #06B6D4;
-  --accent-glow: rgba(16, 185, 129, 0.22);
-  --badge-bg: rgba(16, 185, 129, 0.12);
+  --accent-glow: rgba(16, 185, 129, 0.28);
+  --accent-btn-text: #052E16;
+  --badge-bg: rgba(16, 185, 129, 0.14);
   --badge-text: #34D399;
-  --header-bg: rgba(8, 9, 12, 0.88);
-  --sidebar-active-bg: rgba(16, 185, 129, 0.1);
+  --header-bg: rgba(8, 11, 17, 0.9);
+  --sidebar-active-bg: rgba(16, 185, 129, 0.12);
   --sidebar-active-text: #34D399;
-  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --grid-dot: rgba(255, 255, 255, 0.045);
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.09);
 }
 
 [data-theme="cyber"] {
   --bg-app: #030508;
-  --bg-sidebar: #06090F;
-  --bg-card: #0A0F18;
-  --bg-card-hover: #0F1726;
-  --bg-input: #070B12;
-  --border-app: rgba(0, 255, 157, 0.22);
-  --border-subtle: rgba(0, 229, 255, 0.15);
+  --bg-sidebar: #060A10;
+  --bg-card: #080E17;
+  --bg-card-hover: #0E1726;
+  --bg-input: #060B12;
+  --border-app: rgba(0, 255, 157, 0.24);
+  --border-subtle: rgba(0, 229, 255, 0.18);
   --text-main: #E2FFF4;
   --text-muted: #5EEAD4;
   --accent-primary: #00FF9D;
   --accent-secondary: #00E5FF;
-  --accent-glow: rgba(0, 255, 157, 0.28);
-  --badge-bg: rgba(0, 255, 157, 0.15);
+  --accent-glow: rgba(0, 255, 157, 0.35);
+  --accent-btn-text: #002B18;
+  --badge-bg: rgba(0, 255, 157, 0.16);
   --badge-text: #00FF9D;
-  --header-bg: rgba(3, 5, 8, 0.92);
-  --sidebar-active-bg: rgba(0, 255, 157, 0.12);
+  --header-bg: rgba(3, 5, 8, 0.94);
+  --sidebar-active-bg: rgba(0, 255, 157, 0.15);
   --sidebar-active-text: #00FF9D;
-  --card-shadow: 0 0 25px -4px rgba(0, 255, 157, 0.1), inset 0 1px 0 rgba(0, 255, 157, 0.18);
-}
-
-[data-theme="ivory"] {
-  --bg-app: #FAF7F2;
-  --bg-sidebar: #F3EFE8;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #F8F5EE;
-  --bg-input: #FFFFFF;
-  --border-app: #E7DFD3;
-  --border-subtle: #EFE9DF;
-  --text-main: #272320;
-  --text-muted: #79716B;
-  --accent-primary: #C2410C;
-  --accent-secondary: #D97706;
-  --accent-glow: rgba(194, 65, 12, 0.18);
-  --badge-bg: #FFEDD5;
-  --badge-text: #9A3412;
-  --header-bg: rgba(250, 247, 242, 0.9);
-  --sidebar-active-bg: #FFEDD5;
-  --sidebar-active-text: #9A3412;
-  --card-shadow: 0 2px 10px rgba(60, 40, 20, 0.04), 0 14px 28px -8px rgba(60, 40, 20, 0.03);
+  --grid-dot: rgba(0, 255, 157, 0.08);
+  --card-shadow: 0 0 30px -5px rgba(0, 255, 157, 0.14), inset 0 1px 0 rgba(0, 255, 157, 0.25);
 }
 
 @layer base {
@@ -104,8 +112,10 @@
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.012em;
     background-color: var(--bg-app);
+    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+    background-size: 24px 24px;
     color: var(--text-main);
-    transition: background-color 200ms ease, color 200ms ease;
+    transition: background-color 220ms ease, color 220ms ease;
   }
 
   h1, h2, h3, h4 {
@@ -141,6 +151,37 @@
   }
 }
 
+/* ==========================================================================
+   GLOBAL UTILITY OVERRIDES
+   Intercept hardcoded generic dark-zinc classes and redirect to active theme!
+   ========================================================================== */
+
+[data-theme] .dark\:bg-\[\#09090B\],
+[data-theme] .dark\:bg-\[\#0C0C0E\],
+[data-theme] .dark\:bg-\[\#111113\],
+[data-theme] .dark\:bg-zinc-950,
+[data-theme] .dark\:bg-zinc-900:not(button):not(kbd):not(span):not(code):not(select) {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-app) !important;
+  color: var(--text-main) !important;
+}
+
+[data-theme] .dark\:border-zinc-800,
+[data-theme] .dark\:border-zinc-800\/80,
+[data-theme] .dark\:border-zinc-700 {
+  border-color: var(--border-app) !important;
+}
+
+[data-theme] .dark\:text-zinc-100,
+[data-theme] .dark\:text-white {
+  color: var(--text-main) !important;
+}
+
+[data-theme] .dark\:text-zinc-400,
+[data-theme] .dark\:text-zinc-500 {
+  color: var(--text-muted) !important;
+}
+
 /* Tabular numeric precision for all metrics and timestamps */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
@@ -151,8 +192,34 @@
   background-color: var(--bg-card);
   border: 1px solid var(--border-app);
   box-shadow: var(--card-shadow);
-  border-radius: 0.625rem;
+  border-radius: 0.75rem;
   transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* Live Status Pulse Dot */
+.status-live-beacon {
+  position: relative;
+  display: inline-flex;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+.status-live-beacon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: var(--accent-primary);
+  opacity: 0.75;
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.status-live-beacon::after {
+  content: '';
+  position: relative;
+  display: inline-flex;
+  border-radius: 9999px;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--accent-primary);
 }
 
 /* Custom sleek scrollbar styled dynamically with active accent */
