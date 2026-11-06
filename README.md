@@ -98,6 +98,42 @@ Modern privacy regulations (**GDPR Art. 7**, **CCPA/CPRA § 1798.120**, **DPDP A
 
 ## 🏛️ System Architecture
 
+[![ConsentLog System Architecture](docs/architecture-animated.svg)](docs/index.html)
+
+<div align="center">
+  <sub>Click the architectural diagram above to launch the interactive viewer with pan, zoom, search, and subsystem inspection.</sub>
+</div>
+
+<br/>
+
+- **🚀 Interactive Viewer**: [Open Full-Screen Canvas](docs/index.html) *(Pan, zoom, and inspect every tier)*
+- **📐 Archify Specification**: [`architecture/candidate.json`](architecture/candidate.json) *(Typed component & boundary model)*
+- **🌐 Standalone Canvas**: [`docs/index.html`](docs/index.html) *(Open locally or deploy via GitHub Pages)*
+
+<details open>
+<summary><b>🔍 Architectural Tiers & Component Topology</b></summary>
+<br/>
+
+| Tier | Component | Responsibilities & Protocols |
+| :--- | :--- | :--- |
+| **1. Frontend Web Tier** | Browser Client | Desktop & mobile clients communicating via HTTP/2 TLS |
+| | React 18 SPA | Vite 6 build, Tailwind CSS design system, React Router v7 navigation |
+| | Client State | AuthContext JWT token cache, ToastProvider notifications, Notice renewal checks |
+| **2. Security & Gateway** | API Gateway | Express v4 reverse proxy on `:5000` with Helmet security headers & CORS origin isolation |
+| | Security Guards | JWT authentication, bcryptjs password hashing, Express Rate Limiter (500 req/15m) |
+| | Input Sanitization | Mongo-sanitize for NoSQL injection prevention, Zod strict boundary schema validation |
+| **3. Business Logic & Ledger** | Controllers | Preference manager, notice side-by-side diff engine, DSAR compliance export |
+| | Sequencer Service | Mutex-locked append-only queue enforcing non-blocking sequential block creation |
+| | Hash Chain Service | Deterministic SHA-256 hash chaining (`eventHash = SHA256(canonicalPayload + prevHash)`) |
+| | Webhook Service | Asynchronous HMAC-SHA256 event broadcast to external endpoints |
+| **4. Persistence & Storage** | Mongoose ODM | Schema enforcement, document models (`User`, `Preference`, `ConsentLog`, `PrivacyNotice`) |
+| | Hook Guard | Pre-save and pre-remove hooks blocking `updateOne`, `deleteOne`, and `findOneAndUpdate` |
+| | MongoDB Engine | WiredTiger storage engine with ACID multi-document transactions and replica set support |
+
+</details>
+
+<br/>
+
 ```
                     ┌────────────────────────────────────────────────────────┐
                     │               CLIENTS & INTEGRATIONS                  │
@@ -131,8 +167,6 @@ Modern privacy regulations (**GDPR Art. 7**, **CCPA/CPRA § 1798.120**, **DPDP A
                     │  Mongoose ODM Mutation Locks (Block PUT/PATCH/DELETE)  │
                     └────────────────────────────────────────────────────────┘
 ```
-
-> **Interactive Visualization**: Explore the full interactive topology map in [`docs/index.html`](docs/index.html) or inspect the formal component boundary model in [`architecture/candidate.json`](architecture/candidate.json).
 
 ---
 
