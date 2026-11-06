@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 460" width="100%" height="auto" fill="none">
+  <defs>
+    <!-- Background Base Gradients -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08090b" />
+      <stop offset="50%" stop-color="#0e1015" />
+      <stop offset="100%" stop-color="#08090b" />
+    </linearGradient>
+
+    <!-- Subtle Ambient Lighting -->
+    <radialGradient id="meshGlow" cx="68%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.12" />
+      <stop offset="45%" stop-color="#06b6d4" stop-opacity="0.04" />
+      <stop offset="100%" stop-color="#08090b" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="leftGlow" cx="15%" cy="30%" r="45%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#08090b" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Edge Border Gradients -->
+    <linearGradient id="edgeBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#27272a" stop-opacity="0.6" />
+      <stop offset="30%" stop-color="#10b981" stop-opacity="0.8" />
+      <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#27272a" stop-opacity="0.6" />
+    </linearGradient>
+
+    <!-- Architectural Isometric / CAD Grid Pattern -->
+    <pattern id="isoGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1f242d" stroke-width="0.8" stroke-opacity="0.4" />
+      <circle cx="40" cy="40" r="1" fill="#3f3f46" fill-opacity="0.3" />
+    </pattern>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="terminalBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141720" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0b0d12" stop-opacity="0.98" />
+    </linearGradient>
+
+    <linearGradient id="accentLine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+
+  <!-- Canvas Surface -->
+  <rect width="1280" height="460" rx="14" fill="url(#bg)" />
+  <rect width="1280" height="460" rx="14" fill="url(#isoGrid)" />
+  <rect width="1280" height="460" rx="14" fill="url(#meshGlow)" />
+  <rect width="1280" height="460" rx="14" fill="url(#leftGlow)" />
+
+  <!-- Outer Precision Stroke -->
+  <rect x="1" y="1" width="1278" height="458" rx="13" stroke="#27272a" stroke-width="1.2" />
+  <line x1="40" y1="458" x2="1240" y2="458" stroke="url(#edgeBorder)" stroke-width="2" />
+
+  <!-- LEFT COLUMN: Typography & Brand Identity -->
+  <g transform="translate(68, 65)">
+    <!-- Brand Mark (Geometric Minimalist Shield) -->
+    <g transform="translate(0, 0)">
+      <rect width="44" height="44" rx="10" fill="#141720" stroke="#2e3544" stroke-width="1.2" />
+      <!-- Sharp Geometric Monogram / Shield -->
+      <path d="M14 13 L30 13 L30 24 C30 29 22 33 22 33 C22 33 14 29 14 24 Z" fill="none" stroke="url(#accentLine)" stroke-width="2" stroke-linejoin="round" />
+      <!-- Inner Hash Bar -->
+      <line x1="18" y1="21" x2="26" y2="21" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="18" y1="25" x2="24" y2="25" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" />
+    </g>
+
+    <!-- Platform Label -->
+    <text x="56" y="27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="12" font-weight="700" fill="#10b981" letter-spacing="2.5">
+      ENTERPRISE PRIVACY INFRASTRUCTURE
+    </text>
+
+    <!-- Main Title -->
+    <text x="0" y="98" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="52" font-weight="800" fill="#ffffff" letter-spacing="-1">
+      ConsentLog
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="132" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="17" font-weight="500" fill="#94a3b8" letter-spacing="-0.2">
+      Cryptographic Consent Governance &amp; Microservice Ledger
+    </text>
+
+    <!-- Key Bullets / Architectural Pillars -->
+    <g transform="translate(0, 168)">
+      <!-- Item 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="6" cy="6" r="3" fill="#10b981" />
+        <text x="18" y="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="13.5" font-weight="500" fill="#cbd5e1">
+          SHA-256 Chained Ledger with Zero-Mutation ODM Locks
+        </text>
+      </g>
+      <!-- Item 2 -->
+      <g transform="translate(0, 28)">
+        <circle cx="6" cy="6" r="3" fill="#06b6d4" />
+        <text x="18" y="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="13.5" font-weight="500" fill="#cbd5e1">
+          Real-Time Microservice Verification API (&lt;10ms SLA)
+        </text>
+      </g>
+      <!-- Item 3 -->
+      <g transform="translate(0, 56)">
+        <circle cx="6" cy="6" r="3" fill="#8b5cf6" />
+        <text x="18" y="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="13.5" font-weight="500" fill="#cbd5e1">
+          GDPR Art. 17 DSAR Anonymization &amp; Webhook Dispatch
+        </text>
+      </g>
+    </g>
+
+    <!-- Protocol / Spec Badges -->
+    <g transform="translate(0, 276)">
+      <rect x="0" y="0" width="108" height="26" rx="6" fill="#141720" stroke="#27272a" stroke-width="1" />
+      <text x="12" y="17" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a1a1aa">GDPR Art. 7</text>
+
+      <rect x="116" y="0" width="100" height="26" rx="6" fill="#141720" stroke="#27272a" stroke-width="1" />
+      <text x="128" y="17" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a1a1aa">CCPA/CPRA</text>
+
+      <rect x="224" y="0" width="94" height="26" rx="6" fill="#141720" stroke="#27272a" stroke-width="1" />
+      <text x="236" y="17" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#a1a1aa">DPDP 2023</text>
+
+      <rect x="326" y="0" width="138" height="26" rx="6" fill="#141720" stroke="#10b981" stroke-width="1" stroke-opacity="0.4" />
+      <circle cx="338" cy="13" r="3" fill="#10b981" />
+      <text x="348" y="17" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#10b981">19/19 CHECKS</text>
+    </g>
+  </g>
+
+  <!-- RIGHT COLUMN: High-End Live Interactive Terminal & Ledger Frame -->
+  <g transform="translate(680, 50)">
+    <!-- Terminal Window Container -->
+    <rect width="532" height="360" rx="12" fill="url(#terminalBg)" stroke="#272f3d" stroke-width="1.2" />
+
+    <!-- Terminal Header Bar -->
+    <rect width="532" height="38" rx="12" fill="#181d26" />
+    <path d="M0 26 L0 38 L532 38 L532 26 Z" fill="#181d26" />
+    <line x1="0" y1="38" x2="532" y2="38" stroke="#272f3d" stroke-width="1" />
+
+    <!-- macOS / UNIX Traffic Lights -->
+    <circle cx="22" cy="19" r="5" fill="#ef4444" fill-opacity="0.8" />
+    <circle cx="38" cy="19" r="5" fill="#f59e0b" fill-opacity="0.8" />
+    <circle cx="54" cy="19" r="5" fill="#10b981" fill-opacity="0.8" />
+
+    <!-- Terminal Window Title -->
+    <text x="266" y="23" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11.5" font-weight="500" fill="#94a3b8" text-anchor="middle">
+      api.consentlog.io/v1/consent/check
+    </text>
+
+    <!-- Terminal Content Area -->
+    <g transform="translate(24, 60)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" line-height="1.6">
+      <!-- Request Line -->
+      <text x="0" y="16" fill="#64748b">
+        <tspan fill="#06b6d4">GET</tspan> /api/v1/consent/check?email=alex@enterprise.io
+      </text>
+      <text x="0" y="36" fill="#64748b">
+        <tspan fill="#94a3b8">Host:</tspan> api.consentlog.io  <tspan fill="#94a3b8">X-API-Key:</tspan> cl_live_***
+      </text>
+
+      <!-- Status Divider Line -->
+      <line x1="0" y1="52" x2="484" y2="52" stroke="#272f3d" stroke-width="1" />
+
+      <!-- Response Status -->
+      <text x="0" y="74" fill="#10b981" font-weight="600">
+        HTTP/2 200 OK — Real-time Verification Proof
+      </text>
+
+      <!-- JSON Payload Lines -->
+      <text x="0" y="100" fill="#f1f5f9">{</text>
+      <text x="16" y="120" fill="#94a3b8">"status": <tspan fill="#10b981">"Granted"</tspan>,</text>
+      <text x="16" y="140" fill="#94a3b8">"isAllowed": <tspan fill="#10b981">true</tspan>,</text>
+      <text x="16" y="160" fill="#94a3b8">"jurisdiction": <tspan fill="#f8fafc">"GDPR (EU)"</tspan>,</text>
+      <text x="16" y="180" fill="#94a3b8">"retentionSLA": <tspan fill="#f8fafc">"360 days remaining"</tspan>,</text>
+      <text x="16" y="200" fill="#94a3b8">"latestAuditBlock": <tspan fill="#06b6d4">"AUD-000004-92AF1D"</tspan>,</text>
+      <text x="16" y="220" fill="#94a3b8">"sha256Proof": <tspan fill="#a855f7">"6f31a53f...7f8ffe28"</tspan>,</text>
+      <text x="16" y="240" fill="#94a3b8">"chainIntegrity": <tspan fill="#10b981">"Verified (Genesis → Head)"</tspan></text>
+      <text x="0" y="260" fill="#f1f5f9">}</text>
+    </g>
+
+    <!-- Bottom Terminal Status Bar -->
+    <rect y="324" width="532" height="36" fill="#12151c" />
+    <line x1="0" y1="324" x2="532" y2="324" stroke="#272f3d" stroke-width="1" />
+    <circle cx="24" cy="342" r="4" fill="#10b981" />
+    <text x="36" y="346" font-family="ui-monospace, monospace" font-size="10.5" fill="#10b981" font-weight="600">
+      MUTEX LOCK ACTIVE
+    </text>
+    <text x="508" y="346" font-family="ui-monospace, monospace" font-size="10.5" fill="#64748b" text-anchor="end">
+      LATENCY: 4.2ms
+    </text>
+  </g>
+</svg>
