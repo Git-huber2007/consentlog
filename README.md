@@ -220,7 +220,7 @@ Microservices, marketing automation engines, and analytics pipelines query this 
 
 ```bash
 curl -X GET "https://api.consentlog.io/api/v1/consent/check?email=alex@enterprise.io&category=marketing" \
-  -H "X-API-Key: cl_live_084a7a9094054a329beacbcf92da6839"
+  -H "X-API-Key: cl_live_YOUR_API_KEY_HERE"
 ```
 
 ### Response (`200 OK`)
