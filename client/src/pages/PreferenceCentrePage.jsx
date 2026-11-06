@@ -6,6 +6,8 @@ import {
   Save,
   RotateCcw,
   Clock,
+  Calendar,
+  AlertCircle,
 } from 'lucide-react';
 import api from '../services/api';
 import { useToast } from '../context/ToastContext';
@@ -17,6 +19,7 @@ const PreferenceCentrePage = () => {
   const { refreshSession, activeNoticeInfo } = useAuth();
 
   const [serverPrefs, setServerPrefs] = useState(null);
+  const [retention, setRetention] = useState(null);
   const [draftPrefs, setDraftPrefs] = useState({
     essential: true,
     analytics: false,
@@ -42,9 +45,15 @@ const PreferenceCentrePage = () => {
   const fetchPreferences = async () => {
     setLoading(true);
     try {
-      const res = await api.get('/preferences');
+      const [res, retRes] = await Promise.all([
+        api.get('/preferences'),
+        api.get('/consent/retention').catch(() => ({ data: null })),
+      ]);
       const pref = res.data.preferences;
       setServerPrefs(pref);
+      if (retRes?.data?.success) {
+        setRetention(retRes.data);
+      }
       setDraftPrefs({
         essential: true,
         analytics: Boolean(pref.analytics),
@@ -383,6 +392,51 @@ const PreferenceCentrePage = () => {
           </div>
         </div>
       </div>
+
+      {retention && (
+        <div className="enterprise-card p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs bg-zinc-50/50 dark:bg-zinc-900/30">
+          <div className="flex items-center gap-2.5">
+            <div className={`p-2 rounded-md ${
+              retention.isExpired
+                ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                : retention.isExpiringSoon
+                ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+            }`}>
+              <Clock className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  {retention.jurisdiction} Retention Lifecycle ({retention.retentionMonths}-Month Mandate)
+                </span>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${
+                  retention.isExpired
+                    ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                    : retention.isExpiringSoon
+                    ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                    : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                }`}>
+                  {retention.status}
+                </span>
+              </div>
+              <p className="text-zinc-500 dark:text-zinc-400 text-[11px] mt-0.5">
+                {retention.isExpired
+                  ? 'Consent has expired under regulatory limits. Please save updated preferences.'
+                  : `Valid for another ${retention.daysRemaining} days (expires ${new Date(retention.expiresAt).toLocaleDateString()}).`}
+              </p>
+            </div>
+          </div>
+          {retention.isExpiringSoon || retention.isExpired ? (
+            <button
+              onClick={handleSave}
+              className="px-3 py-1.5 rounded-md bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950 font-medium text-xs hover:opacity-90 shrink-0"
+            >
+              Renew Consent Now
+            </button>
+          ) : null}
+        </div>
+      )}
 
       <div className="enterprise-card divide-y divide-zinc-200 dark:divide-zinc-800/80">
         {(summary?.categories || []).map((cat) => {

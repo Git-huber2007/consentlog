@@ -190,6 +190,43 @@ const ProfileSettingsPage = () => {
           </button>
         </div>
       </div>
+
+      {/* Feature 3: Article 17 Right to Erasure */}
+      <div className="enterprise-card p-6 mt-6 border-rose-500/20 bg-rose-500/5 dark:bg-rose-950/10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="text-sm font-semibold text-rose-600 dark:text-rose-400">
+              GDPR Article 17 — Right to Erasure (&quot;Right to be Forgotten&quot;)
+            </h2>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
+              Submit a formal request to purge and anonymize all personal identifiers (name, email, department). Historical consent audit blocks are cryptographically retained under pseudonymous IDs (<code className="font-mono text-[10px]">ANON-XXXX</code>) to preserve legal chain immutability.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={async () => {
+              const reason = window.prompt(
+                'Please enter the reason for your Right to Erasure request (optional):',
+                'Exercising GDPR Art. 17 right to be forgotten'
+              );
+              if (reason === null) return;
+              try {
+                const res = await api.post('/consent/dsar/request', {
+                  requestType: 'erasure',
+                  reason,
+                });
+                addToast(res.data.message, 'success');
+              } catch (err) {
+                addToast(err.response?.data?.message || 'Could not submit erasure request.', 'error');
+              }
+            }}
+            className="h-9 px-4 rounded-md bg-rose-600 hover:bg-rose-700 text-white text-xs font-medium flex items-center gap-1.5 shrink-0 transition-colors shadow-xs"
+          >
+            <span>Request Account Erasure</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

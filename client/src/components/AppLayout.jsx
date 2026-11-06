@@ -22,6 +22,10 @@ import {
   FilePlus,
   Building2,
   Monitor,
+  Webhook as WebhookIcon,
+  UserX,
+  Cookie,
+  Key,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -33,6 +37,7 @@ const ROUTE_TITLES = {
   '/dashboard': ['Menu', 'Dashboard'],
   '/preferences': ['Menu', 'Preferences'],
   '/audit-history': ['Menu', 'Audit Log'],
+  '/inventory': ['Menu', 'Cookie Inventory'],
   '/notices': ['Menu', 'Privacy Notices'],
   '/notices/compare': ['Menu', 'Compare Versions'],
   '/profile': ['Menu', 'Account'],
@@ -41,6 +46,10 @@ const ROUTE_TITLES = {
   '/admin/integrity': ['Admin', 'Log Verification'],
   '/admin/notices': ['Admin', 'Manage Notices'],
   '/admin/simulator': ['Admin', 'Banner Simulator'],
+  '/admin/webhooks': ['Admin', 'Webhooks'],
+  '/admin/dsar': ['Admin', 'DSAR Erasure'],
+  '/admin/cookies': ['Admin', 'Cookie Inventory'],
+  '/admin/developer': ['Admin', 'API Keys'],
   '/simulator': ['Tools', 'Banner Simulator'],
 };
 
@@ -115,6 +124,7 @@ const AppLayout = () => {
         { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { to: '/preferences', label: 'Preferences', icon: Sliders },
         { to: '/audit-history', label: 'Audit Log', icon: History },
+        { to: '/inventory', label: 'Cookie Inventory', icon: Cookie },
         { to: '/notices', label: 'Privacy Notices', icon: FileText },
         { to: '/notices/compare', label: 'Compare Versions', icon: GitCompare },
         { to: '/profile', label: 'Account', icon: Settings },
@@ -131,6 +141,9 @@ const AppLayout = () => {
         { to: '/admin/integrity', label: 'Log Verification', icon: Lock },
         { to: '/admin/notices', label: 'Manage Notices', icon: FilePlus },
         { to: '/admin/simulator', label: 'Banner Simulator', icon: Monitor },
+        { to: '/admin/webhooks', label: 'Webhooks', icon: WebhookIcon },
+        { to: '/admin/dsar', label: 'DSAR Erasure', icon: UserX },
+        { to: '/admin/developer', label: 'API Keys', icon: Key },
       ],
     });
   }

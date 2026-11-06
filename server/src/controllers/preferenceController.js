@@ -2,6 +2,7 @@ const Preference = require('../models/Preference');
 const PrivacyNotice = require('../models/PrivacyNotice');
 const ConsentRecord = require('../models/ConsentRecord');
 const ConsentLog = require('../models/ConsentLog');
+const DsarRequest = require('../models/DsarRequest');
 const { withTransaction } = require('../config/db');
 const { appendAuditEvent } = require('../services/auditService');
 
@@ -679,6 +680,117 @@ const getConsentStatus = async (req, res, next) => {
   }
 };
 
+// GET /api/consent/retention - Calculate consent expiration & renewal SLA
+const getConsentRetentionInfo = async (req, res, next) => {
+  try {
+    const pref = await getOrCreateUserPreference(req.user._id);
+    const jurisdiction = req.user.jurisdiction || 'GDPR (EU)';
+
+    // Regulatory retention policies by jurisdiction
+    const retentionMonthsMap = {
+      'GDPR (EU)': 12, // France CNIL & EDPB recommendation
+      'CCPA (California)': 12,
+      'DPDP (India)': 6, // DPDP periodic renewal mandate
+      'LGPD (Brazil)': 12,
+      'Global Standard': 12,
+    };
+
+    const retentionMonths = retentionMonthsMap[jurisdiction] || 12;
+    const lastModified = pref.updatedAt || new Date();
+    const expiresAt = new Date(new Date(lastModified).getTime() + retentionMonths * 30 * 24 * 60 * 60 * 1000);
+    const now = new Date();
+    const msRemaining = expiresAt.getTime() - now.getTime();
+    const daysRemaining = Math.max(0, Math.ceil(msRemaining / (1000 * 60 * 60 * 24)));
+    const isExpired = msRemaining <= 0;
+    const isExpiringSoon = daysRemaining > 0 && daysRemaining <= 30;
+
+    res.status(200).json({
+      success: true,
+      jurisdiction,
+      retentionMonths,
+      lastConsentDate: lastModified,
+      expiresAt,
+      daysRemaining,
+      isExpired,
+      isExpiringSoon,
+      status: isExpired ? 'Expired' : isExpiringSoon ? 'Expiring Soon' : 'Active',
+      slaGuideline: `${jurisdiction} regulatory framework mandates max consent lifespan of ${retentionMonths} months.`,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// POST /api/consent/dsar/request - Submit a Data Subject Right request (e.g. Art. 17 Erasure)
+const submitDsarRequest = async (req, res, next) => {
+  try {
+    const { requestType = 'erasure', reason } = req.body || {};
+
+    const existingPending = await DsarRequest.findOne({
+      userId: req.user._id,
+      requestType,
+      status: 'pending',
+    });
+
+    if (existingPending) {
+      return res.status(400).json({
+        success: false,
+        message: `You already have an active pending ${requestType} request.`,
+        request: existingPending,
+      });
+    }
+
+    const dsar = await DsarRequest.create({
+      userId: req.user._id,
+      userEmail: req.user.email,
+      userName: req.user.name,
+      organization: req.user.organization || 'Enterprise Global Corp',
+      jurisdiction: req.user.jurisdiction || 'GDPR (EU)',
+      requestType,
+      reason: reason || 'Data Subject submitted Right to Erasure request under GDPR Art. 17 / DPDP Sec. 12',
+      status: 'pending',
+      submittedAt: new Date(),
+    });
+
+    // Record in cryptographic audit log
+    await appendAuditEvent({
+      userId: req.user._id,
+      preferenceName: 'Data Subject Privacy Rights',
+      previousValue: 'Account Active',
+      newValue: `DSAR ${requestType.toUpperCase()} Requested`,
+      action: 'DSAR Request Submitted',
+      source: 'User',
+      reason: dsar.reason,
+      ipAddress: req.ip || '127.0.0.1',
+      userAgent: req.headers['user-agent'] || 'ConsentLog-Client/2.0',
+    });
+
+    res.status(201).json({
+      success: true,
+      message: `Your ${requestType} request has been submitted and queued for verification.`,
+      request: dsar,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// GET /api/consent/dsar/my-requests
+const getMyDsarRequests = async (req, res, next) => {
+  try {
+    const requests = await DsarRequest.find({ userId: req.user._id })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    res.status(200).json({
+      success: true,
+      requests,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getPreferences,
   updatePreferences,
@@ -687,6 +799,9 @@ module.exports = {
   rejectOptionalConsent,
   withdrawConsent,
   getConsentStatus,
+  getConsentRetentionInfo,
+  submitDsarRequest,
+  getMyDsarRequests,
   buildPreferenceSummary,
   PREFERENCE_LABELS,
 };

@@ -15,6 +15,10 @@ import {
   Download,
   CornerDownLeft,
   Monitor,
+  Webhook as WebhookIcon,
+  UserX,
+  Cookie,
+  Key,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -105,6 +109,14 @@ const CommandPalette = ({ isOpen, onClose }) => {
       perform: () => navigate('/simulator'),
     },
     {
+      id: 'nav-inventory',
+      title: 'Cookie & Tracker Inventory',
+      category: 'Navigation',
+      shortcut: 'G I',
+      icon: Cookie,
+      perform: () => navigate('/inventory'),
+    },
+    {
       id: 'act-verify',
       title: 'Verify Audit Log',
       category: 'Actions',
@@ -155,6 +167,30 @@ const CommandPalette = ({ isOpen, onClose }) => {
         shortcut: 'A T',
         icon: Lock,
         perform: () => navigate('/admin/integrity'),
+      },
+      {
+        id: 'admin-webhooks',
+        title: 'Downstream Webhooks',
+        category: 'Admin',
+        shortcut: 'A W',
+        icon: WebhookIcon,
+        perform: () => navigate('/admin/webhooks'),
+      },
+      {
+        id: 'admin-dsar',
+        title: 'DSAR & Article 17 Erasure',
+        category: 'Admin',
+        shortcut: 'A E',
+        icon: UserX,
+        perform: () => navigate('/admin/dsar'),
+      },
+      {
+        id: 'admin-developer',
+        title: 'Developer API Keys',
+        category: 'Admin',
+        shortcut: 'A K',
+        icon: Key,
+        perform: () => navigate('/admin/developer'),
       }
     );
   }

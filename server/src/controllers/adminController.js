@@ -4,9 +4,16 @@ const ConsentLog = require('../models/ConsentLog');
 const PrivacyNotice = require('../models/PrivacyNotice');
 const ConsentRecord = require('../models/ConsentRecord');
 const AuditVerification = require('../models/AuditVerification');
+const Webhook = require('../models/Webhook');
+const DsarRequest = require('../models/DsarRequest');
+const ApiKey = require('../models/ApiKey');
+const CookieInventory = require('../models/CookieInventory');
+const crypto = require('crypto');
 const { withTransaction, getDbStatus } = require('../config/db');
 const { appendAuditEvent, verifyAuditChainIntegrity } = require('../services/auditService');
 const { createNoticeSchema } = require('../utils/validators');
+const { ensureCookieInventory, scanDomainAndCatalog } = require('../services/cookieInventoryService');
+const { dispatchWebhookEvent } = require('../services/webhookService');
 
 // GET /api/admin/dashboard (also supports user enterprise dashboard metrics)
 const getDashboardAnalytics = async (req, res, next) => {
@@ -393,10 +400,284 @@ const activatePrivacyNotice = async (req, res, next) => {
   }
 };
 
+// ==========================================
+// FEATURE 2: DOWNSTREAM WEBHOOKS DISPATCHER
+// ==========================================
+const getWebhooks = async (req, res, next) => {
+  try {
+    const webhooks = await Webhook.find().sort({ createdAt: -1 }).lean();
+    res.status(200).json({ success: true, webhooks });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const createWebhook = async (req, res, next) => {
+  try {
+    const { name, url, events } = req.body;
+    if (!name || !url) {
+      return res.status(400).json({ success: false, message: 'Name and URL are required.' });
+    }
+
+    const secret = crypto.randomBytes(24).toString('hex');
+    const webhook = await Webhook.create({
+      name,
+      url,
+      secret,
+      events: events && events.length > 0 ? events : ['consent.granted', 'consent.withdrawn', 'notice.accepted', 'user.erased'],
+      organization: req.user.organization || 'Enterprise Global Corp',
+      isActive: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Webhook configured successfully.',
+      webhook,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const testWebhook = async (req, res, next) => {
+  try {
+    const webhook = await Webhook.findById(req.params.id);
+    if (!webhook) {
+      return res.status(404).json({ success: false, message: 'Webhook not found.' });
+    }
+
+    const testPayload = {
+      test: true,
+      message: 'ConsentLog Enterprise Dispatcher ping test',
+      auditId: 'AUD-TEST-PING',
+      dispatchedBy: req.user.name,
+      timestamp: new Date().toISOString(),
+    };
+
+    const results = await dispatchWebhookEvent('consent.granted', testPayload);
+    res.status(200).json({
+      success: true,
+      message: 'Test ping dispatched to webhook endpoint.',
+      results,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteWebhook = async (req, res, next) => {
+  try {
+    const webhook = await Webhook.findByIdAndDelete(req.params.id);
+    if (!webhook) {
+      return res.status(404).json({ success: false, message: 'Webhook not found.' });
+    }
+    res.status(200).json({ success: true, message: 'Webhook removed.' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==========================================
+// FEATURE 3: DSAR & ARTICLE 17 ERASURE
+// ==========================================
+const getDsarRequests = async (req, res, next) => {
+  try {
+    const requests = await DsarRequest.find().sort({ submittedAt: -1 }).lean();
+    res.status(200).json({ success: true, requests });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const processDsarRequest = async (req, res, next) => {
+  try {
+    const { action = 'approve' } = req.body; // 'approve' | 'reject'
+    const request = await DsarRequest.findById(req.params.id);
+
+    if (!request) {
+      return res.status(404).json({ success: false, message: 'DSAR request not found.' });
+    }
+    if (request.status !== 'pending') {
+      return res.status(400).json({ success: false, message: `Request is already ${request.status}.` });
+    }
+
+    if (action === 'reject') {
+      request.status = 'rejected';
+      request.processedAt = new Date();
+      request.processedBy = req.user.name;
+      await request.save();
+      return res.status(200).json({ success: true, message: 'DSAR request rejected.', request });
+    }
+
+    // Execute Article 17 Cryptographic Erasure & Anonymization
+    const targetUser = await User.findById(request.userId);
+    const anonId = `ANON-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
+
+    if (targetUser) {
+      targetUser.name = `Anonymized User (${anonId})`;
+      targetUser.email = `erased-${anonId.toLowerCase()}@consentlog.deleted`;
+      targetUser.organization = 'Redacted (GDPR Art. 17)';
+      targetUser.department = 'Redacted';
+      await targetUser.save();
+    }
+
+    // Reset preferences to default disabled
+    const pref = await Preference.findOne({ userId: request.userId });
+    if (pref) {
+      pref.analytics = false;
+      pref.marketing = false;
+      pref.personalization = false;
+      pref.thirdPartySharing = false;
+      await pref.save();
+    }
+
+    // Record immutable audit event validating erasure while preserving chain continuity
+    await appendAuditEvent({
+      userId: request.userId,
+      preferenceName: 'Data Subject Personal Information',
+      previousValue: 'Identifiable User Record',
+      newValue: `Anonymized Identifier ${anonId}`,
+      action: 'User Data Anonymized (GDPR Art. 17)',
+      source: 'Admin',
+      reason: `Right to Erasure executed by ${req.user.name} per request #${request._id}`,
+    });
+
+    request.status = 'completed';
+    request.processedAt = new Date();
+    request.processedBy = req.user.name;
+    request.anonymizedIdentifier = anonId;
+    await request.save();
+
+    res.status(200).json({
+      success: true,
+      message: `User data successfully erased and anonymized as ${anonId}. Cryptographic audit trail preserved.`,
+      request,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==========================================
+// FEATURE 4: COOKIE & TRACKER INVENTORY
+// ==========================================
+const getCookieInventory = async (req, res, next) => {
+  try {
+    const org = req.query.organization || req.user.organization || 'Enterprise Global Corp';
+    await ensureCookieInventory(org);
+    const cookies = await CookieInventory.find({ organization: org }).sort({ category: 1, name: 1 }).lean();
+
+    const stats = {
+      total: cookies.length,
+      essential: cookies.filter((c) => c.category === 'essential').length,
+      analytics: cookies.filter((c) => c.category === 'analytics').length,
+      marketing: cookies.filter((c) => c.category === 'marketing').length,
+      personalization: cookies.filter((c) => c.category === 'personalization').length,
+      thirdPartySharing: cookies.filter((c) => c.category === 'thirdPartySharing').length,
+    };
+
+    res.status(200).json({ success: true, stats, cookies });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const scanDomainCookies = async (req, res, next) => {
+  try {
+    const { domain = 'app.enterprise-portal.com' } = req.body;
+    const org = req.user.organization || 'Enterprise Global Corp';
+    const scanResult = await scanDomainAndCatalog(domain, org);
+
+    res.status(200).json({
+      success: true,
+      message: `Domain scan completed for ${scanResult.scannedDomain}. Discovered ${scanResult.totalDiscovered} cookies.`,
+      result: scanResult,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ==========================================
+// FEATURE 5: API KEYS & VERIFICATION
+// ==========================================
+const getApiKeys = async (req, res, next) => {
+  try {
+    const keys = await ApiKey.find()
+      .select('-keyHash')
+      .sort({ createdAt: -1 })
+      .populate('createdBy', 'name email')
+      .lean();
+    res.status(200).json({ success: true, keys });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const createApiKey = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    if (!name) {
+      return res.status(400).json({ success: false, message: 'API key name is required.' });
+    }
+
+    const secretBytes = crypto.randomBytes(24).toString('hex');
+    const rawKey = `cl_live_${secretBytes}`;
+    const prefix = `cl_live_${secretBytes.slice(0, 8)}...`;
+    const keyHash = crypto.createHash('sha256').update(rawKey).digest('hex');
+
+    const apiKey = await ApiKey.create({
+      name,
+      prefix,
+      keyHash,
+      organization: req.user.organization || 'Enterprise Global Corp',
+      createdBy: req.user._id,
+      isActive: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'API Key generated. Save this secret now; it will not be displayed again.',
+      apiKey: {
+        id: apiKey._id,
+        name: apiKey.name,
+        prefix: apiKey.prefix,
+        createdAt: apiKey.createdAt,
+        rawKey, // Returned once
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const revokeApiKey = async (req, res, next) => {
+  try {
+    const apiKey = await ApiKey.findByIdAndDelete(req.params.id);
+    if (!apiKey) {
+      return res.status(404).json({ success: false, message: 'API key not found.' });
+    }
+    res.status(200).json({ success: true, message: 'API Key revoked successfully.' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getDashboardAnalytics,
   getAllUsersWithConsent,
   publishPrivacyNotice,
   activatePrivacyNotice,
+  getWebhooks,
+  createWebhook,
+  testWebhook,
+  deleteWebhook,
+  getDsarRequests,
+  processDsarRequest,
+  getCookieInventory,
+  scanDomainCookies,
+  getApiKeys,
+  createApiKey,
+  revokeApiKey,
 };
 

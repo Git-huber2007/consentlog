@@ -43,37 +43,40 @@ const connectDB = async () => {
   // 2. Fallback to persistent embedded MongoMemoryReplSet (or MongoMemoryServer)
   try {
     const { MongoMemoryReplSet, MongoMemoryServer } = require('mongodb-memory-server');
-    const dataDir = path.join(__dirname, '..', '..', '.mongodb-data');
-    if (!fs.existsSync(dataDir)) {
+    const isTest = process.env.NODE_ENV === 'test' || process.env.TEST_DB === 'true';
+    const dataDir = isTest ? undefined : path.join(__dirname, '..', '..', '.mongodb-data');
+    if (dataDir && !fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
 
     try {
-      mongoServer = await MongoMemoryReplSet.create({
+      const replOpts = {
         replSet: {
           count: 1,
-          storageEngine: 'wiredTiger',
+          storageEngine: dataDir ? 'wiredTiger' : 'ephemeralForTest',
           dbName: 'consentlog_enterprise',
         },
-        instanceOpts: [
-          {
-            dbPath: dataDir,
-          },
-        ],
-      });
+      };
+      if (dataDir) {
+        replOpts.instanceOpts = [{ dbPath: dataDir }];
+      }
+      mongoServer = await MongoMemoryReplSet.create(replOpts);
       const memUri = mongoServer.getUri('consentlog_enterprise');
       await mongoose.connect(memUri);
       isReplicaSet = true;
       dbConnectionMode = 'embedded-replica-set';
-      console.log(`[Database] Connected to Persistent Embedded MongoDB Replica Set at ${memUri} (Data Dir: ${dataDir})`);
+      console.log(`[Database] Connected to Persistent Embedded MongoDB Replica Set at ${memUri} ${dataDir ? `(Data Dir: ${dataDir})` : '(In-Memory Test Mode)'}`);
     } catch (replErr) {
       console.warn('[Database] Replica set startup fallback to standalone MongoMemoryServer:', replErr.message);
+      const instanceOpts = {
+        dbName: 'consentlog_enterprise',
+        storageEngine: dataDir ? 'wiredTiger' : 'ephemeralForTest',
+      };
+      if (dataDir) {
+        instanceOpts.dbPath = dataDir;
+      }
       mongoServer = await MongoMemoryServer.create({
-        instance: {
-          dbName: 'consentlog_enterprise',
-          dbPath: dataDir,
-          storageEngine: 'wiredTiger',
-        },
+        instance: instanceOpts,
       });
       const memUri = mongoServer.getUri('consentlog_enterprise');
       await mongoose.connect(memUri);

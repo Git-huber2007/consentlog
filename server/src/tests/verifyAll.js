@@ -18,6 +18,8 @@
  * 14. MongoDB persistence & ACID transactions
  */
 
+process.env.NODE_ENV = 'test';
+
 const assert = require('assert');
 const http = require('http');
 const { app } = require('../index');

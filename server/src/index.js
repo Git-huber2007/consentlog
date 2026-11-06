@@ -16,6 +16,7 @@ const consentRoutes = require('./routes/consentRoutes');
 const auditRoutes = require('./routes/auditRoutes');
 const noticeRoutes = require('./routes/noticeRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const externalConsentRoutes = require('./routes/externalConsentRoutes');
 
 const app = express();
 
@@ -73,6 +74,7 @@ app.use('/api/consent', consentRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/notices', noticeRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/v1/consent', externalConsentRoutes);
 
 // 8. Error Handling Middleware
 app.use(notFoundHandler);

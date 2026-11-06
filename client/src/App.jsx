@@ -20,6 +20,10 @@ import UserManagementPage from './pages/UserManagementPage';
 import AuditIntegrityPage from './pages/AuditIntegrityPage';
 import PrivacyNoticeAdminPage from './pages/PrivacyNoticeAdminPage';
 import BannerSimulatorPage from './pages/BannerSimulatorPage';
+import CookieInventoryPage from './pages/CookieInventoryPage';
+import WebhooksAdminPage from './pages/WebhooksAdminPage';
+import DsarAdminPage from './pages/DsarAdminPage';
+import DeveloperApiPage from './pages/DeveloperApiPage';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useAuth();
@@ -70,6 +74,7 @@ const App = () => {
                 <Route path="/notices" element={<PrivacyNoticeCentrePage />} />
                 <Route path="/notices/compare" element={<VersionComparisonPage />} />
                 <Route path="/simulator" element={<BannerSimulatorPage />} />
+                <Route path="/inventory" element={<CookieInventoryPage />} />
                 <Route path="/profile" element={<ProfileSettingsPage />} />
 
                 {/* Admin-Only Pages */}
@@ -110,6 +115,38 @@ const App = () => {
                   element={
                     <ProtectedRoute adminOnly>
                       <BannerSimulatorPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/webhooks"
+                  element={
+                    <ProtectedRoute adminOnly>
+                      <WebhooksAdminPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/dsar"
+                  element={
+                    <ProtectedRoute adminOnly>
+                      <DsarAdminPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/cookies"
+                  element={
+                    <ProtectedRoute adminOnly>
+                      <CookieInventoryPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/developer"
+                  element={
+                    <ProtectedRoute adminOnly>
+                      <DeveloperApiPage />
                     </ProtectedRoute>
                   }
                 />

@@ -80,6 +80,33 @@ const appendAuditEvent = async (
     };
 
     const [created] = await ConsentLog.create([docData], session ? { session } : {});
+
+    // Asynchronously dispatch webhook event without blocking
+    const eventType = action.includes('Withdrawn')
+      ? 'consent.withdrawn'
+      : action.includes('Accepted')
+      ? 'notice.accepted'
+      : action.includes('Anonymized')
+      ? 'user.erased'
+      : 'consent.granted';
+
+    setImmediate(() => {
+      try {
+        const { dispatchWebhookEvent } = require('./webhookService');
+        dispatchWebhookEvent(eventType, {
+          auditId,
+          sequenceNumber,
+          userId,
+          preferenceName,
+          previousValue: String(previousValue),
+          newValue: String(newValue),
+          action,
+          eventHash,
+          timestamp: eventTime,
+        }).catch(() => {});
+      } catch (e) {}
+    });
+
     return created;
   } finally {
     release();

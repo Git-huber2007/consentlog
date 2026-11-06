@@ -60,6 +60,8 @@ const consentLogSchema = new mongoose.Schema(
         'Optional Preferences Rejected',
         'Initial Registration Defaults',
         'System Policy Sync',
+        'DSAR Request Submitted',
+        'User Data Anonymized (GDPR Art. 17)',
       ],
       immutable: true,
       index: true,
