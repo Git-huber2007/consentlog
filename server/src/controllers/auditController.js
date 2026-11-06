@@ -25,8 +25,8 @@ const getAuditLogs = async (req, res, next) => {
 
     const query = {};
 
-    // Role-based filtering: Normal users only view their own audit records unless admin
-    if (req.user.role !== 'admin') {
+    // Role-based filtering: Normal users only view their own audit records unless admin, auditor, or dpo
+    if (!['admin', 'auditor', 'dpo'].includes(req.user.role)) {
       query.userId = req.user._id;
     } else if (userId && userId !== 'all') {
       query.userId = userId;
@@ -110,9 +110,9 @@ const getAuditLogById = async (req, res, next) => {
       });
     }
 
-    // Ownership validation: non-admin can only view their own audit records
+    // Ownership validation: normal users can only view their own audit records; auditors, DPOs, and admins can view any
     const ownerId = String(log.userId?._id || log.userId);
-    if (req.user.role !== 'admin' && ownerId !== String(req.user._id)) {
+    if (!['admin', 'auditor', 'dpo'].includes(req.user.role) && ownerId !== String(req.user._id)) {
       return res.status(403).json({
         success: false,
         message: 'Access Denied: You can only inspect your own consent audit records.',

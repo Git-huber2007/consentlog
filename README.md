@@ -351,14 +351,14 @@ npm test
 
 ---
 
-## 👥 Demo Credentials
+## 👥 Demo Credentials & Enterprise Roles
 
-| Identity | Email | Password | Primary Jurisdiction |
-| :--- | :--- | :--- | :--- |
-| **Chief Privacy Officer (Admin)** | `admin@consentlog.io` | `Password123!` | Global Governance HQ |
-| **Enterprise User (GDPR)** | `alex@enterprise.io` | `Password123!` | GDPR (European Union) |
-| **Healthcare User (DPDP)** | `priya@enterprise.io` | `Password123!` | DPDP Act (India) |
-| **Financial User (CCPA)** | `marcus@enterprise.io` | `Password123!` | CCPA / CPRA (California) |
+| Role & Identity | Email | Password | Primary Jurisdiction | Platform Scope |
+| :--- | :--- | :--- | :--- | :--- |
+| **Chief Privacy Officer (`admin`)**<br/>Elena Vance | `admin@consentlog.io` | `Password123!` | Global Governance HQ | Full Governance & Settings (Webhooks, API Keys, Notice Publishing, Simulator, Users) |
+| **Compliance Auditor (`auditor`)**<br/>Marcus Sterling | `marcus@pacifichealth.us` | `Password123!` | CCPA (California) | System-Wide Audit Ledger Inspection, Genesis-to-Head Chain Verifier, Audit Certificates |
+| **Data Protection Officer (`dpo`)**<br/>Priya Nair | `priya@cloudscale.in` | `Password123!` | DPDP Act (India) | Article 17 DSAR Erasure Queue, Cookie Inventory Scanner, Retention SLA Oversight |
+| **Enterprise Data Subject (`user`)**<br/>Alex Rivera | `alex@enterprise.io` | `Password123!` | GDPR (European Union) | 5 Granular Consent Categories, Right to Withdraw, Personal DSAR Passport Export |
 
 *(One-click demo switching buttons are available directly on the login page).*
 

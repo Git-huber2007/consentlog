@@ -193,6 +193,44 @@ const CommandPalette = ({ isOpen, onClose }) => {
         perform: () => navigate('/admin/developer'),
       }
     );
+  } else if (user?.role === 'auditor') {
+    actions.push(
+      {
+        id: 'admin-cmd',
+        title: 'Audit Overview',
+        category: 'Auditor',
+        shortcut: 'A D',
+        icon: ShieldCheck,
+        perform: () => navigate('/admin'),
+      },
+      {
+        id: 'admin-tamper',
+        title: 'Log Verification',
+        category: 'Auditor',
+        shortcut: 'A T',
+        icon: Lock,
+        perform: () => navigate('/admin/integrity'),
+      }
+    );
+  } else if (user?.role === 'dpo') {
+    actions.push(
+      {
+        id: 'admin-cmd',
+        title: 'Governance Overview',
+        category: 'DPO',
+        shortcut: 'A D',
+        icon: ShieldCheck,
+        perform: () => navigate('/admin'),
+      },
+      {
+        id: 'admin-dsar',
+        title: 'DSAR & Article 17 Erasure',
+        category: 'DPO',
+        shortcut: 'A E',
+        icon: UserX,
+        perform: () => navigate('/admin/dsar'),
+      }
+    );
   }
 
   const filtered = actions.filter(

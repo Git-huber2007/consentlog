@@ -104,6 +104,10 @@ const UserManagementPage = () => {
                         className={`inline-block px-2 py-0.5 rounded font-mono text-[10px] font-semibold uppercase ${
                           u.role === 'admin'
                             ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950'
+                            : u.role === 'dpo'
+                            ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20'
+                            : u.role === 'auditor'
+                            ? 'bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20'
                             : 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300'
                         }`}
                       >

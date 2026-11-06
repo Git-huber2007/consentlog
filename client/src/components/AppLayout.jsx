@@ -146,6 +146,23 @@ const AppLayout = () => {
         { to: '/admin/developer', label: 'API Keys', icon: Key },
       ],
     });
+  } else if (user?.role === 'auditor') {
+    navItems.push({
+      section: 'Auditor',
+      items: [
+        { to: '/admin', label: 'Overview', icon: ShieldCheck, exact: true },
+        { to: '/admin/integrity', label: 'Log Verification', icon: Lock },
+      ],
+    });
+  } else if (user?.role === 'dpo') {
+    navItems.push({
+      section: 'Governance',
+      items: [
+        { to: '/admin', label: 'Overview', icon: ShieldCheck, exact: true },
+        { to: '/admin/dsar', label: 'DSAR Erasure', icon: UserX },
+        { to: '/inventory', label: 'Cookie Inventory', icon: Cookie },
+      ],
+    });
   }
 
   return (
@@ -236,11 +253,15 @@ const AppLayout = () => {
                 <p className="text-xs font-medium text-zinc-900 dark:text-zinc-100 truncate">
                   {user?.name?.replace(/\s*\(.*?\)\s*/g, '')}
                 </p>
-                {user?.role === 'admin' && (
-                  <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
-                    Admin
-                  </span>
-                )}
+                <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                  {user?.role === 'admin'
+                    ? 'Admin'
+                    : user?.role === 'dpo'
+                    ? 'DPO'
+                    : user?.role === 'auditor'
+                    ? 'Auditor'
+                    : 'User'}
+                </span>
               </div>
               <p className="text-[11px] text-zinc-500 truncate">{user?.email}</p>
             </div>

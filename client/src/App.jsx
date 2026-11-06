@@ -25,7 +25,7 @@ import WebhooksAdminPage from './pages/WebhooksAdminPage';
 import DsarAdminPage from './pages/DsarAdminPage';
 import DeveloperApiPage from './pages/DeveloperApiPage';
 
-const ProtectedRoute = ({ children, adminOnly = false }) => {
+const ProtectedRoute = ({ children, adminOnly = false, allowedRoles = null }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -41,6 +41,10 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   }
 
   if (adminOnly && user.role !== 'admin') {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -77,11 +81,11 @@ const App = () => {
                 <Route path="/inventory" element={<CookieInventoryPage />} />
                 <Route path="/profile" element={<ProfileSettingsPage />} />
 
-                {/* Admin-Only Pages */}
+                {/* Role-Protected Enterprise Management Pages */}
                 <Route
                   path="/admin"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin', 'auditor', 'dpo']}>
                       <AdminDashboardPage />
                     </ProtectedRoute>
                   }
@@ -89,7 +93,7 @@ const App = () => {
                 <Route
                   path="/admin/users"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin']}>
                       <UserManagementPage />
                     </ProtectedRoute>
                   }
@@ -97,7 +101,7 @@ const App = () => {
                 <Route
                   path="/admin/integrity"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin', 'auditor']}>
                       <AuditIntegrityPage />
                     </ProtectedRoute>
                   }
@@ -105,7 +109,7 @@ const App = () => {
                 <Route
                   path="/admin/notices"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin']}>
                       <PrivacyNoticeAdminPage />
                     </ProtectedRoute>
                   }
@@ -113,7 +117,7 @@ const App = () => {
                 <Route
                   path="/admin/simulator"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin']}>
                       <BannerSimulatorPage />
                     </ProtectedRoute>
                   }
@@ -121,7 +125,7 @@ const App = () => {
                 <Route
                   path="/admin/webhooks"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin']}>
                       <WebhooksAdminPage />
                     </ProtectedRoute>
                   }
@@ -129,7 +133,7 @@ const App = () => {
                 <Route
                   path="/admin/dsar"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin', 'dpo']}>
                       <DsarAdminPage />
                     </ProtectedRoute>
                   }
@@ -137,7 +141,7 @@ const App = () => {
                 <Route
                   path="/admin/cookies"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin', 'dpo']}>
                       <CookieInventoryPage />
                     </ProtectedRoute>
                   }
@@ -145,7 +149,7 @@ const App = () => {
                 <Route
                   path="/admin/developer"
                   element={
-                    <ProtectedRoute adminOnly>
+                    <ProtectedRoute allowedRoles={['admin']}>
                       <DeveloperApiPage />
                     </ProtectedRoute>
                   }

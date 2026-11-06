@@ -73,7 +73,7 @@ const LoginPage = () => {
             <div className="grid grid-cols-2 gap-2.5">
               <button
                 type="button"
-                onClick={() => quickFill('alex@enterprise.io', 'Alex Rivera (GDPR)')}
+                onClick={() => quickFill('alex@enterprise.io', 'Alex Rivera (Data Subject)')}
                 className={`p-2.5 rounded-md text-left border transition-colors ${
                   email === 'alex@enterprise.io'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
@@ -88,7 +88,7 @@ const LoginPage = () => {
                       : 'text-zinc-500'
                   }`}
                 >
-                  Standard User (GDPR)
+                  Data Subject (GDPR)
                 </p>
               </button>
 
@@ -109,13 +109,13 @@ const LoginPage = () => {
                       : 'text-zinc-500'
                   }`}
                 >
-                  Admin (CPO)
+                  Chief Privacy Officer (Admin)
                 </p>
               </button>
 
               <button
                 type="button"
-                onClick={() => quickFill('priya@cloudscale.in', 'Priya Nair (DPDP)')}
+                onClick={() => quickFill('priya@cloudscale.in', 'Priya Nair (DPO)')}
                 className={`p-2.5 rounded-md text-left border transition-colors ${
                   email === 'priya@cloudscale.in'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
@@ -130,13 +130,13 @@ const LoginPage = () => {
                       : 'text-zinc-500'
                   }`}
                 >
-                  Standard User (DPDP)
+                  Data Protection Officer (DPO)
                 </p>
               </button>
 
               <button
                 type="button"
-                onClick={() => quickFill('marcus@pacifichealth.us', 'Marcus Sterling (CCPA)')}
+                onClick={() => quickFill('marcus@pacifichealth.us', 'Marcus Sterling (Auditor)')}
                 className={`p-2.5 rounded-md text-left border transition-colors ${
                   email === 'marcus@pacifichealth.us'
                     ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 border-zinc-900 dark:border-zinc-100'
@@ -151,7 +151,7 @@ const LoginPage = () => {
                       : 'text-zinc-500'
                   }`}
                 >
-                  Standard User (CCPA)
+                  Compliance Auditor
                 </p>
               </button>
             </div>

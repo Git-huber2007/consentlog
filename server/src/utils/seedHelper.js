@@ -255,9 +255,9 @@ const ensureSeedData = async (forceReset = false) => {
     name: 'Priya Nair',
     email: 'priya@cloudscale.in',
     password: 'Password123!',
-    role: 'user',
+    role: 'dpo',
     organization: 'CloudScale Technologies India',
-    department: 'Data Science & Analytics',
+    department: 'Data Protection & Governance',
     jurisdiction: 'DPDP (India)',
   });
 
@@ -265,9 +265,9 @@ const ensureSeedData = async (forceReset = false) => {
     name: 'Marcus Sterling',
     email: 'marcus@pacifichealth.us',
     password: 'Password123!',
-    role: 'user',
+    role: 'auditor',
     organization: 'Pacific Health Systems',
-    department: 'Compliance & Security',
+    department: 'Independent Compliance Audit',
     jurisdiction: 'CCPA (California)',
   });
 
