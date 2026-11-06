@@ -7,14 +7,7 @@ import {
   ArrowRight,
   Sun,
   Moon,
-  CheckCircle2,
-  Terminal,
-  Activity,
-  Layers,
-  Sparkles,
-  Shield,
   KeyRound,
-  ExternalLink,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -27,9 +20,6 @@ const DEMO_PERSONAS = [
     title: 'Chief Privacy Officer',
     email: 'admin@consentlog.io',
     initials: 'EV',
-    color: 'emerald',
-    badgeClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
-    avatarClass: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
   },
   {
     role: 'Auditor',
@@ -37,9 +27,6 @@ const DEMO_PERSONAS = [
     title: 'Compliance Auditor',
     email: 'marcus@pacifichealth.us',
     initials: 'MS',
-    color: 'purple',
-    badgeClass: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30',
-    avatarClass: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
   },
   {
     role: 'DPO',
@@ -47,9 +34,6 @@ const DEMO_PERSONAS = [
     title: 'Data Protection Officer',
     email: 'priya@cloudscale.in',
     initials: 'PN',
-    color: 'sky',
-    badgeClass: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/30',
-    avatarClass: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
   },
   {
     role: 'User',
@@ -57,9 +41,6 @@ const DEMO_PERSONAS = [
     title: 'General Data Subject',
     email: 'alex@enterprise.io',
     initials: 'AR',
-    color: 'amber',
-    badgeClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30',
-    avatarClass: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
   },
 ];
 
@@ -96,138 +77,140 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-12 bg-[var(--bg-app,#080C14)] text-[var(--text-main,#F8FAFC)] selection:bg-emerald-500/20 selection:text-emerald-500">
+    <div className="min-h-screen grid lg:grid-cols-12 bg-white dark:bg-[#07090E] text-slate-900 dark:text-slate-100 selection:bg-slate-900 selection:text-white dark:selection:bg-white dark:selection:text-slate-900">
       {/* ===================================================================
-          LEFT COLUMN: REAL PRODUCT WINDOW PREVIEW (Desktop lg:col-span-7)
-          Eliminates empty screen whitespace with genuine product evidence
+          LEFT COLUMN: QUIET LUXURY PRODUCT PREVIEW (lg:col-span-7)
+          Monochromatic, architectural, zero rainbow AI slop
           =================================================================== */}
-      <div className="hidden lg:flex lg:col-span-7 relative flex-col justify-between p-10 xl:p-14 bg-slate-950 text-white border-r border-slate-800/80 overflow-hidden">
-        {/* Ambient atmospheric backdrop */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[350px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-10 right-10 w-[450px] h-[350px] bg-sky-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="hidden lg:flex lg:col-span-7 relative flex-col justify-between p-10 xl:p-14 bg-[#0B0E17] text-white border-r border-white/5 overflow-hidden">
+        {/* Subtle architectural grid pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
         {/* Top Header */}
         <div className="relative z-10 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="size-8.5 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center shadow-lg shadow-emerald-500/25 transition-transform group-hover:scale-105">
-              <ShieldCheck className="size-5" />
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="size-8 rounded-lg bg-white text-slate-950 flex items-center justify-center font-bold shadow-sm transition-transform group-hover:scale-105">
+              <ShieldCheck className="size-4.5" />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-tight text-white">
+              <span className="font-bold text-sm tracking-tight text-white">
                 ConsentLog
               </span>
-              <span className="text-[9px] font-mono tracking-widest uppercase text-emerald-400 font-bold -mt-0.5">
-                Enterprise Cryptographic Vault
+              <span className="text-[10px] tracking-wider uppercase text-slate-400 font-mono">
+                Cryptographic Consent Governance
               </span>
             </div>
           </Link>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-white/5 border border-white/10 text-emerald-400 backdrop-blur-md">
-            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>SHA-256 Ledger Live</span>
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-white/[0.04] border border-white/10 text-slate-300">
+            <span className="size-1.5 rounded-full bg-emerald-400" />
+            <span>SHA-256 Ledger Online</span>
           </span>
         </div>
 
-        {/* Center: Real macOS Product Interface Preview */}
+        {/* Center: Monochromatic macOS Product Interface Preview */}
         <div className="relative z-10 my-auto py-8">
           <div className="mb-6 space-y-2 max-w-lg">
-            <h1 className="text-3xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-3xl font-bold tracking-tight text-white leading-tight">
               Enterprise consent verification, sealed block by block.
             </h1>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Real-time demonstration of the ConsentLog ledger running in continuous verification mode.
+            <p className="text-sm text-slate-400 leading-relaxed font-normal">
+              Continuous SHA-256 audit logs with tamper-evident chain validation and strict policy enforcement.
             </p>
           </div>
 
-          {/* Realistic Window Mockup Frame */}
-          <div className="rounded-2xl border border-white/10 bg-slate-900/90 shadow-2xl backdrop-blur-xl overflow-hidden">
-            {/* macOS Window Titlebar */}
-            <div className="h-9 px-4 bg-slate-900/95 border-b border-white/10 flex items-center justify-between">
+          {/* Minimalist macOS Window Frame */}
+          <div className="rounded-xl border border-white/10 bg-[#0F1422]/90 shadow-2xl backdrop-blur-md overflow-hidden">
+            {/* Titlebar */}
+            <div className="h-9 px-4 bg-[#0A0D16] border-b border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <span className="size-2.5 rounded-full bg-rose-500/80" />
-                <span className="size-2.5 rounded-full bg-amber-500/80" />
-                <span className="size-2.5 rounded-full bg-emerald-500/80" />
+                <span className="size-2 rounded-full bg-white/20" />
+                <span className="size-2 rounded-full bg-white/20" />
+                <span className="size-2 rounded-full bg-white/20" />
               </div>
-              <div className="h-5 px-3.5 rounded-full bg-black/40 border border-white/5 text-[10px] text-slate-400 font-mono flex items-center gap-1.5">
-                <span className="text-emerald-400">●</span>
-                <span>consentlog.io/ledger/live</span>
+              <div className="h-5 px-3 rounded-full bg-white/[0.03] border border-white/5 text-[10px] text-slate-400 font-mono flex items-center gap-1.5">
+                <span className="text-slate-500 font-bold">https://</span>
+                <span className="text-slate-300">consentlog.io/ledger/live</span>
               </div>
-              <div className="text-[10px] font-mono text-slate-500">v2.0 Active</div>
+              <div className="text-[10px] font-mono text-slate-400">v2.0 Active</div>
             </div>
 
             {/* Window Interior: Real Live Mini-Dashboard */}
             <div className="p-5 space-y-4 text-xs font-sans">
-              {/* 3 Mini Bento Tiles */}
+              {/* 3 Bento Metric Tiles (Clean Neutral) */}
               <div className="grid grid-cols-3 gap-3">
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
-                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Audited Blocks</span>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-mono">Ledger Blocks</span>
                   <p className="font-mono text-lg font-bold text-white mt-0.5">13 Blocks</p>
-                  <span className="text-[10px] text-emerald-400 font-medium">100% Intact</span>
+                  <span className="text-[10px] text-slate-400 font-medium">100% Intact</span>
                 </div>
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
-                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Active Notice</span>
-                  <p className="font-mono text-lg font-bold text-emerald-400 mt-0.5">v2.0 Policy</p>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-mono">Active Policy</span>
+                  <p className="font-mono text-lg font-bold text-white mt-0.5">v2.0 Policy</p>
                   <span className="text-[10px] text-slate-400 font-medium">5 Categories</span>
                 </div>
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
-                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Verification</span>
-                  <p className="font-mono text-lg font-bold text-sky-400 mt-0.5">&lt; 14ms</p>
-                  <span className="text-[10px] text-slate-400 font-medium">Automated SLA</span>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-mono">Chain Latency</span>
+                  <p className="font-mono text-lg font-bold text-white mt-0.5">&lt; 14ms</p>
+                  <span className="text-[10px] text-slate-400 font-medium">Verified SLA</span>
                 </div>
               </div>
 
-              {/* Mini Live Audit Ledger Stream */}
-              <div className="rounded-xl border border-white/10 bg-black/30 overflow-hidden divide-y divide-white/5 text-[11px]">
-                <div className="p-2.5 flex items-center justify-between text-slate-400 text-[10px] font-mono uppercase tracking-wider bg-white/[0.02]">
-                  <span>Real-Time Audit Stream</span>
-                  <span className="text-emerald-400">● Live Feed</span>
+              {/* Live Audit Ledger Stream */}
+              <div className="rounded-lg border border-white/5 bg-black/20 overflow-hidden divide-y divide-white/5 text-[11px]">
+                <div className="p-2.5 flex items-center justify-between text-slate-400 text-[10px] font-mono uppercase tracking-wider bg-white/[0.01]">
+                  <span>Live Audit Stream</span>
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Verified
+                  </span>
                 </div>
                 <div className="p-2.5 flex items-center justify-between font-mono">
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400 font-bold">#13</span>
-                    <span className="text-slate-300">Elena Vance</span>
+                    <span className="text-slate-400 font-semibold">#13</span>
+                    <span className="text-slate-200">Elena Vance</span>
                     <span className="text-slate-500">→</span>
-                    <span className="text-slate-200">Notice v2.0 Accepted</span>
+                    <span className="text-slate-300">Notice v2.0 Accepted</span>
                   </div>
-                  <span className="text-[10px] text-emerald-400 font-semibold px-1.5 py-0.2 rounded bg-emerald-500/15 border border-emerald-500/30">
+                  <span className="text-[10px] text-slate-300 font-medium px-2 py-0.5 rounded bg-white/5 border border-white/10">
                     SEALED
                   </span>
                 </div>
                 <div className="p-2.5 flex items-center justify-between font-mono">
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400 font-bold">#12</span>
-                    <span className="text-slate-300">Alex Rivera</span>
+                    <span className="text-slate-400 font-semibold">#12</span>
+                    <span className="text-slate-200">Alex Rivera</span>
                     <span className="text-slate-500">→</span>
-                    <span className="text-slate-200">Marketing Cookies Withdrawn</span>
+                    <span className="text-slate-300">Marketing Cookies Withdrawn</span>
                   </div>
-                  <span className="text-[10px] text-rose-400 font-semibold px-1.5 py-0.2 rounded bg-rose-500/15 border border-rose-500/30">
+                  <span className="text-[10px] text-slate-300 font-medium px-2 py-0.5 rounded bg-white/5 border border-white/10">
                     OPT-OUT
                   </span>
                 </div>
                 <div className="p-2.5 flex items-center justify-between font-mono">
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400 font-bold">#11</span>
-                    <span className="text-slate-300">Marcus Sterling</span>
+                    <span className="text-slate-400 font-semibold">#11</span>
+                    <span className="text-slate-200">Marcus Sterling</span>
                     <span className="text-slate-500">→</span>
-                    <span className="text-slate-200">Chain Audit Verification Completed</span>
+                    <span className="text-slate-300">Chain Audit Verification Completed</span>
                   </div>
-                  <span className="text-[10px] text-sky-400 font-semibold px-1.5 py-0.2 rounded bg-sky-500/15 border border-sky-500/30">
+                  <span className="text-[10px] text-slate-300 font-medium px-2 py-0.5 rounded bg-white/5 border border-white/10">
                     VALIDATED
                   </span>
                 </div>
               </div>
 
               {/* Head Hash Footer */}
-              <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5 flex items-center justify-between text-[10px] font-mono text-slate-400">
+              <div className="p-2.5 rounded-lg bg-white/[0.01] border border-white/5 flex items-center justify-between text-[10px] font-mono text-slate-400">
                 <span>Head Hash: c72a42c0347674db192411bde1fd85edde...</span>
-                <span className="text-emerald-400 font-bold">Verified Zero Breaks</span>
+                <span className="text-slate-300 font-medium">Chain Verified</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Attestation Strip */}
-        <div className="relative z-10 flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-white/10 font-mono">
+        <div className="relative z-10 flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-white/5 font-mono">
           <span>GDPR Art. 7(1) · India DPDP Act 2023 · CCPA/CPRA</span>
           <span>ConsentLog Enterprise v2.0</span>
         </div>
@@ -235,15 +218,16 @@ const LoginPage = () => {
 
       {/* ===================================================================
           RIGHT COLUMN: AUTHENTICATION PORTAL (lg:col-span-5)
+          Minimalist, Linear/Vercel Monochromatic Design
           =================================================================== */}
-      <div className="lg:col-span-5 flex flex-col justify-between p-6 sm:p-10 xl:p-12 relative z-10">
+      <div className="lg:col-span-5 flex flex-col justify-between p-6 sm:p-10 xl:p-12 relative z-10 bg-slate-50/50 dark:bg-[#07090E]">
         {/* Top bar with Theme Switcher */}
         <div className="flex items-center justify-between">
-          <div className="lg:hidden flex items-center gap-2">
-            <div className="size-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center shadow-md shadow-emerald-500/20">
+          <div className="lg:hidden flex items-center gap-2.5">
+            <div className="size-8 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-950 flex items-center justify-center font-bold">
               <ShieldCheck className="size-4.5" />
             </div>
-            <span className="font-extrabold text-sm tracking-tight text-slate-900 dark:text-white">
+            <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white">
               ConsentLog
             </span>
           </div>
@@ -253,9 +237,9 @@ const LoginPage = () => {
               onClick={toggleTheme}
               title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="size-8.5 inline-flex items-center justify-center rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white shadow-xs backdrop-blur-sm transition-colors cursor-pointer"
+              className="size-8.5 inline-flex items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
             >
-              {darkMode ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4 text-slate-600" />}
+              {darkMode ? <Sun className="size-4 text-slate-300" /> : <Moon className="size-4 text-slate-600" />}
             </button>
             <Link
               to="/"
@@ -269,7 +253,7 @@ const LoginPage = () => {
         {/* Center Auth Form */}
         <div className="w-full max-w-sm mx-auto my-auto py-6 space-y-6">
           <div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
               Sign In
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -277,14 +261,14 @@ const LoginPage = () => {
             </p>
           </div>
 
-          {/* Quick Demo Persona Matrix */}
+          {/* Quick Demo Persona Matrix (Neutral, Monochromatic) */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-slate-700 dark:text-slate-300 text-[11px] uppercase tracking-wider flex items-center gap-1.5">
-                <KeyRound className="size-3.5 text-emerald-500" />
+              <span className="font-semibold text-slate-700 dark:text-slate-300 text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                <KeyRound className="size-3.5 text-slate-500 dark:text-slate-400" />
                 <span>Instant Demo Access</span>
               </span>
-              <span className="text-[10px] text-slate-400 font-mono">Click to Auto-Fill</span>
+              <span className="text-[10px] text-slate-400 font-mono">1-Click Auto Fill</span>
             </div>
 
             <div className="grid grid-cols-2 gap-2">
@@ -295,27 +279,28 @@ const LoginPage = () => {
                     key={p.role}
                     type="button"
                     onClick={() => handleSelectPersona(p)}
-                    className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 cursor-pointer relative overflow-hidden group ${
+                    className={`p-2.5 rounded-lg border text-left transition-all flex items-center gap-2.5 cursor-pointer relative ${
                       active
-                        ? 'bg-emerald-500/[0.08] dark:bg-emerald-500/[0.12] border-emerald-500/40 shadow-xs ring-1 ring-emerald-500/30'
-                        : 'bg-white/60 dark:bg-slate-900/50 border-slate-200/80 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
+                        ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 border-slate-900 dark:border-white shadow-xs'
+                        : 'bg-white dark:bg-slate-900/60 text-slate-900 dark:text-slate-200 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
                     }`}
                   >
                     <div
-                      className={`size-6.5 rounded-lg flex items-center justify-center font-mono text-[9px] font-bold border shrink-0 ${p.avatarClass}`}
+                      className={`size-6.5 rounded-md flex items-center justify-center font-mono text-[9px] font-bold border shrink-0 ${
+                        active
+                          ? 'bg-white/20 text-white dark:bg-slate-950/20 dark:text-slate-950 border-white/20 dark:border-slate-950/20'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                      }`}
                     >
                       {p.initials}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
-                        <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                        <p className={`text-xs font-semibold truncate ${active ? 'text-white dark:text-slate-950' : 'text-slate-900 dark:text-white'}`}>
                           {p.name.split(' ')[0]}
                         </p>
-                        {active && (
-                          <span className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
-                        )}
                       </div>
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                      <p className={`text-[10px] truncate ${active ? 'text-slate-300 dark:text-slate-600' : 'text-slate-400 dark:text-slate-500'}`}>
                         {p.role}
                       </p>
                     </div>
@@ -328,7 +313,7 @@ const LoginPage = () => {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Email Address
               </label>
               <div className="relative">
@@ -340,14 +325,14 @@ const LoginPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                   placeholder="name@company.com"
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/20 shadow-2xs backdrop-blur-sm transition-all"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-slate-900 dark:focus:border-white focus:ring-1 focus:ring-slate-900/10 dark:focus:ring-white/10 transition-colors"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Password
                 </label>
                 <span className="text-[11px] text-slate-400 font-mono">Password123!</span>
@@ -361,15 +346,16 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/20 shadow-2xs backdrop-blur-sm transition-all"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-slate-900 dark:focus:border-white focus:ring-1 focus:ring-slate-900/10 dark:focus:ring-white/10 transition-colors"
                 />
               </div>
             </div>
 
+            {/* Quiet Luxury Action Button (Vercel / Linear Monochromatic High-Contrast) */}
             <button
               type="submit"
               disabled={submitting}
-              className="btn-luxury w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-lg bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 font-semibold text-xs flex items-center justify-center gap-2 shadow-xs transition-all active:scale-[0.99] disabled:opacity-50 cursor-pointer"
             >
               <span>{submitting ? 'Authenticating...' : 'Sign In to Workspace'}</span>
               <ArrowRight className="size-4" />
@@ -377,11 +363,11 @@ const LoginPage = () => {
           </form>
 
           {/* Footer Link */}
-          <div className="pt-3 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+          <div className="pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
             <span>New organization?</span>
             <Link
               to="/register"
-              className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
+              className="font-semibold text-slate-900 dark:text-white hover:underline"
             >
               Create Account →
             </Link>
@@ -389,7 +375,7 @@ const LoginPage = () => {
         </div>
 
         {/* Small Bottom Copyright */}
-        <div className="text-center text-[11px] text-slate-400 dark:text-slate-600 font-mono">
+        <div className="text-center text-[11px] text-slate-400 dark:text-slate-500 font-mono">
           Protected by SHA-256 Ledger &amp; JWT Security Architecture
         </div>
       </div>
