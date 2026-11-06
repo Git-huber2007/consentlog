@@ -7,7 +7,7 @@ export const ThemeProvider = ({ children }) => {
     const saved = localStorage.getItem('consentlog_theme');
     if (saved === 'dark') return true;
     if (saved === 'light') return false;
-    return false; // Pristine, high-end light mode by default
+    return true; // Luminous Obsidian Sapphire by default
   });
 
   useEffect(() => {
@@ -19,9 +19,6 @@ export const ThemeProvider = ({ children }) => {
       root.classList.remove('dark');
       localStorage.setItem('consentlog_theme', 'light');
     }
-    // Clean up any old multi-theme leftover keys
-    localStorage.removeItem('consentlog_active_theme');
-    root.removeAttribute('data-theme');
   }, [darkMode]);
 
   const toggleTheme = () => setDarkMode((prev) => !prev);

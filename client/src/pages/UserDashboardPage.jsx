@@ -201,7 +201,7 @@ const UserDashboardPage = () => {
           <button
             onClick={handleDownloadDsarPassport}
             disabled={exporting}
-            className="h-9 px-3.5 rounded-xl bg-white dark:bg-[#0E1526] hover:bg-slate-50 dark:hover:bg-slate-800/80 border border-slate-200/90 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+            className="h-9.5 px-3.5 rounded-xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/90 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer backdrop-blur-sm"
           >
             <Download className="size-3.5 text-slate-400" />
             <span>{exporting ? 'Exporting...' : 'Export JSON Passport'}</span>
@@ -210,7 +210,7 @@ const UserDashboardPage = () => {
           <button
             onClick={handleQuickVerifyChain}
             disabled={verifying}
-            className="h-9 px-3.5 rounded-xl bg-white dark:bg-[#0E1526] hover:bg-slate-50 dark:hover:bg-slate-800/80 border border-slate-200/90 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+            className="h-9.5 px-3.5 rounded-xl bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/90 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer backdrop-blur-sm"
           >
             <RefreshCw className={`size-3.5 ${verifying ? 'animate-spin text-emerald-500' : 'text-slate-400'}`} />
             <span>{verifying ? 'Verifying...' : 'Verify Cryptographic Logs'}</span>
@@ -218,10 +218,11 @@ const UserDashboardPage = () => {
 
           <Link
             to="/preferences"
-            className="h-9 px-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 hover:bg-slate-800 dark:hover:bg-slate-100 text-xs font-bold flex items-center gap-2 shadow-sm transition-colors"
+            className="btn-luxury h-9.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <Sliders className="size-3.5" />
             <span>Manage Preferences</span>
+            <span className="size-4.5 rounded-full bg-white/20 flex items-center justify-center text-[10px] ml-1">→</span>
           </Link>
         </div>
       </div>
@@ -233,10 +234,10 @@ const UserDashboardPage = () => {
         {kpiMetrics.map((item) => (
           <div
             key={item.label}
-            className="p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0E1526] shadow-xs hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all flex flex-col justify-between group"
+            className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default"
           >
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
                 {item.tag}
               </span>
               <span className="size-1.5 rounded-full bg-slate-200 dark:bg-slate-700 group-hover:bg-emerald-500 transition-colors" />
@@ -262,11 +263,12 @@ const UserDashboardPage = () => {
           ================================================================== */}
       <div className="grid lg:grid-cols-12 gap-5">
         {/* Card 1: Cryptographic Trust Anchor */}
-        <div className="lg:col-span-5 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0E1526] shadow-xs flex flex-col justify-between space-y-5">
-          <div>
+        <div className="lg:col-span-5 luxury-card p-6 flex flex-col justify-between space-y-5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="size-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+                <div className="size-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20 shadow-xs">
                   <ShieldCheck className="size-4" />
                 </div>
                 <div>
@@ -278,7 +280,7 @@ const UserDashboardPage = () => {
                   </p>
                 </div>
               </div>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 shadow-xs">
                 <CheckCircle2 className="size-3" />
                 <span>Verified Intact</span>
               </span>
@@ -289,7 +291,7 @@ const UserDashboardPage = () => {
             </p>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#070B13] border border-slate-200/80 dark:border-slate-800 space-y-2">
+          <div className="relative z-10 p-3.5 rounded-xl bg-slate-50/90 dark:bg-[#070B13]/90 border border-slate-200/80 dark:border-white/10 space-y-2 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
                 Latest Sealed Block Hash
@@ -303,7 +305,7 @@ const UserDashboardPage = () => {
                 {copiedHash ? (
                   <>
                     <Check className="size-3 text-emerald-500" />
-                    <span className="text-emerald-600">Copied</span>
+                    <span className="text-emerald-600 font-bold">Copied</span>
                   </>
                 ) : (
                   <>
@@ -318,13 +320,13 @@ const UserDashboardPage = () => {
             </p>
           </div>
 
-          <div className="flex items-center justify-between pt-1 text-xs">
+          <div className="relative z-10 flex items-center justify-between pt-1 text-xs">
             <span className="text-slate-500 dark:text-slate-400 text-[11px] font-mono">
               Status: <strong className="text-slate-800 dark:text-slate-200">Zero chain breaks detected</strong>
             </span>
             <Link
               to={user?.role === 'admin' ? '/admin/integrity' : '/audit-history'}
-              className="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+              className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
             >
               <span>Audit Chain Explorer</span>
               <ArrowUpRight className="size-3.5" />
@@ -333,8 +335,9 @@ const UserDashboardPage = () => {
         </div>
 
         {/* Card 2: Consent Controls */}
-        <div className="lg:col-span-7 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0E1526] shadow-xs flex flex-col justify-between space-y-5">
-          <div className="flex items-center justify-between">
+        <div className="lg:col-span-7 luxury-card p-6 flex flex-col justify-between space-y-5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 flex items-center justify-between">
             <div>
               <h2 className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
                 Active Regulatory Consent State
@@ -352,7 +355,7 @@ const UserDashboardPage = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {(userConsent?.summary?.categories || []).map((cat) => {
               const meta = CATEGORY_META[cat.key] || { icon: Cookie, desc: 'Consent category' };
               const Icon = meta.icon;
@@ -361,8 +364,8 @@ const UserDashboardPage = () => {
                   key={cat.key}
                   className={`p-3.5 rounded-xl border transition-all flex items-start gap-3 ${
                     cat.enabled
-                      ? 'bg-emerald-500/[0.04] dark:bg-emerald-500/[0.06] border-emerald-500/25'
-                      : 'bg-slate-50/70 dark:bg-slate-900/40 border-slate-200/80 dark:border-slate-800'
+                      ? 'bg-emerald-500/[0.04] dark:bg-emerald-500/[0.08] border-emerald-500/30 shadow-[0_0_15px_-4px_rgba(16,185,129,0.15)]'
+                      : 'bg-slate-50/70 dark:bg-slate-900/40 border-slate-200/80 dark:border-white/10'
                   }`}
                 >
                   <div
@@ -399,10 +402,10 @@ const UserDashboardPage = () => {
             })}
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs font-mono tabular-nums text-slate-500">
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs font-mono tabular-nums text-slate-500">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1.5">
-                <span className="size-2 rounded-full bg-emerald-500" />
+                <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
                 <span>Enabled: <strong className="text-slate-900 dark:text-white">{userConsent?.summary?.enabledPreferences || 1}/5</strong></span>
               </span>
               <span className="flex items-center gap-1.5">
@@ -410,7 +413,7 @@ const UserDashboardPage = () => {
                 <span>Disabled: <strong className="text-slate-900 dark:text-white">{userConsent?.summary?.disabledPreferences || 4}</strong></span>
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="size-2 rounded-full bg-rose-500" />
+                <span className="size-2 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.6)]" />
                 <span>Withdrawn: <strong className="text-rose-600 dark:text-rose-400">{userConsent?.summary?.withdrawnPreferences || 0}</strong></span>
               </span>
             </div>
@@ -429,7 +432,7 @@ const UserDashboardPage = () => {
           4. CHARTS & TELEMETRY
           ================================================================== */}
       <div className="grid lg:grid-cols-12 gap-5">
-        <div className="lg:col-span-5 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0E1526] shadow-xs">
+        <div className="lg:col-span-5 luxury-card p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -477,7 +480,7 @@ const UserDashboardPage = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-7 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0E1526] shadow-xs">
+        <div className="lg:col-span-7 luxury-card p-6">
           <div className="mb-4 flex items-center justify-between">
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -544,7 +547,7 @@ const UserDashboardPage = () => {
           5. RECENT ACTIVITY & PRIVACY NOTICES
           ================================================================== */}
       <div className="grid lg:grid-cols-12 gap-5">
-        <div className="lg:col-span-7 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0E1526] shadow-xs space-y-4">
+        <div className="lg:col-span-7 luxury-card p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -556,7 +559,7 @@ const UserDashboardPage = () => {
             </div>
             <Link
               to="/audit-history"
-              className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
             >
               <span>View Full Ledger</span>
               <ArrowUpRight className="size-3.5" />
@@ -605,7 +608,7 @@ const UserDashboardPage = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-5 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0E1526] shadow-xs space-y-4">
+        <div className="lg:col-span-5 luxury-card p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -617,7 +620,7 @@ const UserDashboardPage = () => {
             </div>
             <Link
               to="/notices/compare"
-              className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
             >
               <GitCompare className="size-3.5" />
               <span>Compare Diffs</span>
@@ -628,7 +631,7 @@ const UserDashboardPage = () => {
             {(data?.notices || []).map((notice) => (
               <div
                 key={notice.version}
-                className="p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 flex items-center justify-between gap-3"
+                className="p-3.5 rounded-xl border border-slate-200/80 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/40 flex items-center justify-between gap-3 hover:border-slate-300 dark:hover:border-white/20 transition-all"
               >
                 <div>
                   <div className="flex items-center gap-2">
