@@ -2,19 +2,110 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   CONSENTLOG MULTI-THEME TOKEN ARCHITECTURE
+   4 Distinct Enterprise Aesthetic Profiles:
+   1. Obsidian Ledger (OLED Dark Cryptographic)
+   2. Nordic Frost (Clean Alpine Architectural Light)
+   3. Tokyo Midnight (Phosphor Matrix High-Tech)
+   4. Executive Ivory (Warm Regulatory Luxury)
+   ========================================================================== */
+
+:root,
+[data-theme="frost"] {
+  --bg-app: #F8FAFC;
+  --bg-sidebar: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F1F5F9;
+  --bg-input: #FFFFFF;
+  --border-app: #E2E8F0;
+  --border-subtle: #EDF2F7;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --accent-primary: #2563EB;
+  --accent-secondary: #0284C7;
+  --accent-glow: rgba(37, 99, 235, 0.16);
+  --badge-bg: #EFF6FF;
+  --badge-text: #1D4ED8;
+  --header-bg: rgba(248, 250, 252, 0.88);
+  --sidebar-active-bg: #EFF6FF;
+  --sidebar-active-text: #1D4ED8;
+  --card-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 24px -6px rgba(15, 23, 42, 0.04);
+}
+
+.dark,
+[data-theme="obsidian"] {
+  --bg-app: #08090C;
+  --bg-sidebar: #0C0E13;
+  --bg-card: #11141C;
+  --bg-card-hover: #161A24;
+  --bg-input: #0E1118;
+  --border-app: #202634;
+  --border-subtle: #181D28;
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --accent-primary: #10B981;
+  --accent-secondary: #06B6D4;
+  --accent-glow: rgba(16, 185, 129, 0.22);
+  --badge-bg: rgba(16, 185, 129, 0.12);
+  --badge-text: #34D399;
+  --header-bg: rgba(8, 9, 12, 0.88);
+  --sidebar-active-bg: rgba(16, 185, 129, 0.1);
+  --sidebar-active-text: #34D399;
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="cyber"] {
+  --bg-app: #030508;
+  --bg-sidebar: #06090F;
+  --bg-card: #0A0F18;
+  --bg-card-hover: #0F1726;
+  --bg-input: #070B12;
+  --border-app: rgba(0, 255, 157, 0.22);
+  --border-subtle: rgba(0, 229, 255, 0.15);
+  --text-main: #E2FFF4;
+  --text-muted: #5EEAD4;
+  --accent-primary: #00FF9D;
+  --accent-secondary: #00E5FF;
+  --accent-glow: rgba(0, 255, 157, 0.28);
+  --badge-bg: rgba(0, 255, 157, 0.15);
+  --badge-text: #00FF9D;
+  --header-bg: rgba(3, 5, 8, 0.92);
+  --sidebar-active-bg: rgba(0, 255, 157, 0.12);
+  --sidebar-active-text: #00FF9D;
+  --card-shadow: 0 0 25px -4px rgba(0, 255, 157, 0.1), inset 0 1px 0 rgba(0, 255, 157, 0.18);
+}
+
+[data-theme="ivory"] {
+  --bg-app: #FAF7F2;
+  --bg-sidebar: #F3EFE8;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8F5EE;
+  --bg-input: #FFFFFF;
+  --border-app: #E7DFD3;
+  --border-subtle: #EFE9DF;
+  --text-main: #272320;
+  --text-muted: #79716B;
+  --accent-primary: #C2410C;
+  --accent-secondary: #D97706;
+  --accent-glow: rgba(194, 65, 12, 0.18);
+  --badge-bg: #FFEDD5;
+  --badge-text: #9A3412;
+  --header-bg: rgba(250, 247, 242, 0.9);
+  --sidebar-active-bg: #FFEDD5;
+  --sidebar-active-text: #9A3412;
+  --card-shadow: 0 2px 10px rgba(60, 40, 20, 0.04), 0 14px 28px -8px rgba(60, 40, 20, 0.03);
+}
+
 @layer base {
   body {
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.012em;
-    background-color: #FAFAFA;
-    color: #09090B;
-  }
-
-  .dark body {
-    background-color: #09090B;
-    color: #F4F4F5;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    transition: background-color 200ms ease, color 200ms ease;
   }
 
   h1, h2, h3, h4 {
@@ -37,7 +128,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid rgba(16, 185, 129, 0.65);
+    outline: 2px solid var(--accent-primary);
     outline-offset: 2px;
   }
 
@@ -55,12 +146,16 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Clean Structural Surface */
+/* Dynamic Enterprise Surface */
 .enterprise-card {
-  @apply bg-white dark:bg-[#111113] border border-zinc-200/80 dark:border-zinc-800/80 rounded-lg;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-app);
+  box-shadow: var(--card-shadow);
+  border-radius: 0.625rem;
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
-/* Custom sleek scrollbar */
+/* Custom sleek scrollbar styled dynamically with active accent */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -76,5 +171,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.55);
+  background: var(--accent-primary);
 }

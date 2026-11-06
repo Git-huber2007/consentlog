@@ -31,6 +31,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useToast } from '../context/ToastContext';
 import CommandPalette from './CommandPalette';
+import ThemeSelector from './ThemeSelector';
 import api from '../services/api';
 
 const ROUTE_TITLES = {
@@ -166,7 +167,7 @@ const AppLayout = () => {
   }
 
   return (
-    <div className="min-h-dvh flex bg-[#FAFAFA] dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100">
+    <div className="min-h-dvh flex bg-[var(--bg-app,#FAFAFA)] text-[var(--text-main,#09090B)] transition-colors duration-200">
       <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} />
 
       {sidebarOpen && (
@@ -177,7 +178,7 @@ const AppLayout = () => {
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-60 bg-white dark:bg-[#0C0C0E] border-r border-zinc-200/80 dark:border-zinc-800/80 flex flex-col transition-transform duration-200 ease-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-60 bg-[var(--bg-sidebar,#ffffff)] border-r border-[var(--border-app,rgba(228,228,231,0.8))] flex flex-col transition-transform duration-200 ease-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -278,7 +279,7 @@ const AppLayout = () => {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 bg-[#FAFAFA]/85 dark:bg-[#09090B]/85 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+        <header className="h-14 bg-[var(--header-bg,rgba(250,250,250,0.85))] backdrop-blur-md border-b border-[var(--border-app,rgba(228,228,231,0.8))] px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -321,14 +322,7 @@ const AppLayout = () => {
               <span className="font-mono text-[11px]">Notice v{activeNoticeInfo?.version || '2.0'}</span>
             </span>
 
-            <button
-              onClick={toggleTheme}
-              title={darkMode ? 'Light mode' : 'Dark mode'}
-              aria-label={darkMode ? 'Light mode' : 'Dark mode'}
-              className="size-8 inline-flex items-center justify-center rounded-md border border-zinc-200/80 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-            >
-              {darkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
-            </button>
+            <ThemeSelector />
           </div>
         </header>
 

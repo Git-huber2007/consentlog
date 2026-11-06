@@ -19,6 +19,7 @@ import {
   UserX,
   Cookie,
   Key,
+  Palette,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -27,7 +28,7 @@ import api from '../services/api';
 
 const CommandPalette = ({ isOpen, onClose }) => {
   const { user } = useAuth();
-  const { darkMode, toggleTheme } = useTheme();
+  const { theme, setTheme, themes, cycleTheme, activeThemeMeta } = useTheme();
   const { addToast } = useToast();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -133,13 +134,24 @@ const CommandPalette = ({ isOpen, onClose }) => {
       perform: exportDsarBundle,
     },
     {
-      id: 'act-theme',
-      title: `Switch to ${darkMode ? 'Light' : 'Dark'} Mode`,
+      id: 'act-cycle-theme',
+      title: `Cycle Theme (Current: ${activeThemeMeta.name})`,
       category: 'Theme',
       shortcut: '⌘ J',
-      icon: darkMode ? Sun : Moon,
-      perform: toggleTheme,
+      icon: Palette,
+      perform: cycleTheme,
     },
+    ...themes.map((t) => ({
+      id: `act-theme-${t.id}`,
+      title: `Theme: ${t.name} — ${t.tagline}`,
+      category: 'Theme',
+      shortcut: t.id === theme ? 'Active' : undefined,
+      icon: Palette,
+      perform: () => {
+        setTheme(t.id);
+        addToast(`Switched theme to ${t.name}`, 'info');
+      },
+    })),
   ];
 
   if (user?.role === 'admin') {
