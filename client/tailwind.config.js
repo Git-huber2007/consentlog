@@ -4,6 +4,11 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      spacing: {
+        '4.5': '1.125rem',
+        '8.5': '2.125rem',
+        '9.5': '2.375rem',
+      },
       colors: {
         navy: {
           800: '#0f172a',
@@ -19,4 +24,3 @@ export default {
   },
   plugins: [],
 };
-

@@ -352,7 +352,7 @@ const PreferenceCentrePage = () => {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent">
+        <div className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
             <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-200/80 dark:border-indigo-500/25">
@@ -363,15 +363,17 @@ const PreferenceCentrePage = () => {
             </span>
           </div>
           <div>
-            <span className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+            <span className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight block">
               {liveCounts.total}
             </span>
             <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Categories</p>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">1 Required · 4 Optional</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5 leading-normal">
+              1 Required · 4 Optional
+            </p>
           </div>
         </div>
 
-        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent">
+        <div className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
             <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200/80 dark:border-emerald-500/25">
@@ -382,15 +384,17 @@ const PreferenceCentrePage = () => {
             </span>
           </div>
           <div>
-            <span className="font-mono text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums tracking-tight">
+            <span className="font-mono text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums tracking-tight block">
               {liveCounts.enabled}
             </span>
             <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Enabled Categories</p>
-            <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Data processing allowed</p>
+            <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-0.5 leading-normal">
+              Data processing allowed
+            </p>
           </div>
         </div>
 
-        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-slate-500/[0.05] dark:from-slate-500/[0.08] to-transparent">
+        <div className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-slate-500/[0.05] dark:from-slate-500/[0.08] to-transparent">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-slate-400 to-slate-600" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
             <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200/80 dark:border-slate-700">
@@ -401,15 +405,17 @@ const PreferenceCentrePage = () => {
             </span>
           </div>
           <div>
-            <span className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+            <span className="font-mono text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight block">
               {liveCounts.disabled}
             </span>
             <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Disabled</p>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Tracking blocked</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5 leading-normal">
+              Tracking blocked
+            </p>
           </div>
         </div>
 
-        <div className="luxury-card p-4.5 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-rose-500/[0.05] dark:from-rose-500/[0.08] to-transparent">
+        <div className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b from-rose-500/[0.05] dark:from-rose-500/[0.08] to-transparent">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-orange-500" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
             <div className="size-8 rounded-xl flex items-center justify-center border shadow-2xs bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200/80 dark:border-rose-500/25">
@@ -420,11 +426,13 @@ const PreferenceCentrePage = () => {
             </span>
           </div>
           <div>
-            <span className="font-mono text-3xl font-extrabold text-rose-600 dark:text-rose-400 tabular-nums tracking-tight">
+            <span className="font-mono text-3xl font-extrabold text-rose-600 dark:text-rose-400 tabular-nums tracking-tight block">
               {liveCounts.withdrawn}
             </span>
             <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">Withdrawn Rights</p>
-            <p className="text-[10px] text-rose-600 dark:text-rose-400 font-medium">Explicit revocation</p>
+            <p className="text-[11px] text-rose-600 dark:text-rose-400 font-medium mt-0.5 leading-normal">
+              Explicit revocation
+            </p>
           </div>
         </div>
       </div>

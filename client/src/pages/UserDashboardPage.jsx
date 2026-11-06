@@ -270,7 +270,7 @@ const UserDashboardPage = () => {
           return (
             <div
               key={item.label}
-              className={`luxury-card p-4 rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b ${item.glow} to-transparent`}
+              className={`luxury-card p-4.5 pb-4.5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-default relative overflow-hidden bg-gradient-to-b ${item.glow} to-transparent`}
             >
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.accent}`} />
               <div className="flex items-center justify-between mb-3 pt-0.5">

@@ -151,6 +151,7 @@
   box-shadow: var(--card-shadow);
   border-radius: 1.125rem;
   transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease;
+  box-sizing: border-box;
 }
 
 .enterprise-card:hover,

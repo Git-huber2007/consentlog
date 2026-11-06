@@ -109,7 +109,7 @@ const AdminDashboardPage = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link
           to="/admin/users"
-          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
+          className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-indigo-500/[0.05] dark:from-indigo-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-blue-500" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
@@ -133,7 +133,7 @@ const AdminDashboardPage = () => {
 
         <Link
           to="/admin/integrity"
-          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
+          className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-emerald-500/[0.05] dark:from-emerald-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
@@ -157,7 +157,7 @@ const AdminDashboardPage = () => {
 
         <Link
           to="/admin/notices"
-          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-purple-500/[0.05] dark:from-purple-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
+          className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-purple-500/[0.05] dark:from-purple-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
@@ -181,7 +181,7 @@ const AdminDashboardPage = () => {
 
         <Link
           to="/notices/compare"
-          className="luxury-card p-5 rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-sky-500/[0.05] dark:from-sky-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
+          className="luxury-card p-5 pb-5 min-h-[148px] rounded-2xl flex flex-col justify-between group cursor-pointer relative overflow-hidden bg-gradient-to-b from-sky-500/[0.05] dark:from-sky-500/[0.08] to-transparent hover:scale-[1.02] transition-all"
         >
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-cyan-500" />
           <div className="flex items-center justify-between mb-3 pt-0.5">
